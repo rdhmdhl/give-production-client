@@ -1,0 +1,79 @@
+.link-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    color: white;
+    border: 1px solid var(--purple);
+    border-radius: 1rem;
+    margin: 0 1rem;
+}
+
+.own-link-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem 0;
+}
+
+.own-link-message {
+    color: white;
+}
+
+button{
+    margin: 1rem;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 1rem;
+}
+
+.link-creator-and-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 2rem;
+    width: 90%;
+}
+
+.image-quantity-button {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 2rem;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.image-quantity-button img {
+    max-height: 15rem;
+    max-width: 10rem;
+    border-radius: 1rem;
+}
+
+.bottom-right-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.give-or-accept-button {
+    width: 7rem;
+    height: 3.5rem;
+    border-radius: 2rem;
+    font-size: 1.25rem;
+    background-color: var(--purple);
+}
+
+.amount {
+    color: rgb(0, 176, 26);
+    font-weight: 800;
+}

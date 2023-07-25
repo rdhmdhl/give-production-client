@@ -1,0 +1,339 @@
+.share {
+    width: 100vw;
+    height: 100vh;
+}
+
+.shareWrapper{
+    border-radius: 10px;
+    margin: 1rem 1rem;
+    padding: 1rem;
+    box-shadow: 1px 1px 7px 0px rgba(69, 69, 69, 0.75);
+    z-index: 1000;
+    height: auto;
+    min-height: 12rem;
+}
+
+.shareWrapper.active{
+    display: none;
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+}
+
+.createLinkWrapper.active{
+    display: block;
+    border-radius: 10px;
+    margin: 1rem 1rem;
+    padding: 1rem;
+    box-shadow: 1px 1px 7px 0px rgba(69, 69, 69, 0.75);
+    z-index: 1000;
+    height: auto;
+    min-height: 12rem;
+}
+
+.createLinkWrapper{
+    display: none;
+    background-color: rgb(0, 0, 0);
+}
+
+.shareTop{
+    display: flex;
+    align-items: center;
+
+}
+
+.back-button-container {
+    display: flex;
+    justify-content: flex-start;
+    padding: 1rem;
+}
+
+.backButton {
+    font-size: 2rem;
+    color: white;
+}
+
+
+.postOrLinkContainer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.postOrLinkContainer p {
+    font-size: 1.25rem;
+    color: var(--purple);
+}
+
+.shareProfileImg{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.shareInput {
+    border: none;
+    width: 80%;
+    min-height: 20px;
+    font-family: 'Exo', sans-serif;
+    font-size: 15px;
+    border-radius: 5px;
+    padding-left: 5px;
+    resize: none;
+    background-color: black;
+    color: white;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+  
+
+.shareInput:focus {
+    outline: none;
+}
+
+.shareHR{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    border: solid .2px;
+    border-color: rgb(29, 29, 29);
+}
+
+
+.shareOption{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+
+
+.shareIcon{
+    font-size: 18px;
+    margin-right: 3px;
+    color: var(--purple);
+}
+
+.shareOptionText{
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--purple);
+}
+
+.shareImgContainer {
+    padding: 1rem 20px 10px 20px;
+    position: relative;
+}
+
+.shareImg{
+    width: 100%;
+    object-fit: cover;
+}
+
+.shareCancelImg{
+    position: absolute;
+    top: 1rem;
+    right: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+    color: black;
+}
+
+.toggleandPhoto {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem
+}
+
+.sliderTop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    
+}
+
+.sliderTop p {
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 10px;
+    color: var(--purple);
+}
+
+.sliderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.sliderContainer p {
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 10px;
+    color: var(--purple);
+}
+
+.shareButtonContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 100%;
+}
+
+.shareButton {
+    border: none;
+    border-radius: 4rem;
+    background-color:var(--purple);
+    font-weight: 600;
+    font-family: 'Exo', sans-serif;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: white;
+    width: 6rem;
+    height: 2.5rem;
+    margin: 0;
+}
+
+.linkOptions h2{
+    color: white;
+}
+
+.settingsForm {
+    color: white;
+}
+
+.settingsForm label {
+    color: white;
+    font-size: 1.25rem;
+}
+
+.radioContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+}
+
+.giveOrReceive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 2.5rem;
+}
+
+.itemOrCurrency {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    height: 2.5rem;
+}
+
+.right-side-settings {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#quantity{
+    position: relative;
+    display:  flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: var(--darkblack);
+    color: var(--lightgray);
+    width: 8rem;
+    height: 2.25rem;
+    font-weight: 100;
+    border: none;
+    font-size: 1rem;
+    padding-left: 10px;
+}
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+input::-webkit-input-placeholder {
+    color: var(--gray);
+}
+
+#quantity:focus {
+    outline: none;
+}
+
+.customDropdown {
+    position: relative;
+    display:  flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: var(--darkblack);
+    color: var(--lightgray);
+    width: 8rem;
+    height: 2rem;
+    font-weight: 100;
+  }
+  
+  .dropdownOptions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style-type: none;
+    background-color: var(--darkblack);
+    border-radius: 10px;
+    padding: 0;
+    width: 100%;
+    margin: 9px 0 0 0;
+    z-index: 1000;
+    color: var(--gray);
+  }
+  
+  .dropdownOptions li {
+    padding: 10px;
+  }
+  
+  .dropdownOptions li :hover{
+    padding: 5px 10px;
+    background-color: #f1f1f1;
+  }
+  
+  .dropdownOptions li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .dropdownIcon{
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    color: var(--purple);
+  }
+
+  .bottom-row-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .gift-selected-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+
+  }

@@ -1,0 +1,23 @@
+.gfeed {
+    flex: 1;
+    color: white;
+    font-family: 'Exo', sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .feedWrap{
+    width: 50%;
+    /* max-width: 100vw; */
+
+@media only screen and (min-width: 700px){
+    .gfeed {
+        margin: 0 20% 0 20%;
+    }
+}
+
+@media only screen and (min-width: 900px){
+    .gfeed {
+        margin: 0 30% 0 30%;
+    }
+}

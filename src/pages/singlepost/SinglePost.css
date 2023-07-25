@@ -1,0 +1,22 @@
+.top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin: 1rem;
+    position: relative;
+}
+
+.top H2 {
+    /* justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin: 0 auto; */
+}
+
+.back-icon{
+    font-size: 1.5rem;
+    position: absolute;
+    left: 1rem;
+    color: white;
+}

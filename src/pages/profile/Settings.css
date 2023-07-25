@@ -1,0 +1,100 @@
+.settingsWrapper{
+    background-color: rgb(0, 0, 0);
+    color: white;
+    margin: auto;
+    width: 100%;
+    margin-top: 50px;
+    /* padding: 0 2rem; */
+    border-radius: 5%;
+    /* -webkit-box-shadow: 1px 1px 7px 0px rgba(155,5,255,0.75); 
+    box-shadow: 1px 1px 7px 0px rgba(155,5,255,0.75); */
+}
+.heading {
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-images{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.profile-pic-container{
+    position: relative;
+    top: -1rem;
+    right: 30%;
+    width: 5rem;   /* Add width and height to match the image */
+    height: 5rem;
+}
+
+.profileUserImg-settings {
+    width: 100%;  /* Update to 100% to fill the container */
+    height: 100%;
+    border-radius: 50%;
+    position: relative;  /* Set position to relative so z-index takes effect */
+    z-index: 1;  /* Set z-index to ensure this is above the icon */
+  }
+  
+  .camera-icon {
+    position: absolute; /* This allows the icon to be positioned absolutely within its parent */
+    top: 50%;  /* Center the icon vertically */
+    left: 50%;  /* Center the icon horizontally */
+    transform: translate(-50%, -50%); /* Shift the icon back by half its width and height to center it */
+    z-index: 2;  /* Set z-index higher than the image to ensure this is on top */
+    font-size: 2rem;
+  }
+
+  .cover-camera-icon{
+    position: absolute; /* This allows the icon to be positioned absolutely within its parent */
+    top: 20%;  /* Center the icon vertically */
+    left: 50%;  /* Center the icon horizontally */
+    transform: translate(-50%, -50%); /* Shift the icon back by half its width and height to center it */
+    z-index: 2;  /* Set z-index higher than the image to ensure this is on top */
+    font-size: 2rem;
+  }
+
+form{
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.formItem{
+    margin: .5rem !important;
+}
+
+.line-break{
+    margin: 1rem 0;
+    border-top: .5px solid var(--gray);
+}
+
+.chooseFileButton{
+    font-size: 1rem;
+    padding: .5rem;
+    color: green;
+}
+
+.logout-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+}
+
+.logout-icon{
+    font-size: 1.5rem;
+    color: rgb(56, 56, 254);
+}
+
+.save-button-containter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.saveButton{
+    font-size: 1rem;
+    padding: .5rem;
+}

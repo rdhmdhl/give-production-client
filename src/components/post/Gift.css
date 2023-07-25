@@ -1,0 +1,51 @@
+.gift-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* 
+
+.search-container {
+    position: relative;
+}
+
+.items-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-style: solid;
+    border-color: rgba(155,5,255,0.75);   
+    border-radius: 5px;
+    cursor: pointer;
+    width: 45%;
+    height: 90%;
+    margin: 1rem .2rem;
+    color: black;
+  }
+
+  
+  .headline {
+    text-align: center;
+    font-size: 12px;
+    margin: .2rem .5rem;
+  }
+
+  .price {
+    text-align: center;
+    font-size: 12px;
+    margin: .2rem .5rem;
+  }
+
+  .product-img {
+    height: 75%;
+    max-width: 75%;
+  } */

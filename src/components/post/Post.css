@@ -1,0 +1,195 @@
+:root {
+    --gray: rgb(164, 164, 164);
+    --darkgray: rgb(50, 50, 50);
+    --purple: rgb(155, 5, 255);
+    --darkblack: rgba(8, 8, 8, 0.906);
+    --white: #ffffff;
+}
+
+.linktosinglepost{
+    text-decoration: none;
+    color: inherit;
+}
+
+.post {
+    width: 100%;
+    border-bottom: 1px solid var(--darkgray);
+
+}
+
+.postWrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: 
+      "profile info"
+      "center-left center"
+      "bottom-left bottom-right"
+      "bottom-gifts-left bottom-gifts-right";
+      margin-right: 1rem;
+      overflow-x: hidden;
+}
+
+.postProfileImg{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    grid-area: profile;
+    margin: .5rem .5rem 0 .5rem;
+}
+
+.postTop{
+    grid-area: info;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.postTopRight{
+    margin-right: 1rem;
+    color: var(--gray);
+}
+
+.postTopLeft{
+    display: flex;
+    align-items: center;
+}
+
+
+.postUsername{
+    font-size: 15px;
+    font-weight: 500;
+    margin-right: 10px;
+    color: var(--white);
+}
+
+.postDate{
+    font-size: 12px;
+    color: var(--gray);
+    font-weight: 200;
+}
+
+.postCenter {
+    grid-area: center;
+    height: 100%;
+    overflow: hidden;
+    margin-right: 1rem;
+}
+
+.browseGifts {
+    display: flex;
+    flex-direction: column; 
+}
+
+.postText {
+    margin-bottom: 1rem;
+    font-weight: 300;
+    color: var(--white);
+}
+.postImg{
+    margin-top: 20px;
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+}
+
+.amounts{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 6rem;
+    grid-area: center;
+}
+
+.giveMoney{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 4rem;
+    height: 4rem;
+    text-align: center;
+    border: 1px solid var(--purple);
+    font-size: 1.5rem;
+}
+
+.postBottom{
+    grid-area: bottom-right;
+    display: flex;
+    justify-content: space-between;
+    height: 1rem;
+    margin: 1rem 1rem .5rem -.3rem;
+    color: var(--white);
+    font-weight: 200;
+}
+
+.amountGave-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.amountGave{
+    font-size: 1rem;
+    margin-left: 2px;
+}
+
+.currentcy-icon {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* transitions for icons at bottom of post  */
+
+@keyframes pop {
+    0%, 100% {
+      transform: scale(1); 
+    }
+    50% {
+      transform: scale(1.25);
+    }
+  }
+
+.currentcy-icon.highlight-green, .amountGave.highlight-green {
+color: rgb(5, 255, 47);
+animation: pop 0.25s ease;
+}
+
+.gifts-icon.highlight-purple, .gives.highlight-purple {
+color: rgb(155, 5, 255);
+animation: pop 0.25s ease;
+}
+
+.disabled {
+    opacity: .35;
+}
+
+.gifts-container {
+    display: flex;
+    align-items: center;
+}
+
+.gifts-icon {
+    font-size: 20px;
+}
+
+.gives{
+    font-size: 1rem;
+    margin-left: 5px;
+}
+
+.share-icon {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+.giftbox {
+    margin-top: 1rem;
+}
+
+.gift-section-container {
+    grid-area: bottom-gifts-right;
+}

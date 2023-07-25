@@ -1,0 +1,84 @@
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+  
+  .modal.open {
+    display: flex;
+  }
+
+  
+  .modal-content {
+    background-color: rgba(8, 8, 8, 0.98);
+    padding: 20px;
+    border-radius: .33rem;
+    width: 80%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal-content h2 {
+    color: white;
+  }
+
+  .share-options {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 0 2rem 0;
+    width: 100%;
+    padding: 0;
+  }
+  
+  .share-options li {
+    cursor: pointer;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .share-options .icon-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: .5px solid #707070;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .share-options i {
+    font-size: 2rem;
+    color: var(--purple);
+  }
+  
+  .share-options span {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  button {
+    color: white;
+    background-color: var(--purple);
+    border: none;
+    height: 3rem;
+    width: 33%;
+    margin: auto;
+    border-radius: .33rem;
+  }
+
+  .alert-and-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 3rem
+  }

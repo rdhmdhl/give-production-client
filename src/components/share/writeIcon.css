@@ -1,0 +1,19 @@
+.iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 3rem;
+    position: fixed;
+    bottom: 3rem; /* Adjust this value to change the distance from the bottom */
+    right: 3rem; /* Adjust this value to change the distance from the right */
+    z-index: 1000;
+    background: white;
+    border-radius: 25%;
+}
+
+.addIcon{
+    font-size: 4rem;
+    color: var(--purple);
+    margin: 0 0rem 0 0;
+}
