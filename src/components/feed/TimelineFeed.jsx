@@ -8,6 +8,7 @@ import { AuthContext } from '../../context/AuthContext';
 import React from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
+import config from '../../config';
 
 export default function Feed({socket}) {
   const [posts, setPosts] = useState([]);
@@ -23,10 +24,10 @@ export default function Feed({socket}) {
     try {
       if (!user || !user.username) {
         // fetch posts if no user is logged in
-        res = await axios.get(`statuses/timeline/public-posts?page=${page}`);
+        res = await axios.get(`${config.apiUrl}/statuses/timeline/public-posts?page=${page}`);
       } else {
         // fetch posts if user is logged in
-        res = await axios.get(`statuses/timeline/user/${user.username}?page=${page}`);
+        res = await axios.get(`${config.apiUrl}/statuses/timeline/user/${user.username}?page=${page}`);
       }
       if (res.data.length === 25) {
         setPage(prevPage => prevPage + 1);
