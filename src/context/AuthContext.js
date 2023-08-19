@@ -51,20 +51,20 @@ export const AuthContextProvider = ({children}) => {
 };
 
 
-    return (
-        <AuthContext.Provider 
-            value={{
-                user:state.user, 
-                balance: balance,
-                updateBalance: updateBalance,
-                isFetching:state.isFetching,
-                error:state.error,
-                dispatch
-             }}
-             >
-                {children}
-             </AuthContext.Provider>
-    );
+return (
+  <AuthContext.Provider 
+    value={{
+      user:state.user, 
+      balance: balance,
+      updateBalance: updateBalance,
+      isFetching:state.isFetching,
+      error:state.error,
+      dispatch
+      }}
+      >
+    {children}
+  </AuthContext.Provider>
+);
 };
 
 AuthContextProvider.propTypes = {
