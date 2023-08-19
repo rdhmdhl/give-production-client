@@ -8,10 +8,10 @@ export const loginCall = async (userCredentials, dispatch) => {
           withCredentials: true
         });
 
-        //extract the token from the response
+        // extract the token from the response
         const token = res.data.token;
         
-        //store the token in the local storage
+        // store the token in the local storage
         localStorage.setItem("token", token);
         
         // continue with the dispatch
