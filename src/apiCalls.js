@@ -27,6 +27,7 @@ export const getUser = async (dispatch) => {
       return;
     }
     try {
+      console.log(`getting user from ${config.apiUrl}/api/auth/me`)
       const res = await axios.get(`${config.apiUrl}/api/auth/me`, {
         headers: {
             "x-auth-token": token,
