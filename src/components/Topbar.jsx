@@ -234,7 +234,7 @@ useEffect(() => {
           src={
             user && user.profilePicture ? 
             user.profilePicture
-            : `${PF}person/nopicture.png`
+            : `${PF}/person/nopicture.png`
           }
           alt="" 
           className="topbarImg" 
