@@ -1,9 +1,10 @@
 import axios from 'axios';
+import config from './config'
 
 export const loginCall = async (userCredentials, dispatch) => {
     dispatch({type: "LOGIN_START"});
     try {
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, userCredentials, {
+        const res = await axios.post(`${config.apiUrl}/api/auth/login`, userCredentials, {
           withCredentials: true
         });
 
@@ -26,7 +27,7 @@ export const getUser = async (dispatch) => {
       return;
     }
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/me`, {
+      const res = await axios.get(`${config.apiUrl}/api/auth/me`, {
         headers: {
             "x-auth-token": token,
           },
@@ -43,7 +44,7 @@ export const getUser = async (dispatch) => {
       return Promise.resolve(0); // return a promise that resolves to 0
     }
     try {
-      const res = await axios.get("/api/billing-settings-balance", {
+      const res = await axios.get(`${config.apiUrl}/api/billing-settings-balance`, {
         headers: {
             "x-auth-token": token,
           },

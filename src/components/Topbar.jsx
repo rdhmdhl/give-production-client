@@ -7,10 +7,11 @@ import {format} from 'timeago.js';
 import AccountBalanceModal  from "./AccountBalanceModal";
 import propTypes from 'prop-types';
 import axios from 'axios';
+import config from '../config'
 
 export default function TopBar({socket}) {
   const {user, balance, updateBalance } = useContext(AuthContext)
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const PF = config.publicFolder;
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef(null);
   const iconRef = useRef(null);
@@ -77,7 +78,7 @@ export default function TopBar({socket}) {
   // Retrieve the user's notifications from the database
   useEffect(() => {
     if (user && user._id) {
-      axios.get(`/api/notifications/${user._id}`)
+      axios.get(`${config.apiUrl}/api/notifications/${user._id}`)
       .then((response) => {
         if (response.data.length > 0) {
           const unread = response.data.filter((notification) => notification.read == false);
@@ -122,10 +123,10 @@ useEffect(() => {
   const markAsRead = async () => {
     try {
       // mark notifications as read in database
-      await axios.put(`/api/read-notifications/${user._id}`)
+      await axios.put(`${config.apiUrl}/api/read-notifications/${user._id}`)
       
       // get notifications from database
-      const response = await axios.get(`/api/notifications/${user._id}`);
+      const response = await axios.get(`${config.apiUrl}/api/notifications/${user._id}`);
 
       // filter notifications by read status
       const unread = response.data.filter((notification) => notification.read == false);
