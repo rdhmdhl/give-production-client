@@ -237,7 +237,7 @@ useEffect(() => {
             : `${PF}/person/nopicture.png`
           }
           alt="" 
-          className="topbarImg" 
+          className="topbarImg"
         />
       </Link>
         </div>
