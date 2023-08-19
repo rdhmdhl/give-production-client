@@ -242,7 +242,6 @@ useEffect(() => {
       </Link>
         </div>
     </div>
-
   )
 }
 
