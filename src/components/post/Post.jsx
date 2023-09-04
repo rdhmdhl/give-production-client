@@ -14,6 +14,7 @@ import React from 'react';
 import Gift from './Gift';
 import SharePostModal from '../post/sharepost/SharePostModal';
 import CurrencyList from './CurrencyList';
+import config from '../../config';
 
 export default function Post({post, onGive, socket}) {
   
@@ -46,7 +47,7 @@ export default function Post({post, onGive, socket}) {
 // get user
   useEffect(() => {
     async function fetchUser(){
-      const res = await axios.get(`/api/users?userId=${post.userId}`);
+      const res = await axios.get(`${config.apiUrl}/api/users?userId=${post.userId}`);
       setUser(res.data)
     }
     fetchUser();
@@ -61,7 +62,7 @@ export default function Post({post, onGive, socket}) {
           body = { userId: currentUser._id };
         }
         // get posts by post id
-        const res = await axios.get(`/statuses/${post._id}/gaveamount`, {
+        const res = await axios.get(`${config.apiUrl}/statuses/${post._id}/gaveamount`, {
           params: body
         });
 

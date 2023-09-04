@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {getUser} from '../apiCalls';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import config from '../config';
 
 const INITIAL_STATE = {
     user: null,
@@ -31,7 +32,7 @@ export const AuthContextProvider = ({children}) => {
         return;
       }
     try {
-      const response = await axios.get("/api/billing-settings-balance", {
+      const response = await axios.get(`${config.apiUrl}/api/billing-settings-balance`, {
         headers: {
           "x-auth-token": token,
           },

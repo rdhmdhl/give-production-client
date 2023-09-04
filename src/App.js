@@ -2,7 +2,6 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import React from 'react';
-// import ReactLoading from 'react-loading';
 import Profile from "./pages/profile/Profile";
 import Settings from "./pages/profile/Settings";
 import SinglePost from "./pages/singlepost/SinglePost";
@@ -10,7 +9,6 @@ import AcceptLink from "./pages/acceptlink/AcceptLink";
 import Topbar from "./components/Topbar";
 import Share from "./pages/sharepost/Share";
 import WriteIcon from "./components/share/writeIcon";
-import { getUser } from './apiCalls';
 
 import {
   BrowserRouter as Router,
@@ -24,8 +22,7 @@ import { io } from "socket.io-client";
 
 function App() {
   const [socket, setSocket] = useState(null);
-  const {user, dispatch} = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const {user} = useContext(AuthContext);
 
   //  socket io for real time notifications
   useEffect(() => {
@@ -35,16 +32,6 @@ function App() {
       setSocket(newSocket);
     }
   }, [user]);
-
-  // used for loading screen when a user is already logged in
-  useEffect(() => {
-    dispatch({ type: "GET_USER_REQUEST" });
-    getUser(dispatch).then(() => setIsLoading(false));
-  }, [dispatch]);
-
-  if (isLoading) {
-    return null;
-  }
 
   return (
     <Router>

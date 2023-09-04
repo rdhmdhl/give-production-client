@@ -1,57 +1,55 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Post from '../post/Post'
 // import Share from '../share/Share'
 import './feed.css';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { AuthContext } from '../../context/AuthContext';
+// import { AuthContext } from '../../context/AuthContext';
 import React from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import config from '../../config';
 
-export default function Feed({socket}) {
+export default function Feed({socket, user}) {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const {user} = useContext(AuthContext);
   const [allPostsLoaded, setAllPostsLoaded] = useState(false); // New state variable
-
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const fetchPosts = async () => {
     let res;
-
     try {
-      if (!user || !user.username) {
-        // fetch posts if no user is logged in
-        res = await axios.get(`${config.apiUrl}/statuses/timeline/public-posts?page=${page}`);
-      } else {
+      if (user) {
         // fetch posts if user is logged in
         res = await axios.get(`${config.apiUrl}/statuses/timeline/user/${user.username}?page=${page}`);
+      } else {
+        // fetch posts if user isn't logged in
+        res = await axios.get(`${config.apiUrl}/statuses/timeline/public-posts?page=${page}`);
       }
+
       if (res.data.length === 25) {
         setPage(prevPage => prevPage + 1);
         setPosts((posts) => [...posts, ...res.data]);
         setHasMore(true);
-        if(page === 1 && res.data.length <= 25) {
-          setAllPostsLoaded(true);
-        }
-      } else if (res.data.length < 25 && res.data.length > 0){
+      } if (res.data.length < 25 && res.data.length > 0){
         setPosts((posts) => [...posts, ...res.data]);
         setHasMore(false);
+        setAllPostsLoaded(true);
       } else if (res.data.length === 0 ) { 
         setHasMore(false);
       }
-
     } catch (error) {
       alert("An error occured when fetching posts. Please try again later.");
     }
 };
 
-
 useEffect(() => {
-  fetchPosts();
-},[hasMore]);
+  if (initialLoad) {
+    fetchPosts();
+    setInitialLoad(false);
+  }
+}, [hasMore]);
 
 
 return (
@@ -74,7 +72,7 @@ return (
             page={page}
             endMessage={
               <p style={{textAlign: 'center'}}>
-                <b>Nothing left to see here!</b>
+                <b>. . .</b>
               </p>
             }
             // TODO --> write a refresh fuction
