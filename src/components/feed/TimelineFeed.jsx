@@ -53,7 +53,6 @@ useEffect(() => {
 
 
 return (
-  
       <div className='feed'>
         <div className="feedWrap">
           {!allPostsLoaded ? (
