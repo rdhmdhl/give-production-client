@@ -4,8 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import GiftSectionItem from './GiftSectionItem';
-
-
+import config from '../../config';
 
 export default function GiftSection({post, givesCounter}) {
   const [page, setPage] = useState(1);
@@ -15,7 +14,7 @@ export default function GiftSection({post, givesCounter}) {
   const PAGE_SIZE = 25;
 
   const fetchGifts = async (pageNumber, post) => {
-    const res = await axios.get(`statuses/${post._id}/gives?page=${pageNumber}`);
+    const res = await axios.get(`${config.apiUrl}/statuses/${post._id}/gives?page=${pageNumber}`);
     const data = res.data || [];
 
     return { gifts: data };
@@ -24,7 +23,7 @@ export default function GiftSection({post, givesCounter}) {
   // create a function for fetching the latest gift for this post
   // add the latest gift to the top of the comment section
   const fetchLatestGift = async (post) => {
-    const res = await axios.get(`statuses/${post._id}/gives?page=1&limit=1`);
+    const res = await axios.get(`${config.apiUrl}/statuses/${post._id}/gives?page=1&limit=1`);
     const data = res.data[0] || null;
   
     return data;

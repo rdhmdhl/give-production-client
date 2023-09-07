@@ -15,6 +15,7 @@ import SelectedItemDetails from './SelectedItemDetails';
 import SelectedCurrencyDetails from './SelectedCurrencyDetails';
 import SharePostModal from '../../components/post/sharepost/SharePostModal';
 import Resizer from "react-image-file-resizer";
+import config from "../../config";
 
 export default function Share() {
 const {user} = useContext(AuthContext)
@@ -76,7 +77,7 @@ const submitHandler = async (e) => {
             data.append('file', resizedFile);
             //resopnse will have the file url 
             //which can be used to retrieve the uploaded file
-            const response = await axios.post('/api/upload', data);
+            const response = await axios.post(`${config.apiUrl}/api/upload`, data);
             newPost.img = response.data.url;
         } catch (err) {
             alert("An error occurred when trying to upload a file. Please try again later.");
@@ -84,7 +85,7 @@ const submitHandler = async (e) => {
     }
 
     try {
-        await axios.post('statuses/api/statuses', newPost);
+        await axios.post(`${config.apiUrl}/statuses/api/statuses`, newPost);
         // navigate back to the previous page
         navigate(-1);
     } catch (err) {

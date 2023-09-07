@@ -70,8 +70,8 @@ return (
             //   </div>}
             page={page}
             endMessage={
-              <p style={{textAlign: 'center'}}>
-                <b>. . .</b>
+              <p style={{textAlign: 'center', marginTop: `1rem`, fontWeight: '100'}}>
+                this is the begining :D
               </p>
             }
             // TODO --> write a refresh fuction

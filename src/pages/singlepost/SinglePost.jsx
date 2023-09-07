@@ -6,6 +6,7 @@ import Post from '../../components/post/Post';
 import GiftSection from '../../components/post/GiftSection';
 import './SinglePost.css';
 import { IoArrowBackOutline } from "react-icons/io5";
+import config from '../../config';
 
 export default function SinglePost({socket}) {
     const { postId } = useParams();
@@ -17,7 +18,7 @@ export default function SinglePost({socket}) {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const res = await axios.get(`statuses/${postId}`);
+                const res = await axios.get(`${config.apiUrl}/statuses/${postId}`);
                 setPost(res.data);
             } catch (error) {
                 alert('An errror occured when trying to load this post. Please try again later.');

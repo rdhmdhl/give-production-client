@@ -8,6 +8,7 @@ import { FiLogOut } from "react-icons/fi";
 import { TbCameraPlus } from 'react-icons/tb';
 import Resizer from "react-image-file-resizer";
 import axios from 'axios';
+import config from '../../config';
 
 export default function Settings() {
   const [file, setFile] = useState(null);
@@ -61,7 +62,7 @@ export default function Settings() {
         const data = new FormData();
         data.append('file', resizedFile);
         // upload the file to s3
-        const s3Upload = await axios.post('/api/upload', data);
+        const s3Upload = await axios.post(`${config.apiUrl}/api/upload`, data);
 
         // Get the URL of the uploaded file
         profilePicture = s3Upload.data.url;
@@ -80,7 +81,7 @@ export default function Settings() {
         const data = new FormData();
         data.append('file', resizedCoverFile);
         // upload the file to s3
-        const s3CoverUpload = await axios.post('/api/upload', data);
+        const s3CoverUpload = await axios.post(`${config.apiUrl}/api/upload`, data);
 
         // get the url of the uploaded file
         coverPicture = s3CoverUpload.data.url;
@@ -102,7 +103,7 @@ export default function Settings() {
     }
 
     // Submit the updated user information to the database using axios.patch
-    axios.patch(`/api/users/${user._id}`, userData)
+    axios.patch(`${config.apiUrl}/api/users/${user._id}`, userData)
       .then(response => {
         // get the updated fields from the response
         const updatedFields = response.data;
@@ -159,7 +160,7 @@ export default function Settings() {
               src={coverPhotoFile ? 
                   URL.createObjectURL(coverPhotoFile) : 
                   user.coverPicture ? user.coverPicture :
-                  "./assets/person/nocover.jpeg"} 
+                  "/assets/person/nocover.jpeg"} 
               alt="" />
             {/* PROFILE PICTURE */}
             <div className="profile-pic-container">
@@ -172,7 +173,7 @@ export default function Settings() {
                 src={file ? 
                     URL.createObjectURL(file) : 
                     user.profilePicture ? user.profilePicture : 
-                    "./assets/person/nopicture.png"} 
+                    "/assets/person/nopicture.png"} 
                 alt="" />
             </div>
         </div>

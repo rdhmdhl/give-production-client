@@ -5,7 +5,7 @@ import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import PropTypes from 'prop-types';
 import React from 'react';
-
+import config from '../../config';
 // *
 // GIVESFEED.JSX IS USED ON THE PROFILE PAGE, GIVES TAB
 // *
@@ -13,7 +13,7 @@ import React from 'react';
 const PAGE_SIZE = 25;
 
 const fetchPosts = async (username, page) => {
-  const res = await axios.get(`/gives/${username}?page=${page}`);
+  const res = await axios.get(`${config.apiUrl}/gives/${username}?page=${page}`);
   const data = res.data || [];
 
   const hasMore = data.length === PAGE_SIZE;
@@ -64,11 +64,7 @@ useEffect(() => {
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
         page={page}
-        endMessage={
-          <p style={{textAlign: 'center'}}>
-            <b>Nothing to see here!</b>
-          </p>
-        }
+
         // TODO --> write a refresh fuction
         // pullDownToRefresh
         // pullDownToRefreshContent={

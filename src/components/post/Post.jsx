@@ -120,7 +120,7 @@ export default function Post({post, onGive, socket}) {
             to={`/profile/${user.username}`}
             onClick={(event) => event.stopPropagation()}
             >
-              <img className='postProfileImg' src={user.profilePicture ? user.profilePicture : "./assets/person/nopicture.png"} alt="" />
+              <img className='postProfileImg' src={user.profilePicture ? user.profilePicture : "/assets/person/nopicture.png"} alt="" />
             </Link>
             <div className="postTop">
                 <div className="postTopLeft">

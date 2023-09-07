@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { AiOutlineGift } from 'react-icons/ai';
 import { BsCurrencyDollar } from "react-icons/bs";
+import config from '../../config';
 import React from 'react';
 
 export default function Profile() {
@@ -21,7 +22,7 @@ export default function Profile() {
 
   useEffect(() => {
       async function fetchUser(){
-        const res = await axios.get(`/api/users?username=${user.username}`);
+        const res = await axios.get(`${config.apiUrl}/api/users?username=${username}`);
         setUser(res.data);
       }
       fetchUser();
@@ -71,7 +72,7 @@ export default function Profile() {
   // fetch user give data, for the profileGivesNumber and profileAmountGaveNumber
   useEffect(() => {
     async function giveData(){
-      const res = await axios.get(`/user-gives/${username}`);
+      const res = await axios.get(`${config.apiUrl}/user-gives/${username}`);
       setUserItemGives(res.data.totalItemsGave);
       setuserCurrencyGiveTotal(res.data.totalCurrencyGave);
     }
@@ -83,8 +84,8 @@ export default function Profile() {
 <div className="profile">
     <div className="profiletopCenter">
         <div className="profileCover">
-            <img className='profileCoverImg' src={user.coverPicture ? user.coverPicture : "/assets/person/nocover.jpeg"} alt="" />
-            <img className='profileUserImg' src={user.profilePicture ? user.profilePicture : "/assets/person/nopicture.png"} alt="" />
+            <img className='profileCoverImg' src={user.coverPicture ? user.coverPicture : "/assets/person/nocover.jpeg"} alt="No Profile Cover Photo" />
+            <img className='profileUserImg' src={user.profilePicture ? user.profilePicture : "/assets/person/nopicture.png"} alt="No Profile Picture" />
         
             <Link to={`/profile/${user.username}/settings`} >
            <span className="profileSettings" style={{display: isHidden ? 'flex' : 'none'}} >Edit Profile</span>

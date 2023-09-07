@@ -5,11 +5,12 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import React from 'react';
 import Post from '../post/Post';
 import PropTypes from 'prop-types';
+import config from '../../config';
 
 const PAGE_SIZE = 25;
 
 const fetchPosts = async (username, page) => {
-  const res = await axios.get(`/statuses/profile/${username}?page=${page}`);
+  const res = await axios.get(`${config.apiUrl}/statuses/profile/${username}?page=${page}`);
   const data = res.data || [];
 
   const hasMore = data.length === PAGE_SIZE;
@@ -56,11 +57,7 @@ return (
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
         page={page}
-        endMessage={
-          <p style={{textAlign: 'center'}}>
-            <b>Nothing to see here!</b>
-          </p>
-        }
+
         // TODO --> write a refresh fuction
         // pullDownToRefresh
         // pullDownToRefreshContent={

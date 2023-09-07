@@ -4,6 +4,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import './SharePostModal.css';
 import LinkGenerator from "../../../pages/sharepost/LinkGenerator";
 import { AuthContext } from "../../../context/AuthContext";
+import config from '../../../config';
 
 const SharePostModal = ({ isOpen, closeModal, details }) => {
   const {user} = useContext(AuthContext)
@@ -35,7 +36,8 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
     }
     try {
       const generatedLink = await LinkGenerator(user, details);
-      navigator.clipboard.writeText(`${process.env.REACT_APP_PUBLIC_URL}/link/` + generatedLink)
+      console.log("generated link: ", generatedLink);
+      navigator.clipboard.writeText(`${config.apiUrl}/link/` + generatedLink)
         .then(() => {
           setCaution("Copied to clipboard!");
           setLinkGenerated(true);

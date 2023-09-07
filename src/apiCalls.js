@@ -7,18 +7,11 @@ export const loginCall = async (userCredentials, dispatch) => {
         const res = await axios.post(`${config.apiUrl}/api/auth/login`, userCredentials, {
           withCredentials: true
         });
-        console.log("api url:", config.apiUrl);
-        
         // extract the token from the response
         const token = res.data.token;
         
-        console.log("API Response:", res.data);
-
-        console.log("Token object:", token);
-        
         // store the token in the local storage
         localStorage.setItem("token", token);
-        
         
         // continue with the dispatch
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data.user, token: res.data.token });

@@ -3,6 +3,7 @@ import axios from 'axios';
 import './SearchBar.css';
 import PropTypes from 'prop-types';
 import {ImSearch} from 'react-icons/im'
+import config from '../../config';
 
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
@@ -15,7 +16,7 @@ export default function SearchBar({ onSearch }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.get('/api/products/search', {
+      const response = await axios.get(`${config.apiUrl}/api/products/search`, {
         params: {
           q: query,
         },

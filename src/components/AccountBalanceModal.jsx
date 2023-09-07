@@ -5,6 +5,7 @@ import { FiSettings } from "react-icons/fi";
 import axios from 'axios';
 import './AccountBalanceModal.css';
 import { AuthContext } from '../context/AuthContext';
+import config from '../config';
 
 function AccountBalanceModal({isModalOpen, closeModal, balance }) {
 
@@ -25,7 +26,7 @@ const editBalance = async () => {
           balance: value
         }
         const token = localStorage.getItem("token");
-        const response = await axios.post('/api/billing-settings-deposit', updateBalance, {
+        const response = await axios.post(`${config.apiUrl}/api/billing-settings-deposit`, updateBalance, {
           headers: {
             'x-auth-token': token
           }
@@ -49,7 +50,7 @@ const editBalance = async () => {
         balance: value
       }
       const token = localStorage.getItem("token");
-      const response = await axios.post('/api/billing-settings-withdrawal', updateBalance, {
+      const response = await axios.post(`${config.apiUrl}/api/billing-settings-withdrawal`, updateBalance, {
         headers: {
           'x-auth-token': token
         }
