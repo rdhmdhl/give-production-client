@@ -11,7 +11,6 @@ import config from '../config'
 
 export default function TopBar({socket}) {
   const {user, balance, updateBalance } = useContext(AuthContext)
-  const PF = config.publicFolder;
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef(null);
   const iconRef = useRef(null);
