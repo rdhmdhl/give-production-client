@@ -85,7 +85,7 @@ export default function Profile() {
     <div className="profiletopCenter">
         <div className="profileCover">
             <img className='profileCoverImg' src={user.coverPicture ? user.coverPicture : PF+"person/nocover.jpeg"} alt="" />
-            <img className='profileUserImg' src={user.profilePicture ? user.profilePicture : PF+"person/nopicture.png"} alt="" />
+            <img className='profileUserImg' src={user.profilePicture ? user.profilePicture : "./assets/person/nopicture.png"} alt="" />
         
             <Link to={`/profile/${user.username}/settings`} >
            <span className="profileSettings" style={{display: isHidden ? 'flex' : 'none'}} >Edit Profile</span>
