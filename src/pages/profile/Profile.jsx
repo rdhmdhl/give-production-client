@@ -13,7 +13,6 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import React from 'react';
 
 export default function Profile() {
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [user, setUser] = useState({});
   const {user: currentUser} = useContext(AuthContext)
   const username = useParams().username;
@@ -84,7 +83,7 @@ export default function Profile() {
 <div className="profile">
     <div className="profiletopCenter">
         <div className="profileCover">
-            <img className='profileCoverImg' src={user.coverPicture ? user.coverPicture : PF+"person/nocover.jpeg"} alt="" />
+            <img className='profileCoverImg' src={user.coverPicture ? user.coverPicture : "./assets/person/nocover.jpeg"} alt="" />
             <img className='profileUserImg' src={user.profilePicture ? user.profilePicture : "./assets/person/nopicture.png"} alt="" />
         
             <Link to={`/profile/${user.username}/settings`} >

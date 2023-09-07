@@ -10,7 +10,6 @@ import Resizer from "react-image-file-resizer";
 import axios from 'axios';
 
 export default function Settings() {
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [file, setFile] = useState(null);
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
   const { user, dispatch } = useContext(AuthContext);
@@ -160,7 +159,7 @@ export default function Settings() {
               src={coverPhotoFile ? 
                   URL.createObjectURL(coverPhotoFile) : 
                   user.coverPicture ? user.coverPicture :
-                  PF+"person/nocover.jpeg"} 
+                  "./assets/person/nocover.jpeg"} 
               alt="" />
             {/* PROFILE PICTURE */}
             <div className="profile-pic-container">
@@ -173,7 +172,7 @@ export default function Settings() {
                 src={file ? 
                     URL.createObjectURL(file) : 
                     user.profilePicture ? user.profilePicture : 
-                    PF+"person/nopicture.png"} 
+                    "./assets/person/nopicture.png"} 
                 alt="" />
             </div>
         </div>

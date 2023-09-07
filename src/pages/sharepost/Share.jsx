@@ -17,7 +17,6 @@ import SharePostModal from '../../components/post/sharepost/SharePostModal';
 import Resizer from "react-image-file-resizer";
 
 export default function Share() {
-const PF = process.env.REACT_APP_PUBLIC_FOLDER
 const {user} = useContext(AuthContext)
 
 const desc = useRef();
@@ -286,7 +285,7 @@ return (
                 src={
                     user.profilePicture ? 
                     user.profilePicture : 
-                    PF+'person/nopicture.png'} 
+                    "./assets/person/nopicture.png"} 
                     alt="" />
                 <input 
                 placeholder= 'How are you feeling today?' 
@@ -334,7 +333,7 @@ return (
                         src={
                             user.profilePicture ? 
                             user.profilePicture : 
-                            PF+'person/nopicture.png'} 
+                            "./assets/person/nopicture.png"} 
                             alt="" 
                     />
                 </div>

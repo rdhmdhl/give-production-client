@@ -11,7 +11,6 @@ const { linkId } = useParams();
 const [link, setLink] = useState({});
 // const [used, setUsed] = useState();
 const [linkUserData, setlinkUserData] = useState({});
-const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 const navigate = useNavigate();
 const {user: currentUser} = useContext(AuthContext);
 const [isUserLink, setisUserLink] = useState(false);
@@ -70,14 +69,13 @@ return (
   
       {isUserLink
               ? <div className='own-link-container'>
-                    <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : PF + "person/nopicture.png"}/>
+                    <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "./assets/person/nopicture.png"}/>
                 <h3 className='own-link-message'>... you can`t use your own link</h3>
                 </div> 
               : link.details 
                 ? <div className="link-details">
-                    <img className="profile-pic" src={linkUserData.profilePicture ? PF + linkUserData.profilePicture : PF + "person/nopicture.png"}
+                    <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "./assets/person/nopicture.png"}
                     alt="link creator profile picture" />
-  
                     {link.details.type === 'currency' && link.details.quantity > 0 
                         ? (
                             <>

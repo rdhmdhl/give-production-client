@@ -23,8 +23,6 @@ export default function Post({post, onGive, socket}) {
   const [userGaveItem, setUserGaveItem] = useState(false);
   const [userGaveCurrency, setUserGaveCurrency] = useState(false);
   const [user, setUser] = useState({});
-
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const {user: currentUser} = useContext(AuthContext);
 
   // lower opacity for posts with disabled allowGifts setting
@@ -122,7 +120,7 @@ export default function Post({post, onGive, socket}) {
             to={`/profile/${user.username}`}
             onClick={(event) => event.stopPropagation()}
             >
-              <img className='postProfileImg' src={user.profilePicture ? user.profilePicture : PF+"person/nopicture.png"} alt="" />
+              <img className='postProfileImg' src={user.profilePicture ? user.profilePicture : "./assets/person/nopicture.png"} alt="" />
             </Link>
             <div className="postTop">
                 <div className="postTopLeft">
