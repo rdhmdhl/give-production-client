@@ -4,6 +4,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { AuthContext } from '../../context/AuthContext';
 import './AcceptLink.css';
 import axios from 'axios';
+import config from '../../config';
 
 export default function AcceptLink() {
 
@@ -20,14 +21,14 @@ useEffect(() => {
     const fetchLink = async () => {
         setIsLoading(true);
         try {
-            const res = await axios.get(`/api/${linkId}`);
+            const res = await axios.get(`${config.apiUrl}/api/${linkId}`);
             if (res.data.link.creatorUserId === currentUser._id) {
                 // users cannot use their own link
                 setisUserLink(true);
             }
 
             setLink(res.data.link);
-            const user = await axios.get(`/api/users?userId=${res.data.link.creatorUserId}`);
+            const user = await axios.get(`${config.apiUrl}/api/users?userId=${res.data.link.creatorUserId}`);
             setlinkUserData(user.data);
 
         } catch (error) {
@@ -46,7 +47,7 @@ if(isLoading) {
 const acceptorgive = async () => {
     try {
         const token = localStorage.getItem("token");
-        await axios.put(`/api/accept-link/${linkId}`, {}, {
+        await axios.put(`${config.apiUrl}/api/accept-link/${linkId}`, {}, {
             headers: {
                 'x-auth-token': token
             }

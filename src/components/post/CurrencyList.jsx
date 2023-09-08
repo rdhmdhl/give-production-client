@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { UpdateBalance } from '../../context/AuthActions';
-
+import config from '../../config';
 
 export default function CurrencyList({post, setAmount, currentUser, onClick, socket, onAmountClick, setChangeCurrencyColor, onGive = () => {} }) {
 
@@ -20,7 +20,7 @@ const { user, balance, dispatch } = useContext(AuthContext);
           const token = localStorage.getItem('token');
           alert(`Are you sure you want to give $${currency}?`);
   
-          axios.post("/api/billing-settings-withdrawal", {
+          axios.post(`${config.apiUrl}/api/billing-settings-withdrawal`, {
             balance: currency,
             userId: user._id
           }, {
@@ -38,7 +38,7 @@ const { user, balance, dispatch } = useContext(AuthContext);
               dispatch(UpdateBalance(prevBalance => prevBalance - currency)); // Decrease user's balance in context
 
               
-              axios.post("statuses/api/gives", {
+              axios.post(`${config.apiUrl}statuses/api/gives`, {
                 type: 'currency',
                 amount: currency,
                 postId: post._id,
@@ -48,7 +48,7 @@ const { user, balance, dispatch } = useContext(AuthContext);
                 const giveUserId = currentUser._id;
               
                 // Update the post with the reference to the Give document
-              axios.put("statuses/api/statuses/" + post._id + "/give", {
+              axios.put(`${config.apiUrl}statuses/api/statuses/` + post._id + "/give", {
                 type: 'currency',
                 giveUserId: giveUserId, 
                 giveId: giveId
@@ -83,7 +83,7 @@ const { user, balance, dispatch } = useContext(AuthContext);
       
           // Always save the notification to the database
           axios
-            .post("/api/notifications", {
+            .post(`${config.apiUrl}/api/notifications`, {
               receiverUserId: post.userId,
               senderUserId: currentUser._id,
               relatedPostId: post._id,
@@ -113,7 +113,7 @@ const { user, balance, dispatch } = useContext(AuthContext);
       
     // get online user from the database
     function getUser(userId) {
-      return axios.get(`/api/onlineusers/${userId}`)
+      return axios.get(`${config.apiUrl}/api/onlineusers/${userId}`)
         .then((response) => {
           if (response.status === 204) {
             return null; // user is offline

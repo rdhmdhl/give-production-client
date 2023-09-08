@@ -6,6 +6,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { AuthContext } from '../../context/AuthContext';
 import { UpdateBalance } from '../../context/AuthActions';
 import axios from 'axios';
+import config from '../../config';
 
 export default function ItemModal({ item, showModal, setShowModal, setChangeItemIconColor, post, setItemGives, onGive, socket }) {
 
@@ -39,7 +40,7 @@ let totalPrice;
         }
 
         alert(`Are you sure you want to give ${item.title}?`);
-        axios.post("statuses/api/gives", {
+        axios.post(`${config.apiUrl}statuses/api/gives`, {
           type: 'item',
           price: parseFloat(item.price.value),
           shipping: calculateShipping(item),
@@ -56,7 +57,7 @@ let totalPrice;
           // Use context state to update the balace used in the topbar
           dispatch(UpdateBalance(prevBalance => prevBalance - totalPrice)); // Decrease user's balance in context
     
-          axios.post("/api/billing-settings-withdrawal", {
+          axios.post(`${config.apiUrl}/api/billing-settings-withdrawal`, {
             balance: totalPrice,
             userId: currentUser._id
           }, {
@@ -66,7 +67,7 @@ let totalPrice;
           })
           .then(() => {
             // Update the post with the reference to the Give document
-            axios.put("statuses/api/statuses/" + post._id + "/give", {
+            axios.put(`${config.apiUrl}statuses/api/statuses/` + post._id + "/give", {
                   type: 'item',
                   giveUserId: giveUserId,
                   giveId: giveId,
@@ -118,7 +119,7 @@ let totalPrice;
 
     // get online user from the database
     function getUser(userId) {
-      return axios.get(`/api/onlineusers/${userId}`)
+      return axios.get(`${config.apiUrl}/api/onlineusers/${userId}`)
         .then((response) => {
           if (response.status === 204) {
             return null; // user is offline
@@ -143,7 +144,7 @@ let totalPrice;
     
         // Always save the notification to the database
         axios
-          .post("/api/notifications", {
+          .post(`${config.apiUrl}/api/notifications`, {
             receiverUserId: post.userId,
             senderUserId: currentUser._id,
             relatedPostId: post._id,

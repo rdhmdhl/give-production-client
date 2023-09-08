@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import './Register.css'
 import {useNavigate} from 'react-router-dom';
 import React from 'react';
+import config from '../../config';
 
 export default function Register() {
 
@@ -24,7 +25,7 @@ export default function Register() {
         password: password.current.value,
       };
       try{
-        await axios.post('api/auth/register', user);
+        await axios.post(`${config.apiUrl}api/auth/register`, user);
         navigate('/login')
       } catch (err) {
         alert("An error occured when trying to register. Please try again later.");
@@ -36,7 +37,7 @@ export default function Register() {
     <div className="login">
           <img
           className='loginImg'
-          src={process.env.PUBLIC_URL + 'assets/login-background.webp'}
+          src={'/assets/login-background.webp'}
           alt='login-background'
           />
         <div className="registerWrapper">
