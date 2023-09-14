@@ -87,7 +87,7 @@ export default function Settings() {
         coverPicture = s3CoverUpload.data.url;
 
       } catch (error) {
-        alert('Failed to upload image, try a smaller file.');
+        alert('Failed to upload image, try again later.');
       }
 
     }
@@ -184,6 +184,12 @@ export default function Settings() {
               label="Username"
               value={user.username}
               onValueChange={newValue => handleValueChange('username', newValue)}
+            />
+            <hr className='line-break'/>
+            <EditableLabel 
+              label="Display Name"
+              value={user.displayName}
+              onValueChange={newValue => handleValueChange('displayName', newValue)}
             />
             <hr className='line-break'/>
             <EditableLabel 

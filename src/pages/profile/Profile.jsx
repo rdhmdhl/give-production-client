@@ -104,7 +104,7 @@ export default function Profile() {
             </Link>
         </div>
         <div className="profileInfo">
-            <h4 className='profileInfoName'>N B S S</h4>
+            <h4 className='profileInfoName'>{user.displayName}</h4>
             <span className='profileUserName'>{user.username}</span>
             <span className='profileInfoDesc'>{user.bio}</span>
             {/* render icon if location exists */}
