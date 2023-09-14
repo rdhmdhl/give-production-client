@@ -40,7 +40,7 @@ let totalPrice;
         }
 
         alert(`Are you sure you want to give ${item.title}?`);
-        axios.post(`${config.apiUrl}statuses/api/gives`, {
+        axios.post(`${config.apiUrl}/statuses/api/gives`, {
           type: 'item',
           price: parseFloat(item.price.value),
           shipping: calculateShipping(item),
@@ -67,7 +67,7 @@ let totalPrice;
           })
           .then(() => {
             // Update the post with the reference to the Give document
-            axios.put(`${config.apiUrl}statuses/api/statuses/` + post._id + "/give", {
+            axios.put(`${config.apiUrl}/statuses/api/statuses/` + post._id + "/give", {
                   type: 'item',
                   giveUserId: giveUserId,
                   giveId: giveId,

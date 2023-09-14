@@ -38,7 +38,7 @@ const { user, balance, dispatch } = useContext(AuthContext);
               dispatch(UpdateBalance(prevBalance => prevBalance - currency)); // Decrease user's balance in context
 
               
-              axios.post(`${config.apiUrl}statuses/api/gives`, {
+              axios.post(`${config.apiUrl}/statuses/api/gives`, {
                 type: 'currency',
                 amount: currency,
                 postId: post._id,
@@ -48,7 +48,7 @@ const { user, balance, dispatch } = useContext(AuthContext);
                 const giveUserId = currentUser._id;
               
                 // Update the post with the reference to the Give document
-              axios.put(`${config.apiUrl}statuses/api/statuses/` + post._id + "/give", {
+              axios.put(`${config.apiUrl}/statuses/api/statuses/` + post._id + "/give", {
                 type: 'currency',
                 giveUserId: giveUserId, 
                 giveId: giveId
