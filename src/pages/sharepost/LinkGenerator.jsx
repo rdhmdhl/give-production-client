@@ -3,7 +3,7 @@ import config from '../../config';
 
 const LinkGenerator = async (user, details) => {
     try {
-      const response = await axios.post(`${config.apiUrl}api/create`, {
+      const response = await axios.post(`${config.apiUrl}/api/create`, {
         creatorUserId: user._id,
         details: details,
         used: false,
