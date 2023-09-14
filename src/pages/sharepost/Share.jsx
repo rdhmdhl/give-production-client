@@ -286,7 +286,7 @@ return (
                 src={
                     user.profilePicture ? 
                     user.profilePicture : 
-                    "./assets/person/nopicture.png"} 
+                    "/assets/person/nopicture.png"} 
                     alt="" />
                 <input 
                 placeholder= 'How are you feeling today?' 
@@ -334,7 +334,7 @@ return (
                         src={
                             user.profilePicture ? 
                             user.profilePicture : 
-                            "./assets/person/nopicture.png"} 
+                            "/assets/person/nopicture.png"} 
                             alt="" 
                     />
                 </div>

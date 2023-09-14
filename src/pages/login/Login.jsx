@@ -28,7 +28,7 @@ export default function Login() {
     <div className="login-container">
       <img
         className='loginImg'
-        src={"./assets/login-background.webp"}
+        src={"/assets/login-background.webp"}
         alt='login-background'
       />
         <div className="loginWrapper">
