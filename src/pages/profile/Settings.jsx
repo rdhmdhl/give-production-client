@@ -160,7 +160,7 @@ export default function Settings() {
               src={coverPhotoFile ? 
                   URL.createObjectURL(coverPhotoFile) : 
                   user.coverPicture ? user.coverPicture :
-                  "/assets/person/nocover.jpeg"} 
+                  "/assets/person/nocover.png"} 
               alt="" />
             {/* PROFILE PICTURE */}
             <div className="profile-pic-container">
