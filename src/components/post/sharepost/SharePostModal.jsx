@@ -37,7 +37,7 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
     try {
       const generatedLink = await LinkGenerator(user, details);
       console.log("generated link: ", generatedLink);
-      navigator.clipboard.writeText(`${config.apiUrl}/link/` + generatedLink)
+      navigator.clipboard.writeText(`${config.publicUrl}/link/` + generatedLink)
         .then(() => {
           setCaution("Copied to clipboard!");
           setLinkGenerated(true);

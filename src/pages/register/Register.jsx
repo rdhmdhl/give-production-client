@@ -25,7 +25,7 @@ export default function Register() {
         password: password.current.value,
       };
       try{
-        await axios.post(`${config.apiUrl}api/auth/register`, user);
+        await axios.post(`${config.apiUrl}/api/auth/register`, user);
         navigate('/login')
       } catch (err) {
         alert("An error occured when trying to register. Please try again later.");
