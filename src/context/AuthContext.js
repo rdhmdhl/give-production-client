@@ -11,7 +11,8 @@ const INITIAL_STATE = {
     balance: 0,
     updateBalance: () => {},
     isFetching:false,
-    error:false
+    error:false,
+    isLoading: true
 };
 
 export const AuthContext = createContext(INITIAL_STATE);
@@ -20,7 +21,12 @@ export const AuthContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
     useEffect(() => {
-      getUser(dispatch);
+      // When the user is fetched, set isLoading to false
+      const fetchUser = async () => {
+        await getUser(dispatch);
+        dispatch({ type: 'SET_LOADING', payload: false });  // Add this line
+      };
+      fetchUser();
     }, []);
 
     const [balance, setNewBalance] = useState(0);
@@ -60,7 +66,8 @@ return (
       updateBalance: updateBalance,
       isFetching:state.isFetching,
       error:state.error,
-      dispatch
+      isLoading: state.isLoading,
+      dispatch,
       }}
       >
     {children}

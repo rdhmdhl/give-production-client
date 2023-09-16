@@ -9,6 +9,7 @@ import AcceptLink from "./pages/acceptlink/AcceptLink";
 import Topbar from "./components/Topbar";
 import Share from "./pages/sharepost/Share";
 import WriteIcon from "./components/share/writeIcon";
+import ReactLoading from 'react-loading';
 
 import {
   BrowserRouter as Router,
@@ -21,10 +22,10 @@ import { AuthContext } from "./context/AuthContext";
 import { io } from "socket.io-client";
 
 function App() {
+  const {isLoading, user} = useContext(AuthContext);
   const [socket, setSocket] = useState(null);
-  const {user} = useContext(AuthContext);
 
-  //  socket io for real time notifications
+  //  socket io for real-time notifications
   useEffect(() => {
     if (user && user._id) {
       const newSocket = io(process.env.REACT_APP_API_URL);
@@ -33,9 +34,18 @@ function App() {
     }
   }, [user]);
 
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem', marginBottom: '20px' }}>
+        <ReactLoading type={'balls'} color={'white'} height={'20%'} width={'20%'} />
+      </div>
+    );
+  }
+
   return (
     <Router>
       <Routes>
+      <Route path="link/:linkId" element={(user ? <AcceptLink /> : <Navigate to="/login" />)} />
         {/* Allow any user (authenticated or not) to access the home page */}
         <Route path="/" element={
           <>
@@ -64,10 +74,9 @@ function App() {
         }/>
         <Route path="profile/:username/settings" element={user ? <Settings /> : <Navigate to="/login" />} />
         <Route path=":postId" element={user ? <SinglePost socket={socket} /> : <Navigate to="/login" />} />
-        <Route path="link/:linkId" element={user ? <AcceptLink /> : <Navigate to="/login" />} />
       </Routes>
-    </Router>
-  );
+  </Router>
+  )
 }
 
 export default App;

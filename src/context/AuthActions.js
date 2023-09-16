@@ -21,3 +21,7 @@ export const UpdateBalance = (balance) => ({
     type:'UPDATE_BALANCE',
     payload: balance
 });
+export const SetLoading = (isLoading) => ({
+    type: 'SET_LOADING',
+    payload: isLoading,
+  });

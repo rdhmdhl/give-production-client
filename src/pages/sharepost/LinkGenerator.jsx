@@ -9,7 +9,6 @@ const LinkGenerator = async (user, details) => {
         used: false,
         expired: false,
       });
-      console.log("details from link generator: ", response);
       return response.data.link;
     } catch (error) {
         // pass the error message to the frontend

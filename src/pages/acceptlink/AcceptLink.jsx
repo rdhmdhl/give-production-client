@@ -7,19 +7,19 @@ import axios from 'axios';
 import config from '../../config';
 
 export default function AcceptLink() {
-
 const { linkId } = useParams();
+
 const [link, setLink] = useState({});
 // const [used, setUsed] = useState();
 const [linkUserData, setlinkUserData] = useState({});
 const navigate = useNavigate();
 const {user: currentUser} = useContext(AuthContext);
 const [isUserLink, setisUserLink] = useState(false);
-const [isLoading, setIsLoading] = useState(true);
+// const [isLoading, setIsLoading] = useState(true);
 
 useEffect(() => {
     const fetchLink = async () => {
-        setIsLoading(true);
+        // setIsLoading(true);
         try {
             const res = await axios.get(`${config.apiUrl}/api/${linkId}`);
             if (res.data.link.creatorUserId === currentUser._id) {
@@ -34,15 +34,15 @@ useEffect(() => {
         } catch (error) {
             alert("An error occured when fetching the link. Please try again later.");
         } finally {
-            setIsLoading(false);
+            // setIsLoading(false);
         }
     }
     fetchLink();
 }, [linkId]);
 
-if(isLoading) {
-    return null;
-}
+// if(isLoading) {
+//     return null;
+// }
 
 const acceptorgive = async () => {
     try {
@@ -70,17 +70,22 @@ return (
   
       {isUserLink
               ? <div className='own-link-container'>
-                    <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "./assets/person/nopicture.png"}/>
+                    <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "/assets/person/nopicture.png"}/>
                 <h3 className='own-link-message'>... you can`t use your own link</h3>
                 </div> 
               : link.details 
                 ? <div className="link-details">
-                    <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "./assets/person/nopicture.png"}
+                    <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "/assets/person/nopicture.png"}
                     alt="link creator profile picture" />
                     {link.details.type === 'currency' && link.details.quantity > 0 
                         ? (
                             <>
-                                <h3>{linkUserData.username} wants to give you ${link.details.amount}</h3>
+                                <h3>
+                                    {linkUserData.username} 
+                                    {link.details.giveorreceive === "give" ? " wants to give you " : " would like "} 
+                                    ${link.details.amount}
+                                </h3>
+
                                 {link.details.giveorreceive === "give" && 
                                     <button className='give-or-accept-button' onClick={() => acceptorgive()}>Accept</button>
                                 }
