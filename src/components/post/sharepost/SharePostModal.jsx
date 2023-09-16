@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import 'font-awesome/css/font-awesome.min.css';
 import './SharePostModal.css';
@@ -11,11 +11,24 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
   const {user} = useContext(AuthContext)
   const [caution, setCaution] = useState(null);
   const [linkGenerated, setLinkGenerated] = useState(false);  
-  const navigate = useNavigate();
+  const [generatedLink, setGeneratedLink] = useState(null);
+  // const navigate = useNavigate();
 
   // allow user to generate a new link if they change the details
   useEffect(() => {
-    setLinkGenerated(false);
+    const linkGenerator = async () => {
+      try {
+        const link = await LinkGenerator(user, details);
+        setLinkGenerated(true);
+        setGeneratedLink(`${config.publicUrl}/link/` + link);
+
+      } catch (error) {
+        console.log("Error generating link: ", error);
+      }
+    }
+    if (isOpen && !linkGenerated){
+      linkGenerator();
+    }
   }, [details]);
 
   const shareToInstagramStory = () => {
@@ -32,29 +45,25 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
 
   const copyUrlToClipboard = async () => {
     // only generate one link
-    if (linkGenerated) {
-      alert("Link already generated!");
-      return;
+    if (linkGenerated && generatedLink) {
+      try {
+        // copy to clipboard
+        await navigator.clipboard.writeText(generatedLink)
+        console.log("link generated: ", generatedLink);
+  
+        setCaution("Copied to clipboard!");
+
+      } catch (error) {
+        console.log("Error message: ", error);
+        setCaution("An unexpected error occurred. Please try again later.");
+      }
+    } else {
+      setCaution("Link is being generated, please wait.");
     }
-    try {
-      // generate the link
-      const generatedLink = await LinkGenerator(user, details);
-      
-      // copy to clipboard
-      await navigator.clipboard.writeText(`${config.apiUrl}/link/` + generatedLink)
-      console.log("link generated: ", generatedLink);
 
-      setCaution("Copied to clipboard!");
-      setLinkGenerated(true);
-      navigate('/');
-
-        } catch (error) {
-          console.log("Error message: ", error);
-          setCaution("An unexpected error occurred. Please try again later.");
-        }
-        // clear alert after 3 seconds
-        setTimeout(() => setCaution(null), 3000);
-      };
+    // clear alert after 3 seconds
+    setTimeout(() => setCaution(null), 3000);
+  };
 
   const shareToTextMessage = () => {
     // Handle sharing via text message
