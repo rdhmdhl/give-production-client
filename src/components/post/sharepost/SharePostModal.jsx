@@ -23,7 +23,7 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
         setGeneratedLink(`${config.publicUrl}/link/` + link);
 
       } catch (error) {
-        console.log("Error generating link: ", error);
+        alert("An error occured when generating the link. Please try again later.");
       }
     }
     if (isOpen && !linkGenerated){
@@ -49,12 +49,9 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
       try {
         // copy to clipboard
         await navigator.clipboard.writeText(generatedLink)
-        console.log("link generated: ", generatedLink);
-  
         setCaution("Copied to clipboard!");
 
       } catch (error) {
-        console.log("Error message: ", error);
         setCaution("An unexpected error occurred. Please try again later.");
       }
     } else {

@@ -135,6 +135,7 @@ export default function Settings() {
   const handleLogout = () => {
     // remove the jwt token from local storage
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     // Dispatch an action to the reducer to update the user data in the context
     dispatch({ type: "LOGOUT" });
     // navigate to the login page
