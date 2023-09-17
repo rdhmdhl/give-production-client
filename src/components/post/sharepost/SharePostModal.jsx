@@ -3,31 +3,32 @@ import React, { useContext, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import 'font-awesome/css/font-awesome.min.css';
 import './SharePostModal.css';
-import LinkGenerator from "../../../pages/sharepost/LinkGenerator";
+import useLinkGenerator from "../../../pages/sharepost/LinkGenerator";
 import { AuthContext } from "../../../context/AuthContext";
 import config from '../../../config';
 
 const SharePostModal = ({ isOpen, closeModal, details }) => {
-  const {user} = useContext(AuthContext)
   const [caution, setCaution] = useState(null);
   const [linkGenerated, setLinkGenerated] = useState(false);  
   const [generatedLink, setGeneratedLink] = useState(null);
   // const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const generateLink = useLinkGenerator(); 
 
   // allow user to generate a new link if they change the details
+// allow user to generate a new link if they change the details
   useEffect(() => {
-    const linkGenerator = async () => {
+    const linkGenerator = async (user, details) => {
       try {
-        const link = await LinkGenerator(user, details);
+        const link = await generateLink(user, details);
         setLinkGenerated(true);
         setGeneratedLink(`${config.publicUrl}/link/` + link);
-
       } catch (error) {
-        alert("An error occured when generating the link. Please try again later.");
+        alert("An error occurred when generating the link. Please try again later.");
       }
     }
     if (isOpen && !linkGenerated){
-      linkGenerator();
+      linkGenerator(user, details ); // Call linkGenerator with user, details, and dispatch
     }
   }, [details]);
 

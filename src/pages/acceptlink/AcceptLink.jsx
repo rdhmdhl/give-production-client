@@ -8,25 +8,21 @@ import config from '../../config';
 
 export default function AcceptLink() {
 const { linkId } = useParams();
-
 const [link, setLink] = useState({});
-// const [used, setUsed] = useState();
 const [linkUserData, setlinkUserData] = useState({});
 const navigate = useNavigate();
 const {user: currentUser} = useContext(AuthContext);
 const [isUserLink, setisUserLink] = useState(false);
-// const [isLoading, setIsLoading] = useState(true);
+const [isLoading, setIsLoading] = useState(true);
 
 useEffect(() => {
     const fetchLink = async () => {
-        // setIsLoading(true);
         try {
             const res = await axios.get(`${config.apiUrl}/api/${linkId}`);
             if (res.data.link.creatorUserId === currentUser._id) {
                 // users cannot use their own link
                 setisUserLink(true);
             }
-
             setLink(res.data.link);
             const user = await axios.get(`${config.apiUrl}/api/users?userId=${res.data.link.creatorUserId}`);
             setlinkUserData(user.data);
@@ -34,17 +30,18 @@ useEffect(() => {
         } catch (error) {
             alert("An error occured when fetching the link. Please try again later.");
         } finally {
-            // setIsLoading(false);
+            setIsLoading(false);
         }
     }
     fetchLink();
 }, [linkId]);
 
-// if(isLoading) {
-//     return null;
-// }
+if(isLoading) {
+    return null;
+}
 
 const acceptorgive = async () => {
+    const { dispatch, user } = useContext(AuthContext);
     try {
         const token = localStorage.getItem("token");
         await axios.put(`${config.apiUrl}/api/accept-link/${linkId}`, {}, {
@@ -52,12 +49,18 @@ const acceptorgive = async () => {
                 'x-auth-token': token
             }
         });
+
+        // Update the balance in the context after successfully accepting/giving
+        // Assuming response.data has the updated balance or transaction details
+        if (link.details.giveorreceive === 'receive') {
+            dispatch({ type: "UPDATE_BALANCE", payload: user.balance - link.details.amount });
+        }
+
         navigate('/');
     } catch (error) {
         alert("An error occured when trying to use this link. Please try again later.");
     }
 };
-
 
 return (
     <div className="link-page-container">

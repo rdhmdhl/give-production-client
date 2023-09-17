@@ -16,7 +16,7 @@ const SelectedCurrencyDetails = ({ amount, clearSelectedCurrency, giveorreceive}
             <AiOutlineClose className="close-icon" onClick={clearSelectedCurrency}/>
             </div>
             <div className="currency-description">
-              <p>{giveorreceive} this amount. Click share below to create a link.</p>
+              <p>{giveorreceive} this gift. Click share below to create a link 🥰</p>
             </div>
         </div>
     </div>

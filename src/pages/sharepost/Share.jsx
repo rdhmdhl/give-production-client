@@ -294,7 +294,6 @@ return (
                 ref={desc}
                 />
             </div>
-
                 
             <div className="shareOptions">
             {file && (
@@ -347,9 +346,10 @@ return (
                 {seenMoney && <CurrencyList onAmountClick={handleCurrencyClick}/>}
                 {showCurrency && !seenGifts && !seenMoney && 
                 <SelectedCurrencyDetails 
-                amount={selectedAmount} 
-                giveorreceive={transactionType}
-                clearSelectedCurrency={clearSelectedCurrency}/>}
+                    amount={selectedAmount} 
+                    giveorreceive={transactionType}
+                    clearSelectedCurrency={clearSelectedCurrency}/>
+                }
             </div>
         <div className="settings-form-container">
 
@@ -425,11 +425,14 @@ return (
                             </div>
                         }
                     <div className="shareButtonContainer">
-                        <button className="shareButton" type="submit">Share</button>
+                        <button className="shareButton" type="submit">Create</button>
                     </div>
                 </div>
                 </div>
             </form>
+        </div>
+        <div className="account-balance-notice">
+            <p>Creating a link will adjust your account balance. Unused links will refund the balance after 24 hours 😊</p>
         </div>
     </div>
 </div>
