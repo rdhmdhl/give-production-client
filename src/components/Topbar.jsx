@@ -186,6 +186,12 @@ useEffect(() => {
                             Anonymous User
                           </span>
 
+                          {notification.message && (
+                            <span className="notification-message">
+                              {notification.message}
+                            </span>
+                          )}
+
                           {notification.type === 'item' && (
                           <span className="notificationItemTitle">
                             {notification.ebItemTitle}

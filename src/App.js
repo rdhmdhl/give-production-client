@@ -45,7 +45,10 @@ function App() {
   return (
     <Router>
       <Routes>
-      <Route path="link/:linkId" element={(user ? <AcceptLink /> : <Navigate to="/login" />)} />
+        <Route 
+          path="link/:linkId" 
+          element={user ? <AcceptLink socket={socket} /> : <Navigate to="/login" />} 
+        />
         {/* Allow any user (authenticated or not) to access the home page */}
         <Route path="/" element={
           <>

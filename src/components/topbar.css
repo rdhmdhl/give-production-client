@@ -122,12 +122,17 @@ body{
 
   
 .notificationSender {
-    font-weight: bold;
+    font-weight: 500;
     font-size: .8rem;
 }
 
+.notification-message {
+    font-weight: 500;
+    font-size: .8rem;
+    margin-bottom: 5px;
+}
+
 .notificationAmount {
-    
     border: 1px solid var(--darkgray);   
     max-width: 3rem;
     max-height: 3rem;
@@ -170,6 +175,7 @@ body{
 
 .notificationDate {
     font-size: 0.75rem;
+    font-weight: 400;
     margin-bottom: 5px;
     color: var(--gray);
 }
