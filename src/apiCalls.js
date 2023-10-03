@@ -33,7 +33,7 @@ export const getUser = async (dispatch) => {
       });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
     } catch (error) {
-      alert('An unexpected error occurred when trying to log in. Please try again later.')
+      alert('Log in or register to gain access to all features')
     }
   };
 

@@ -99,7 +99,6 @@ const acceptorgive = async () => {
 
         navigate('/');
     } catch (error) {
-        console.log("error: ", error);
         alert("An error occured when trying to use this link. Please try again later.");
     }
 };

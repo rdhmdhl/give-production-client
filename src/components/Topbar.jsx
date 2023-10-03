@@ -22,7 +22,9 @@ export default function TopBar({socket}) {
 
   // hook to run getBalance function when component mounts
   useEffect(() => { 
-    updateBalance();
+    if (user) {
+      updateBalance();
+    }
   }, [user, updateBalance]);
 
   // Event handler for clicking on the account balance
