@@ -49,8 +49,11 @@ export default function TopBar({socket}) {
   // used to get notifications for online users
   useEffect(() => {
     if (socket) {
+      
       const handleGetNotification = (data) => {
+        console.log("data from notifications: ", data);
         const { senderUserId, receiverUserId, relatedPostId, amount, type, read, createdAt, ebItemPhoto, ebItemTitle } = data;
+
         setUnreadNotifications((prev) => [
           {
             senderUserId,
@@ -87,6 +90,8 @@ export default function TopBar({socket}) {
 
           setUnreadNotifications(unread);
           setReadNotifications(read);
+          console.log("data from notifications: ", unread);
+
         }
         })
         .catch(() => {
@@ -141,6 +146,17 @@ useEffect(() => {
     }
   };
 
+    // Function to determine the destination URL
+const getDestinationURL = (notification) => {
+  if (notification.linkorpost === "link") {
+    return `/link/${notification.relatedPostId}`;
+  } else if (notification.linkorpost === "post") {
+    return `/${notification.relatedPostId}`;
+  }
+  return "/"; // default URL if none match
+};
+
+
   return (
     <div className='topbarContainer'>
         <div className="topbarLeft">
@@ -165,73 +181,80 @@ useEffect(() => {
           </div>
 
      {/* dropdown notifications */}
+
           {dropdownVisible && (
             <div className="notificationsDropdown" ref={dropdownRef}>
               {/* New button to switch between displaying read and unread notifications */}
-              <div className="unread-read-button-container">
-              <button className="undread-read-button" onClick={switchNotificationsDisplay}>
-                {displayingReadNotifications ? 'Show Unread Notifications' : 'Show Read Notifications'}
-              </button>
-              </div>
+                 <div className="notification-buttons-container">
+
+                    {/* unread or read notifications button*/}
+                    <div className="unread-read-button-container">
+                    <button className="undread-read-button" onClick={switchNotificationsDisplay}>
+                      {displayingReadNotifications ? 'Show Unread Notifications' : 'Show Read Notifications'}
+                    </button>
+                    </div>
+                    {/* mark as read button */}
+                    {unreadNotifications.length > 0 && !displayingReadNotifications &&
+                      <div className="mark-as-read-container">
+                        <div className="button-container">
+                        <button className="mark-as-read-button" onClick={markAsRead}>
+                          Mark all read
+                        </button>
+                        </div>
+                      </div>
+                      }
+      
+                 </div>
               {notificationsToDisplay
                .slice() // Create a shallow copy of the notifications array to avoid mutating the original array
                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort notifications by createdAt in descending order
                .map((notification, index) => (
                 <div key={index}>
-                    <div className="notificationDetails">
-                      <div className="senderandamount">
-                      <img className="profilePhoto" src={`${process.env.PUBLIC_URL}/assets/person/nopicture.png`} alt="Anonymous user" />
-                        <div className="senderandtitle">
-
-                          <span className="notificationSender">
-                            {/* {notification.senderUserId} */}
-                            Anonymous User
-                          </span>
-
-                          {notification.message && (
-                            <span className="notification-message">
-                              {notification.message}
+                    <Link to={getDestinationURL(notification)}>
+                      <div className="notificationDetails">
+                        <div className="senderandamount">
+                        <img className="profilePhoto" src={`${process.env.PUBLIC_URL}/assets/person/nopicture.png`} alt="Anonymous user" />
+                          <div className="senderandtitle">
+                            <span className="notificationSender">
+                              {/* {notification.senderUserId} */}
+                              Anonymous User
                             </span>
-                          )}
-
-                          {notification.type === 'item' && (
-                          <span className="notificationItemTitle">
-                            {notification.ebItemTitle}
-                          </span>
-                          )}
-                          
-                          <span className="notificationDate">
-                            {format(notification.createdAt)}
-                          </span>
-                          
-                        </div>  
-
-                    <span className="notificationAmount">
-                      {notification.type === 'currency'
-                        ? (
-                          <div className="currency-box">
-                            {`$${notification.amount}`}
+                            {notification.message && (
+                              <span className="notification-message">
+                                {notification.message}
+                              </span>
+                            )}
+                            {notification.type === 'item' && (
+                            <span className="notificationItemTitle">
+                              {notification.ebItemTitle}
+                            </span>
+                            )}
+                      
+                            <span className="notificationDate">
+                              {format(notification.createdAt)}
+                            </span>
+                      
                           </div>
-                        )
-                        : notification.type === 'item'
-                        ? (
-                            <img src={notification.ebItemPhoto} alt="Item" />
-                        )
-                        : ''}
-                    </span>
+                        <span className="notificationAmount">
+                          {notification.type === 'currency'
+                            ? (
+                              <div className="currency-box">
+                                {`$${notification.amount}`}
+                              </div>
+                            )
+                            : notification.type === 'item'
+                            ? (
+                                <img src={notification.ebItemPhoto} alt="Item" />
+                            )
+                            : ''}
+                        </span>
+                        </div>
                       </div>
-                  </div>
+                    </Link>
+
                 </div>
                 ))}
-                {unreadNotifications.length > 0 && !displayingReadNotifications &&
-                <div className="mark-as-read-container">
-                  <div className="button-container">
-                  <button className="mark-as-read-button" onClick={markAsRead}>
-                    Mark all read
-                  </button>
-                  </div>
-                </div>
-                }
+
           </div>
           )
           }

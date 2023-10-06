@@ -39,12 +39,13 @@ export default function Post({post, onGive, socket}) {
   const navigate = useNavigate();
 
   const navigateToSinglePost = () => {
-    navigate(`/${post._id}`, { state: { post } });
+    navigate(`/${post._id}`);
   };
 
 // get user
   useEffect(() => {
     async function fetchUser(){
+      console.log("running fetchuser function");
       const res = await axios.get(`${config.apiUrl}/api/users?userId=${post.userId}`);
       setUser(res.data)
     }

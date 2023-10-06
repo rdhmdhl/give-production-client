@@ -82,11 +82,16 @@ const acceptorgive = async () => {
             user.balance - link.details.amount });
         }
 
+        console.log("link details: ", link);
+
         let receiverUserId = link.creatorUserId;
         let amount = link.details.amount;
         let type = link.details.type;
         let giveorreceive = link.details.giveorreceive;
-        let linkorpost = 'link';
+        let linkorpost = "link";
+        let relatedPostId = linkId;
+        let message = "interacted with your link"
+        let ebItemPhoto = link.details.photo;
 
         await NotificationSender({
             socket,
@@ -94,7 +99,10 @@ const acceptorgive = async () => {
             amount,
             linkorpost,
             giveorreceive,
-            type
+            type, 
+            relatedPostId, 
+            message,
+            ebItemPhoto
         });
 
         navigate('/');

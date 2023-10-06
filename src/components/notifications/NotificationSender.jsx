@@ -21,17 +21,23 @@ const getOnlineUser = async (userId) => {
   }
 };
 
-async function NotificationSender({socket, receiverUserId, amount, giveorreceive, linkorpost, type }){
-  
+async function NotificationSender({socket, receiverUserId, amount, giveorreceive, linkorpost, type, relatedPostId, message, ebItemPhoto }){
+  const createdAt = new Date().toISOString();
+
   try {
-    const message = 'interacted with your link'
+
     // Save notification to DB
     await axios.post(`${config.apiUrl}/api/notifications`, {
       receiverUserId,
       amount,
       type,
+      giveorreceive,
+      linkorpost,
+      relatedPostId,
       message,
+      ebItemPhoto,
       read: false,
+      createdAt,
     });
 
     // Check if user is online
@@ -39,13 +45,14 @@ async function NotificationSender({socket, receiverUserId, amount, giveorreceive
 
     // Emit Socket.io message if user is online
     if (socket && onlineUser) {
-      const createdAt = new Date().toISOString();
+      
       socket.emit('sendMessage', {
         receiverUserId,
         amount,
         type,
         giveorreceive,
         linkorpost,
+        relatedPostId,
         message,
         read: false,
         createdAt,

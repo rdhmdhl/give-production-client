@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { UpdateBalance } from '../../context/AuthActions';
+import NotificationSender from '../notifications/NotificationSender';
 import config from '../../config';
 
 export default function CurrencyList({post, setAmount, currentUser, onClick, socket, onAmountClick, setChangeCurrencyColor, onGive = () => {} }) {
@@ -77,60 +78,31 @@ const { user, balance, dispatch } = useContext(AuthContext);
   }
   
 
-      function handleNotification(currency) {
-        const receiver = post.userId;
-        getUser(receiver).then((onlineUser) => {
-      
-          // Always save the notification to the database
-          axios
-            .post(`${config.apiUrl}/api/notifications`, {
-              receiverUserId: post.userId,
-              senderUserId: currentUser._id,
-              relatedPostId: post._id,
-              amount: currency,
-              type: "currency",
-              read: false,
-            })
-            .catch(() => {
-              alert("Failed to save notifications. Please try again later.");
-            });
-      
-          // Emit the sendMessage event if the user is online
-          if (socket && onlineUser) {
-            const createdAt = new Date().toISOString();
-            socket.emit('sendMessage', {
-              receiverUserId: post.userId, // changed from receiverId to receiverUserId
-              senderUserId: currentUser._id, // changed from senderId to senderUserId
-              relatedPostId: post._id,
-              amount: currency,
-              type: "currency",
-              read: false,
-              createdAt: createdAt
-            });
-          }
-        });
+      const handleNotification = async (currency) => {
+
+        console.log("post: ", post)
+
+        let receiverUserId = post.userId;
+        let amount = currency;
+        let type = "currency";
+        let giveorreceive = "give";
+        let linkorpost = "post";
+        let relatedPostId = post._id
+        let message = "gave to your post"
+
+        await NotificationSender({
+          socket,
+          receiverUserId,
+          amount,
+          linkorpost,
+          giveorreceive,
+          type, 
+          relatedPostId,
+          message
+      });
+
+
       }
-      
-    // get online user from the database
-    function getUser(userId) {
-      return axios.get(`${config.apiUrl}/api/onlineusers/${userId}`)
-        .then((response) => {
-          if (response.status === 204) {
-            return null; // user is offline
-          } else {
-            return response.data;
-          }
-        })
-        .catch((err) => {
-          if (err.response && err.response.status === 404) {
-            return null; // user not found
-          }
-          else {
-            alert('An error occured while checking the user status. Please try again later.')
-            return null;
-          }
-        });
-    }
 
       function combinedClickHandler(currency) {
         // Call giveHandler function
