@@ -81,25 +81,25 @@ const { user, balance, dispatch } = useContext(AuthContext);
       const handleNotification = async (currency) => {
 
         let receiverUserId = post.userId;
+        let senderUserId = user._id;
         let amount = currency;
-        let type = "currency";
-        let giveorreceive = "give";
         let linkorpost = "post";
+        let giveorreceive = "give";
+        let type = "currency";
         let relatedPostId = post._id
         let message = "gave to your post"
 
         await NotificationSender({
           socket,
           receiverUserId,
+          senderUserId,
           amount,
           linkorpost,
           giveorreceive,
           type, 
           relatedPostId,
           message
-      });
-
-
+        });
       }
 
       function combinedClickHandler(currency) {

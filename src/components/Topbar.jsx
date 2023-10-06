@@ -51,19 +51,21 @@ export default function TopBar({socket}) {
     if (socket) {
       
       const handleGetNotification = (data) => {
-        const { senderUserId, receiverUserId, relatedPostId, amount, type, read, createdAt, ebItemPhoto, ebItemTitle } = data;
-
+        const { senderUserId, receiverUserId, linkorpost, relatedPostId, amount, type, read, createdAt, ebItemPhoto, ebItemTitle, message } = data;
+        
         setUnreadNotifications((prev) => [
           {
             senderUserId,
             receiverUserId,
+            linkorpost,
             relatedPostId,
             amount,
             type,
             read,
             createdAt,
             ebItemPhoto,
-            ebItemTitle
+            ebItemTitle,
+            message
           },
           ...prev,
         ]);

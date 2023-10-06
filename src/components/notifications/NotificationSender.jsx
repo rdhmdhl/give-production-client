@@ -21,13 +21,14 @@ const getOnlineUser = async (userId) => {
   }
 };
 
-async function NotificationSender({socket, receiverUserId, amount, giveorreceive, linkorpost, type, relatedPostId, message, ebItemPhoto }){
+async function NotificationSender({socket, senderUserId, receiverUserId, amount, giveorreceive, linkorpost, type, relatedPostId, message, ebItemPhoto, ebItemTitle, ebItemId }){
   const createdAt = new Date().toISOString();
 
   try {
-
+    
     // Save notification to DB
     await axios.post(`${config.apiUrl}/api/notifications`, {
+      senderUserId,
       receiverUserId,
       amount,
       type,
@@ -36,17 +37,20 @@ async function NotificationSender({socket, receiverUserId, amount, giveorreceive
       relatedPostId,
       message,
       ebItemPhoto,
+      ebItemTitle,
+      ebItemId,
       read: false,
       createdAt,
     });
 
     // Check if user is online
     const onlineUser = await getOnlineUser(receiverUserId);
-
+    
     // Emit Socket.io message if user is online
     if (socket && onlineUser) {
       
       socket.emit('sendMessage', {
+        senderUserId,
         receiverUserId,
         amount,
         type,
@@ -54,6 +58,9 @@ async function NotificationSender({socket, receiverUserId, amount, giveorreceive
         linkorpost,
         relatedPostId,
         message,
+        ebItemPhoto,
+        ebItemTitle,
+        ebItemId,
         read: false,
         createdAt,
       });
@@ -69,9 +76,15 @@ NotificationSender.propTypes = {
     receiverUserId: PropTypes.string,
     senderUserId: PropTypes.string, 
     amount: PropTypes.number,
+    type: PropTypes.string,
     giveorreceive: PropTypes.string,
     linkorpost: PropTypes.string,
-    type: PropTypes.string,
+    relatedPostId: PropTypes.string,
+    message: PropTypes.string,
+    ebItemPhoto: PropTypes.string,
+    ebItemTitle: PropTypes.string,
+    ebItemId: PropTypes.string,
+
   };
 
 export default NotificationSender;

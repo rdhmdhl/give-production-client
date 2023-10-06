@@ -5,6 +5,7 @@ import { useState, useContext } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { AuthContext } from '../../context/AuthContext';
 import { UpdateBalance } from '../../context/AuthActions';
+import NotificationSender from '../notifications/NotificationSender';
 import axios from 'axios';
 import config from '../../config';
 
@@ -55,7 +56,8 @@ let totalPrice;
           const giveUserId = currentUser._id;
     
           // Use context state to update the balace used in the topbar
-          dispatch(UpdateBalance(prevBalance => prevBalance - totalPrice)); // Decrease user's balance in context
+          // Decrease user's balance in context
+          dispatch(UpdateBalance(prevBalance => prevBalance - totalPrice));
     
           axios.post(`${config.apiUrl}/api/billing-settings-withdrawal`, {
             balance: totalPrice,
@@ -117,65 +119,38 @@ let totalPrice;
     throw new Error("No valid shipping option found.");
 }
 
-    // get online user from the database
-    function getUser(userId) {
-      return axios.get(`${config.apiUrl}/api/onlineusers/${userId}`)
-        .then((response) => {
-          if (response.status === 204) {
-            return null; // user is offline
-          } else {
-            return response.data;
-          }
-        })
-        .catch((err) => {
-          if (err.response && err.response.status === 404) {
-            return null; // user not found
-          }
-          else {
-            alert('An error occured when trying to get the user.');
-            return null;
-          }
+
+  const handleNotification = async (item) => {
+  
+      // Emit the sendMessage event if the user is online
+        const createdAt = new Date().toISOString();
+
+        let senderUserId = currentUser._id;
+        let receiverUserId = post.userId;
+        let relatedPostId = post._id;
+        let ebItemId = item.itemId;
+        let ebItemTitle = item.title;
+        let ebItemPhoto = item.image.imageUrl;
+        let amount = totalPrice;
+        let type = "item";
+        let linkorpost = "post";
+        let message = "gave an item to your post"
+
+        await NotificationSender({
+          socket,
+          receiverUserId,
+          senderUserId,
+          relatedPostId,
+          ebItemId,
+          ebItemTitle,
+          ebItemPhoto,
+          amount,
+          type,
+          linkorpost, 
+          message,
+          createdAt
         });
-    }
-// *****
-    function handleNotification(item) {
-      const receiver = post.userId;
-      getUser(receiver).then((onlineUser) => {
-    
-        // Always save the notification to the database
-        axios
-          .post(`${config.apiUrl}/api/notifications`, {
-            receiverUserId: post.userId,
-            senderUserId: currentUser._id,
-            relatedPostId: post._id,
-            ebItemId: item.itemId,
-            ebItemTitle: item.title,
-            ebItemPhoto: item.image.imageUrl,
-            amount: totalPrice,
-            type: "item",
-            read: false,
-          })
-          .catch(() => {
-            alert('An error occured when trying to save the notfication.');
-          });
-    
-        // Emit the sendMessage event if the user is online
-        if (socket && onlineUser) {
-          const createdAt = new Date().toISOString();
-          socket.emit('sendMessage', {
-            senderUserId: currentUser._id,
-            receiverUserId: post.userId,
-            relatedPostId: post._id,
-            ebItemId: item.itemId,
-            ebItemTitle: item.title,
-            ebItemPhoto: item.image.imageUrl,
-            amount: totalPrice,
-            type: 'item',
-            createdAt: createdAt
-          });
-        }
-      });
-    }
+  }
 
     function combinedClickHandler(item) {
       // Call giveHandler function
