@@ -82,8 +82,6 @@ const acceptorgive = async () => {
             user.balance - link.details.amount });
         }
 
-        console.log("link details: ", link);
-
         let receiverUserId = link.creatorUserId;
         let amount = link.details.amount;
         let type = link.details.type;

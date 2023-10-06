@@ -80,8 +80,6 @@ const { user, balance, dispatch } = useContext(AuthContext);
 
       const handleNotification = async (currency) => {
 
-        console.log("post: ", post)
-
         let receiverUserId = post.userId;
         let amount = currency;
         let type = "currency";
