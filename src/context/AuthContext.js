@@ -31,6 +31,7 @@ export const AuthContextProvider = ({children}) => {
 
     const [balance, setNewBalance] = useState(0);
 
+    // this doesn't really update the balance, it just retreives the balance.
     const updateBalance = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -51,7 +52,8 @@ export const AuthContextProvider = ({children}) => {
           }
 
           setNewBalance(newBalance);
-      
+          console.log("new balance: ", newBalance);
+
     } catch (error) {
       alert("Error fetching user balance.");
     }

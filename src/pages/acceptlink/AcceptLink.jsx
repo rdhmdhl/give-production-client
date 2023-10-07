@@ -13,10 +13,9 @@ const { linkId } = useParams();
 const [link, setLink] = useState({});
 const [linkUserData, setlinkUserData] = useState({});
 const navigate = useNavigate();
-const {user: currentUser} = useContext(AuthContext);
+const {user: currentUser, updateBalance} = useContext(AuthContext);
 const [isUserLink, setisUserLink] = useState(false);
 const [isLoading, setIsLoading] = useState(true);
-const { dispatch, user } = useContext(AuthContext);
 const [hasUserResponded, setHasUserResponded] = useState(false);
 
 useEffect(() => {
@@ -66,48 +65,45 @@ if(isLoading) {
 
 const acceptorgive = async () => {
     try {
+
         const token = localStorage.getItem("token");
+        // accepts link and update's both of the user's balances on the server
         await axios.put(`${config.apiUrl}/api/accept-link/${linkId}`, {}, {
             headers: {
                 'x-auth-token': token
             }
         });
-
-        // Update the balance in the context after successfully accepting/giving
-        // link creator is receiving from current user
-        // don't need to account for 'give' becuase ???
-        // TODO:
-        if (link.details.giveorreceive === 'receive') {
-            dispatch({ type: "UPDATE_BALANCE", payload: 
-            user.balance - link.details.amount });
+            // update context to call the latest user balance
+            // so that the ui matches the server data
+            updateBalance()
+    
+            let receiverUserId = link.creatorUserId;
+            let amount = link.details.amount;
+            let type = link.details.type;
+            let giveorreceive = link.details.giveorreceive;
+            let linkorpost = "link";
+            let relatedPostId = linkId;
+            let message = "interacted with your link"
+            let ebItemPhoto = link.details.photo;
+    
+            await NotificationSender({
+                socket,
+                receiverUserId,
+                amount,
+                linkorpost,
+                giveorreceive,
+                type, 
+                relatedPostId, 
+                message,
+                ebItemPhoto
+            });
+    
+            navigate('/');
+            
+        } catch (error) {
+            alert("An error occured when trying to use this link. Please try again later.");
         }
-
-        let receiverUserId = link.creatorUserId;
-        let amount = link.details.amount;
-        let type = link.details.type;
-        let giveorreceive = link.details.giveorreceive;
-        let linkorpost = "link";
-        let relatedPostId = linkId;
-        let message = "interacted with your link"
-        let ebItemPhoto = link.details.photo;
-
-        await NotificationSender({
-            socket,
-            receiverUserId,
-            amount,
-            linkorpost,
-            giveorreceive,
-            type, 
-            relatedPostId, 
-            message,
-            ebItemPhoto
-        });
-
-        navigate('/');
-    } catch (error) {
-        alert("An error occured when trying to use this link. Please try again later.");
-    }
-};
+}
 
 return (
     <div className="link-page-container">

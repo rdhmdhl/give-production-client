@@ -53,6 +53,10 @@ export default function TopBar({socket}) {
       const handleGetNotification = (data) => {
         const { senderUserId, receiverUserId, linkorpost, relatedPostId, amount, type, read, createdAt, ebItemPhoto, ebItemTitle, message } = data;
         
+        // updating the user's balance
+        // should only change when someone gives them currency from a link or post
+        updateBalance();
+        
         setUnreadNotifications((prev) => [
           {
             senderUserId,

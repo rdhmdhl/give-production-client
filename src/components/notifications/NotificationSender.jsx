@@ -23,7 +23,6 @@ const getOnlineUser = async (userId) => {
 
 async function NotificationSender({socket, senderUserId, receiverUserId, amount, giveorreceive, linkorpost, type, relatedPostId, message, ebItemPhoto, ebItemTitle, ebItemId }){
   const createdAt = new Date().toISOString();
-
   try {
     
     // Save notification to DB
@@ -64,7 +63,8 @@ async function NotificationSender({socket, senderUserId, receiverUserId, amount,
         read: false,
         createdAt,
       });
-    }
+    } 
+
   } catch (error) {
     alert("Failed to send notification. Please try again later.");
   }
