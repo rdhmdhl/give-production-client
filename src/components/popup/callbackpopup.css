@@ -1,0 +1,18 @@
+.popup-container {
+  position: fixed; /* Fixed position */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  z-index: 9999; /* Sit on top of everything else on the page */
+}
+
+.popup-content {
+  position: relative;
+  margin: 33% auto; /* Center vertically */
+  padding: 20px;
+  background-color: rgb(33, 33, 33);
+  width: 75%; /* Width */
+  text-align: center; /* Centered text */
+  border-radius: 10%;
+}

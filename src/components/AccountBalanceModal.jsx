@@ -6,14 +6,21 @@ import axios from 'axios';
 import './AccountBalanceModal.css';
 import { AuthContext } from '../context/AuthContext';
 import config from '../config';
+import Popup from './popup/Popup';
 
 function AccountBalanceModal({isModalOpen, closeModal, balance }) {
 
 const [addFundsClicked, setAddFundsClicked] = useState(false);
 const [withdrawalClicked, setWithdrawalClicked] = useState(false);
 const [value, setValue] = useState('');
-
+const [showPopup, setShowPopup] = useState(false);
+const [popupMessage, setPopupMessage] = useState('');
 const { user, dispatch } = useContext(AuthContext);
+
+const popupStatus = async (message) => {
+  setPopupMessage(message);
+  setShowPopup(true);
+}
 
 const editBalance = async () => {
   try {
@@ -38,7 +45,7 @@ const editBalance = async () => {
     
       }
       else {
-        alert("Please enter a valid amount");
+        await popupStatus("Please enter a valid amount.")
       }
   }
   // if withdrawal button is clicked
@@ -62,22 +69,23 @@ const editBalance = async () => {
       closeModal();
     }
     else {
-      alert("Please enter a valid amount");
+      await popupStatus("Please enter a valid amount.")
     }
 
   }
 
   } catch (error) {
-    alert("You cannot withdraw more than what is in your account."); 
+    await popupStatus("You cannot withdraw more than what is in your account.")
   }
 }
 
   return (
     <div className={`modal ${isModalOpen ? 'open' : ''}`} onClick={closeModal}>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="top-left-icons">
+            <FiSettings className='settings-icon' onClick={closeModal}/>
             <AiOutlineClose className='close-icon' onClick={closeModal}/>
-            <FiSettings className='' onClick={closeModal}/>
             </div>
             <h2>Account balance: ${balance.toFixed(2)}</h2>
             <div className="balance-buttons">

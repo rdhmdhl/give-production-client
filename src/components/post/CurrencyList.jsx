@@ -1,124 +1,199 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
-import { UpdateBalance } from '../../context/AuthActions';
+// TODO use update balace function to fetch new balace, instead of dispatching a payload
+// use an api call to update the balance on the server, then call updateBalance to fetch
+// import { UpdateBalance } from '../../context/AuthActions';
 import NotificationSender from '../notifications/NotificationSender';
 import config from '../../config';
+import Popup from '../popup/Popup';
 
 export default function CurrencyList({post, setAmount, currentUser, onClick, socket, onAmountClick, setChangeCurrencyColor, onGive = () => {} }) {
 
 const { user, balance, dispatch } = useContext(AuthContext);
+const [showPopup, setShowPopup] = useState(false);
+const [popupMessage, setPopupMessage] = useState('');
+const [buttonOneText, setButtonOneText] = useState('');
+const [buttonOneFunc, setButtonOneFunc] = useState(() => {});
+const [buttonTwoText, setButtonTwoText] = useState('');
+const [buttonTwoFunc, setButtonTwoFunc] = useState(() => {});
 
-    // updates the gives and amount gave on the front end and the backend
-    function currencyHandler(currency) {
-      if(post && post.userId !== currentUser._id) {
-        if(balance < currency) {
-          alert("Add money to your account balance.")
-          return;
-        }
-        try {
-          const token = localStorage.getItem('token');
-          alert(`Are you sure you want to give $${currency}?`);
-  
-          axios.post(`${config.apiUrl}/api/billing-settings-withdrawal`, {
-            balance: currency,
-            userId: user._id
-          }, {
-            headers: {
-              'x-auth-token': token
-            }
+const popupStatus = async (message, buttonOne, buttonOneFunc, buttonTwo, buttonTwoFunc) => {
+  setPopupMessage(message);
+  setButtonOneText(buttonOne);
+  setButtonOneFunc(() => buttonOneFunc); // Assuming buttonOneFunc is a function
+  setButtonTwoText(buttonTwo);
+  setButtonTwoFunc(() => buttonTwoFunc); // Assuming buttonTwoFunc is a function
+  setShowPopup(true);
+}
 
-          }).then(() => {
-              setAmount(prevsetAmount => prevsetAmount + currency);
+// Main function to handle currency transactions
+async function currencyHandler(currency, post, user, balance, dispatch, popupStatus, setAmount, currentUser, setChangeCurrencyColor, onGive) {
+  if (post && post.userId !== currentUser._id) {
+    if (balance < currency) {
+      await popupStatus("Add money to your account balance.", "Close");
+      return;
+    }
 
-              // Call handleNotification function
-              handleNotification(currency);
+    const token = localStorage.getItem('token');
+    const userConfirmed = await confirmTransaction(currency, popupStatus);
 
-              // use context state to update the balace used in the topbar
-              dispatch(UpdateBalance(prevBalance => prevBalance - currency)); // Decrease user's balance in context
+    // if user confirms transaction 
+    if (userConfirmed) {
+      const withdrawalResult = await performWithdrawal(currency, user, token);
 
-              
-              axios.post(`${config.apiUrl}/statuses/api/gives`, {
-                type: 'currency',
-                amount: currency,
-                postId: post._id,
-                
-              }).then(response => {
-                const giveId = response.data.give._id;
-                const giveUserId = currentUser._id;
-              
-                // Update the post with the reference to the Give document
-              axios.put(`${config.apiUrl}/statuses/api/statuses/` + post._id + "/give", {
-                type: 'currency',
-                giveUserId: giveUserId, 
-                giveId: giveId
-              })
-              .then(() => {
-                // Call the onGive function to increment the givesCounter after the post is updated
-                onGive();
-                // state used to change the color of the icon on the post immediately 
-                setChangeCurrencyColor(true);      
-              });
-            })
-          }).catch((err) => {
-            // Handle insufficient balance error
-            if (err.response && err.response.status === 400 && err.response.data.error === 'Insufficient balance for withdrawal') {
-              alert('You do not have enough balance to complete this transaction.');
-            } else {
-              alert("Something happened. Please try again later.");
-            }
-          })
-        } catch (error) {
-          alert("Failed to load notifications. Please try again later.");
+      // if withdrawal is sucessful
+      if (withdrawalResult.success) {
+        const updateResult = await updatePostAndBalance(currency, post, user, dispatch, setAmount, setChangeCurrencyColor, onGive);
+
+        // if withdrawal not successful
+        if (!updateResult.success) {
+          await popupStatus(updateResult.error, "Close");
+        } else {
+          // send notification if result is sucessful
+          handleNotification(currency);
         }
       } else {
-        alert('You cannot give to your own post!')
+        // withdrawal error popup
+        await popupStatus(withdrawalResult.error, "Close");
       }
+    }
+  } else {
+    await popupStatus('You cannot give to your own post!', 'Close');
   }
+}
+
+
+
+// Function to update the post and balance
+async function updatePostAndBalance(currency, post, user, dispatch) {
+  try {
+      // Update the post
+      const postResponse = await axios.post(`${config.apiUrl}/statuses/api/gives`, {
+        type: 'currency',
+        amount: currency,
+        postId: post._id,
+      });
+  
+      const giveId = postResponse.data.give._id;
+      const giveUserId = user._id;
+  
+      // Update the post with the reference to the Give document
+      await axios.put(`${config.apiUrl}/statuses/api/statuses/` + post._id + "/give", {
+        type: 'currency',
+        giveUserId: giveUserId, 
+        giveId: giveId
+      });
+  
+      // Update the balance
+      dispatch({ type: "UPDATE_BALANCE", payload: balance - currency });
+  
+      // Update the amount state
+      setAmount(prevAmount => prevAmount + currency);
+  
+      // Change the color
+      setChangeCurrencyColor(true);
+  
+      // Call the onGive function
+      onGive();
   
 
-      const handleNotification = async (currency) => {
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: 'Failed to update post and balance' };
+  }
+}
 
-        let receiverUserId = post.userId;
-        let senderUserId = user._id;
-        let amount = currency;
-        let linkorpost = "post";
-        let giveorreceive = "give";
-        let type = "currency";
-        let relatedPostId = post._id
-        let message = "gave to your post"
 
-        await NotificationSender({
-          socket,
-          receiverUserId,
-          senderUserId,
-          amount,
-          linkorpost,
-          giveorreceive,
-          type, 
-          relatedPostId,
-          message
-        });
+// Function to show a confirmation popup
+async function confirmTransaction(currency, popupStatus) {
+  return new Promise((resolve) => {
+    popupStatus(
+      `Are you sure you want to give $${currency}?`,
+      "Yes",
+      () => {
+        resolve(true);
+        setShowPopup(false); // Close the popup
+      },
+      "No",
+      () => {
+        resolve(false);
+        setShowPopup(false); // Close the popup
       }
+    );
+  });
+}
 
-      function combinedClickHandler(currency) {
-        // Call giveHandler function
-        if (post) {
-          currencyHandler(currency);
-        }
+// Function to perform the withdrawal
+async function performWithdrawal(currency, user, token) {
+  try {
+    const response = await axios.post(`${config.apiUrl}/api/billing-settings-withdrawal`, {
+      balance: currency,
+      userId: user._id
+    }, {
+      headers: {
+        'x-auth-token': token
       }
-  
-    // called when user clicks on item, creates modal with the product info
-    // or highlights an item for the share component
-    const handleCurrencyClick = (currency) => {
-      if (onAmountClick) {
-        onAmountClick(currency);
-      }
-  };
+    });
+    return { success: true, data: response.data };
+  } catch (error) {
+    return { success: false, error: error.response ? error.response.data : 'Network error' };
+  }
+}
+
+  const handleNotification = async (currency) => {
+
+    let receiverUserId = post.userId;
+    let senderUserId = user._id;
+    let amount = currency;
+    let linkorpost = "post";
+    let giveorreceive = "give";
+    let type = "currency";
+    let relatedPostId = post._id
+    let message = "gave to your post"
+
+    await NotificationSender({
+      socket,
+      receiverUserId,
+      senderUserId,
+      amount,
+      linkorpost,
+      giveorreceive,
+      type, 
+      relatedPostId,
+      message
+    });
+  }
+
+  function combinedClickHandler(currency) {
+    // Call giveHandler function
+    if (post) {
+      currencyHandler(currency, post, user, balance, dispatch, popupStatus, setAmount, currentUser, setChangeCurrencyColor, onGive);
+
+    }
+  }
+
+// called when user clicks on item, creates modal with the product info
+// or highlights an item for the share component
+const handleCurrencyClick = (currency) => {
+  if (onAmountClick) {
+    onAmountClick(currency);
+  }
+};
 
   return (
     <div className='amounts' onClick={onClick}>
+      {showPopup && (
+        <Popup 
+          isPopupOpen={showPopup} 
+          message={popupMessage} 
+          button1Text={buttonOneText} 
+          button1Action={buttonOneFunc} 
+          button2Text={buttonTwoText} 
+          button2Action={buttonTwoFunc}       
+        />
+      )}
         <span className="giveMoney" 
             onClick={function oneDollar(){
             let currency=1; combinedClickHandler(currency); handleCurrencyClick(currency)

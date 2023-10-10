@@ -5,6 +5,7 @@ import {getUser} from '../apiCalls';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import config from '../config';
+import CallbackPopup from '../components/popup/CallbackPopup';
 
 const INITIAL_STATE = {
     user: null,
@@ -19,11 +20,18 @@ export const AuthContext = createContext(INITIAL_STATE);
 
 export const AuthContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('Log in or Register to Gain Full Access to all Features.');
+
+    const showErrorPopup = (message) => {
+      setPopupMessage(message);
+      setShowPopup(true);
+    };
 
     useEffect(() => {
       // When the user is fetched, set isLoading to false
       const fetchUser = async () => {
-        await getUser(dispatch);
+        await getUser(dispatch, showErrorPopup);
         dispatch({ type: 'SET_LOADING', payload: false });  // Add this line
       };
       fetchUser();
@@ -52,7 +60,6 @@ export const AuthContextProvider = ({children}) => {
           }
 
           setNewBalance(newBalance);
-          console.log("new balance: ", newBalance);
 
     } catch (error) {
       alert("Error fetching user balance.");
@@ -70,8 +77,9 @@ return (
       error:state.error,
       isLoading: state.isLoading,
       dispatch,
-      }}
-      >
+    }}
+  >
+    {showPopup && <CallbackPopup message={popupMessage} onClose={() => setShowPopup(false)} />}
     {children}
   </AuthContext.Provider>
 );

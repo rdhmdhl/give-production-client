@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from './config'
+import config from './config';
 
 export const loginCall = async (userCredentials, dispatch) => {
     dispatch({type: "LOGIN_START"});
@@ -20,9 +20,10 @@ export const loginCall = async (userCredentials, dispatch) => {
       }
 };
 
-export const getUser = async (dispatch) => {
+export const getUser = async (dispatch, CallbackPopup) => {
     const token = localStorage.getItem("token");
     if (!token) {
+      CallbackPopup('Log in or register to gain full access to all features');
       return;
     }
     try {
@@ -33,7 +34,8 @@ export const getUser = async (dispatch) => {
       });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
     } catch (error) {
-      alert('Log in or register to gain access to all features')
+      CallbackPopup('Log in or register to gain full access to all features');
+      // alert('Log in or register to gain access to all features')
     }
   };
 

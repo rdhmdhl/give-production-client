@@ -120,7 +120,7 @@
     display: flex;
     justify-content: space-between;
     height: 1rem;
-    margin: 1rem 1rem .5rem -.3rem;
+    margin: 1rem 1rem .5rem 0;
     color: var(--white);
     font-weight: 200;
 }
@@ -169,6 +169,7 @@ animation: pop 0.25s ease;
 .gifts-container {
     display: flex;
     align-items: center;
+    margin-right: 1rem;
 }
 
 .gifts-icon {

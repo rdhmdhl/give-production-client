@@ -32,13 +32,17 @@
 
   .top-left-icons{
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     margin: 0 1rem 1rem 0;
   }
 
   .close-icon{
-    padding: 0 1rem 0 0;
-  }fr
+    margin: 0 1rem;
+  }
+
+  .settings-icon{
+    margin: 0 1rem;
+  }
 
   .balance-buttons{
     display: flex;
