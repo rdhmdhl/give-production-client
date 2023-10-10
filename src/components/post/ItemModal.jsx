@@ -248,7 +248,7 @@ async function performWithdrawal(totalPrice, currentUser, token) {
           button2Action={buttonTwoFunc}       
         />
       )}
-      <div className="modal-content">
+      <div className="item-modal-content">
 
 
         <AiOutlineClose className = 'closebutton' onClick={() => setShowModal(false)}>Close</AiOutlineClose>
