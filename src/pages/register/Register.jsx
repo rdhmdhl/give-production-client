@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import './Register.css'
 import {useNavigate} from 'react-router-dom';
 import React from 'react';
 import config from '../../config';
+import Popup from '../../components/popup/Popup';
 
 export default function Register() {
 
@@ -12,6 +13,13 @@ export default function Register() {
   const password = useRef();
   const passwordAgain = useRef();
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+
+  const popupStatus = async (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  }
 
 
   const handleClick = async (e) => {
@@ -28,18 +36,19 @@ export default function Register() {
         await axios.post(`${config.apiUrl}/api/auth/register`, user);
         navigate('/login')
       } catch (err) {
-        alert("An error occured when trying to register. Please try again later.");
+        await popupStatus('An error occured when trying to register. Please try again later.', "Close")
       }
     }
   };
 
   return (
     <div className="login">
-          <img
-          className='loginImg'
-          src={'/assets/login-background.webp'}
-          alt='login-background'
-          />
+        <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
+        <img
+        className='loginImg'
+        src={'/assets/login-background.webp'}
+        alt='login-background'
+        />
         <div className="registerWrapper">
                 <form className="registerBox" onSubmit={handleClick}>
                     <input placeholder='Username' required ref={username} className="registerInput" />

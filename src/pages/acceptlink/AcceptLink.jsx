@@ -7,6 +7,7 @@ import './AcceptLink.css';
 import axios from 'axios';
 import config from '../../config';
 import PropTypes from 'prop-types';
+import Popup from '../../components/popup/Popup';
 
 export default function AcceptLink({ socket }) {
 const { linkId } = useParams();
@@ -17,6 +18,13 @@ const {user: currentUser, updateBalance} = useContext(AuthContext);
 const [isUserLink, setisUserLink] = useState(false);
 const [isLoading, setIsLoading] = useState(true);
 const [hasUserResponded, setHasUserResponded] = useState(false);
+const [showPopup, setShowPopup] = useState(false);
+const [popupMessage, setPopupMessage] = useState('');
+
+const popupStatus = async (message) => {
+  setPopupMessage(message);
+  setShowPopup(true);
+}
 
 useEffect(() => {
     const fetchLink = async () => {
@@ -31,7 +39,7 @@ useEffect(() => {
             setlinkUserData(user.data);
 
         } catch (error) {
-            alert("An error occured when fetching the link. Please try again later.");
+            await popupStatus("An error occurred when searching for an item. Please try again later.")
         } finally {
             setIsLoading(false);
         }
@@ -51,7 +59,7 @@ useEffect(() => {
             if (error.response && error.response.status === 400) {
                 setHasUserResponded(true);  // User has already responded
             } else {
-                alert("An error occurred. Please try again later.");
+                await popupStatus("An error occurred. Please try again later.")
             }
         }
     }
@@ -101,12 +109,13 @@ const acceptorgive = async () => {
             navigate('/');
             
         } catch (error) {
-            alert("An error occured when trying to use this link. Please try again later.");
+            await popupStatus("An error occured when trying to use this link. Please try again later.", "Close")
         }
 }
 
 return (
     <div className="link-page-container">
+        <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
       <div className="top">
         <Link className='back-icon' to='/'>
           <IoArrowBackOutline />

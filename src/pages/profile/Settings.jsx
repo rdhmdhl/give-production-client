@@ -9,12 +9,20 @@ import { TbCameraPlus } from 'react-icons/tb';
 import Resizer from "react-image-file-resizer";
 import axios from 'axios';
 import config from '../../config';
+import Popup from '../../components/popup/Popup';
 
 export default function Settings() {
   const [file, setFile] = useState(null);
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
   const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+
+  const popupStatus = async (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  }
 
   // Handle the form submission
   const handleSubmit = async (event) => {
@@ -68,7 +76,7 @@ export default function Settings() {
         profilePicture = s3Upload.data.url;
         
       } catch (error) {
-        alert('Failed to upload image, try a smaller file.');
+        await popupStatus('Failed to upload image, try a smaller file.', "Close")
       }
     }
 
@@ -87,7 +95,7 @@ export default function Settings() {
         coverPicture = s3CoverUpload.data.url;
 
       } catch (error) {
-        alert('Failed to upload image, try again later.');
+        await popupStatus('Failed to upload image, try a smaller file.', "Close")
       }
 
     }
@@ -120,7 +128,7 @@ export default function Settings() {
       })
       .catch(() => {
         // Handle any errors
-        alert('An error occured when trying to update the user info.');
+        popupStatus('Failed to upload image, try a smaller file.', "Close")
       });
   };
 
@@ -148,8 +156,8 @@ export default function Settings() {
 
     {/* <Topbar/> */}
       <div className='settingsWrapper'>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
         <h1 className='heading'>Edit Profile</h1>
-        
         <div className="profile-images">
           {/* COVER PHOTO */}
           <label htmlFor='coverFile' className="shareOption">

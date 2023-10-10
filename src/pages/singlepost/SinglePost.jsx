@@ -7,14 +7,22 @@ import GiftSection from '../../components/post/GiftSection';
 import './SinglePost.css';
 import { IoArrowBackOutline } from "react-icons/io5";
 import config from '../../config';
+import Popup from '../../components/popup/Popup';
 
 export default function SinglePost({socket}) {
     const { postId } = useParams();
     const [post, setPost] = useState({});
     const [givesCounter, setGivesCounter] = useState(0);
     const [isLoading, setIsLoading] = useState(true); 
-
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState(''); 
   
+    // function to show popup used in the catch blocks
+    const popupStatus = async (message) => {
+      setPopupMessage(message);
+      setShowPopup(true);
+    }
+
     useEffect(() => {
         const fetchPost = async () => {
             setIsLoading(true);
@@ -22,7 +30,7 @@ export default function SinglePost({socket}) {
                 const res = await axios.get(`${config.apiUrl}/statuses/${postId}`);
                 setPost(res.data);
             } catch (error) {
-                alert('An errror occured when trying to load this post. Please try again later.');
+                popupStatus('An errror occured when trying to load this post. Please try again later.', "Close")
             }
             setIsLoading(false);
         }
@@ -35,6 +43,7 @@ export default function SinglePost({socket}) {
 
   return (
     <div className='singlePost'>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
         <div className="top">
             <Link className='back-icon' to='/'>
             <IoArrowBackOutline />

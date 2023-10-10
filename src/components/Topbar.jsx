@@ -8,6 +8,7 @@ import AccountBalanceModal  from "./AccountBalanceModal";
 import propTypes from 'prop-types';
 import axios from 'axios';
 import config from '../config'
+import Popup from './popup/Popup';
 
 export default function TopBar({socket}) {
   const {user, balance, updateBalance } = useContext(AuthContext)
@@ -19,6 +20,14 @@ export default function TopBar({socket}) {
   // State to track which notifications to display
   const [displayingReadNotifications, setDisplayingReadNotifications] = useState(false);
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(''); 
+
+  // function to show popup used in the catch blocks
+  const popupStatus = async (message) => {
+  setPopupMessage(message);
+  setShowPopup(true);
+}
 
   // hook to run getBalance function when component mounts
   useEffect(() => { 
@@ -98,7 +107,7 @@ export default function TopBar({socket}) {
         }
         })
         .catch(() => {
-          alert("Failed to load notifications. Please try again later.");
+          popupStatus("Could not load notifications at this time. Please try again later.", "Close")
         });
     }
   }, [user]);
@@ -145,7 +154,7 @@ useEffect(() => {
       setUnreadNotifications(unread);
       setReadNotifications(read);
     } catch (error) {
-      alert('An error occurred when trying to mark notifications read. Please try again later.')
+      await popupStatus("An error occurred when trying to mark notifications read. Please try again later.", "Close")
     }
   };
 
@@ -162,6 +171,7 @@ const getDestinationURL = (notification) => {
 
   return (
     <div className='topbarContainer'>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
         <div className="topbarLeft">
           <Link to='/' style={{textDecoration: 'none'}}>
           <span className="logo">G_VE</span>

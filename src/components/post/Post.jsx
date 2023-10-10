@@ -15,6 +15,7 @@ import Gift from './Gift';
 import SharePostModal from '../post/sharepost/SharePostModal';
 import CurrencyList from './CurrencyList';
 import config from '../../config';
+import Popup from '../popup/Popup';
 
 export default function Post({post, onGive, socket}) {
   
@@ -24,23 +25,24 @@ export default function Post({post, onGive, socket}) {
   const [userGaveCurrency, setUserGaveCurrency] = useState(false);
   const [user, setUser] = useState({});
   const {user: currentUser} = useContext(AuthContext);
-
-  // lower opacity for posts with disabled allowGifts setting
-  // const disabledStyle = { opacity: 0.35 };
-  // // highlight colors if a post is gave to by current user
-  // const highlightGreen = { color: 'rgb(5, 255, 47)' };
-  // const highlightPurple = { color: 'rgb(155, 5, 255)' };
-
   // share post logic
   const [isModalOpen, setIsModalOpen] = useState(false);
   const postUrl = `/${post._id}`;
 
-  // used for redirecting to single post
-  const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
 
-  const navigateToSinglePost = () => {
-    navigate(`/${post._id}`);
-  };
+  const popupStatus = async (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  }
+
+// used for redirecting to single post
+const navigate = useNavigate();
+
+const navigateToSinglePost = () => {
+  navigate(`/${post._id}`);
+};
 
 // get user
   useEffect(() => {
@@ -72,7 +74,7 @@ export default function Post({post, onGive, socket}) {
         setUserGaveCurrency(res.data.userGaveCurrency);
         setUserGaveItem(res.data.userGaveItem);
       } catch (error) {
-        alert('An error occurred when trying to fetch post data. Please try again later.')
+        await popupStatus("An error occurred when trying to fetch post data. Please try again later.", 'Close')
       }
     }
     fetchAmount();  
@@ -115,6 +117,7 @@ export default function Post({post, onGive, socket}) {
     
     
     <div className='post linktosinglepost' onClick={navigateToSinglePost}>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
         <div className="postWrapper">
             <Link 
             to={`/profile/${user.username}`}

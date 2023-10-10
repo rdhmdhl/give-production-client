@@ -6,6 +6,7 @@ import './SharePostModal.css';
 import useLinkGenerator from "../../../pages/sharepost/LinkGenerator";
 import { AuthContext } from "../../../context/AuthContext";
 import config from '../../../config';
+import Popup from '../../popup/Popup';
 
 const SharePostModal = ({ isOpen, closeModal, details }) => {
   const [caution, setCaution] = useState(null);
@@ -14,6 +15,15 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
   // const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const generateLink = useLinkGenerator(); 
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(''); 
+
+  // function to show popup used in the catch blocks
+  const popupStatus = async (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  }
+
 
   // allow user to generate a new link if they change the details
 // allow user to generate a new link if they change the details
@@ -24,7 +34,7 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
         setLinkGenerated(true);
         setGeneratedLink(`${config.publicUrl}/link/` + link);
       } catch (error) {
-        alert("An error occurred when generating the link. Please try again later.");
+        popupStatus('An error occurred when generating the link. Please try again later.', "Close")
       }
     }
     if (isOpen && !linkGenerated){
@@ -69,6 +79,7 @@ const SharePostModal = ({ isOpen, closeModal, details }) => {
 
   return (
     <div className={`modal ${isOpen ? 'open' : ''}`} onClick={closeModal}>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Share Post</h2>
 

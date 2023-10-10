@@ -4,10 +4,18 @@ import './SearchBar.css';
 import PropTypes from 'prop-types';
 import {ImSearch} from 'react-icons/im'
 import config from '../../config';
+import Popup from '../popup/Popup';
 
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+
+  const popupStatus = async (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  }
 
   const handleQueryChange = (event) => {
     setQuery(event.target.value);
@@ -24,13 +32,14 @@ export default function SearchBar({ onSearch }) {
       const items = response.data;
       onSearch(items);
     } catch (error) {
-      alert('An error occurred when trying to search for an item. Please try again later.')
+      await popupStatus("An error occurred when searching for an item. Please try again later.", "Close")
     }
   };
   
 
   return (
     <form className='searchbar-container' onSubmit={handleSubmit}>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
       <input type="text"  
       value={query} 
       onChange={handleQueryChange} 

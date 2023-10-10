@@ -16,6 +16,7 @@ import SelectedCurrencyDetails from './SelectedCurrencyDetails';
 import SharePostModal from '../../components/post/sharepost/SharePostModal';
 import Resizer from "react-image-file-resizer";
 import config from "../../config";
+import Popup from '../../components/popup/Popup';
 
 export default function Share() {
 const {user} = useContext(AuthContext)
@@ -39,6 +40,14 @@ const [details, setDetails] = useState(null);
 
 // used in the slider for allowing gifts
 const [allowGifts, setAllowGifts] = useState(true);
+const [showPopup, setShowPopup] = useState(false);
+const [popupMessage, setPopupMessage] = useState(''); 
+
+// function to show popup used in the catch blocks
+const popupStatus = async (message) => {
+setPopupMessage(message);
+setShowPopup(true);
+}
 
 // used in the settings form
 const handleSubmit = (e) => {
@@ -48,7 +57,7 @@ const handleSubmit = (e) => {
     if (givesState && transactionType && selectionType && (selectedItem || selectedAmount)) {
       // Check if the user has selected a quantity if the transaction type is "Give" and selection type is "Currency"
       if (transactionType === 'Give' && selectionType === 'Currency' && quantity === "") {
-        alert('Please enter how many times this link can be used');
+        popupStatus('Please enter how many times this link can be used', "Close")
         return;
       }
   
@@ -57,8 +66,8 @@ const handleSubmit = (e) => {
       setDetails(newDetails);
       setIsModalOpen(true);
     } else {
-      alert('Please select a gift type, gift, and to give or receive.');
-      setIsModalOpen(false);
+        popupStatus('Please select a gift type, gift, and to give or receive.', "Close")
+        setIsModalOpen(false);
     }
   };
 
@@ -80,7 +89,7 @@ const submitHandler = async (e) => {
             const response = await axios.post(`${config.apiUrl}/api/upload`, data);
             newPost.img = response.data.url;
         } catch (err) {
-            alert("An error occurred when trying to upload a file. Please try again later.");
+            popupStatus('An error occurred when trying to upload a file. Please try again later.', "Close")
         }
     }
 
@@ -89,7 +98,7 @@ const submitHandler = async (e) => {
         // navigate back to the previous page
         navigate(-1);
     } catch (err) {
-        alert("An error occured when trying to upload this post. Please try again later.");
+        popupStatus('An error occured when trying to upload this post. Please try again later.', "Close")
     }
 };
 
@@ -261,6 +270,7 @@ const clearSelectedCurrency = () => {
 return (
 
     <div className='share'>
+        <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
         <div className="back-button-container">
             <Link to="/">
                 <IoArrowBackOutline className='backButton' />
