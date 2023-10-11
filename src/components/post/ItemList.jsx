@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ItemModal from './ItemModal';
+import ReactDOM from 'react-dom';
 import './ItemList.css';
 
 export default function ItemList({ items, post, setItemGives, onGive, setChangeItemIconColor, socket, onItemClick }) {
@@ -33,6 +34,20 @@ export default function ItemList({ items, post, setItemGives, onGive, setChangeI
 
     return (
     <div className="item-list-container">
+    {selectedItem && ReactDOM.createPortal(
+      <ItemModal
+        className="item-modal-in-list"
+        item={selectedItem}
+        showModal={!!selectedItem}
+        setShowModal={closeModal}
+        post={post}
+        setItemGives={setItemGives}
+        setChangeItemIconColor={setChangeItemIconColor}
+        socket={socket}
+        onGive={onGive}
+      />,
+      document.body // renders directly within <body>
+    )}
         <div className="item-list">
             {uniqueItems.map((item, index) => (
             <span className="item" key={`${item.itemId}-${index}`} onClick={() => handleItemClick(item)}>
@@ -49,19 +64,6 @@ export default function ItemList({ items, post, setItemGives, onGive, setChangeI
             </span>
             ))}
         </div>
-        {selectedItem && (
-        <ItemModal
-        className="item-modal-in-list"
-          item={selectedItem}
-          showModal={!!selectedItem}
-          setShowModal={closeModal}
-          post={post}
-          setItemGives={setItemGives}
-          setChangeItemIconColor={setChangeItemIconColor}
-          socket={socket}
-          onGive={onGive}
-        />
-        )}
     </div>
     );
 }
