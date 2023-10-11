@@ -47,7 +47,11 @@ export default function SearchBar({ onSearch }) {
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       />
-        <ImSearch className={`search-icon ${isFocused ? 'focused' : ''}`} type="submit"/>
+      <ImSearch 
+        className={`search-icon ${isFocused ? 'focused' : ''}`} 
+        type="submit"
+        onClick={handleSubmit}
+      />
     </form>
   );
 }
