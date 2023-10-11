@@ -5,6 +5,7 @@ body{
 
 .topbarContainer {
     height: 50px;
+    height: 4rem;
     width: 100%;
     background-color: rgba(155,5,255);
     display: flex;
@@ -38,6 +39,7 @@ body{
 
 .account-balance{
     margin: 1rem;
+    font-size: 1.25rem;
 }
 
 .topbarIcons {
@@ -58,16 +60,20 @@ body{
     color: white;
     position: absolute;
     top: -5px;
-    right: -5px;
+    right: -10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    scale: 1.1;
+}
+
+.notification-icon{
+    scale: 1.5;
 }
 
 .topbarImg {
-    width: 32px;
-    height: 32px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;

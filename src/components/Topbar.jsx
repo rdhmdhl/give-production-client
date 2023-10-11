@@ -189,7 +189,7 @@ const getDestinationURL = (notification) => {
 
           <div className="topbarIcons">
             <div className="topbariconItem" onClick={handleDropdownClick} ref={iconRef}>
-              <CircleNotificationsIcon />
+              <CircleNotificationsIcon className="notification-icon"/>
               <span className="topbarIconBadge">{unreadNotifications.length}</span>
           </div>
 
