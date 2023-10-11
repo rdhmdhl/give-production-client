@@ -1,6 +1,6 @@
 .item-list-container {
   display: flex;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   width: 100%;
   align-self: center;
   align-items: center;
@@ -14,6 +14,11 @@
     white-space: nowrap;
     margin-bottom: 1rem; 
   }
+
+.item-modal-in-list {
+  z-index: 10000;
+  position: fixed;
+}
   
   .item {
     display: flex;

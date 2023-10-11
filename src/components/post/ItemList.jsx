@@ -51,6 +51,7 @@ export default function ItemList({ items, post, setItemGives, onGive, setChangeI
         </div>
         {selectedItem && (
         <ItemModal
+        className="item-modal-in-list"
           item={selectedItem}
           showModal={!!selectedItem}
           setShowModal={closeModal}
