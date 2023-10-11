@@ -1,6 +1,6 @@
 .item-list-container {
   display: flex;
-  overflow-x: auto;
+  overflow-x: scroll;
   width: 100%;
   align-self: center;
   align-items: center;

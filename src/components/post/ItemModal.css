@@ -9,6 +9,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    overflow: visible;
   }
   
   .item-modal-content {
