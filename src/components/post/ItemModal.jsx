@@ -9,7 +9,7 @@ import NotificationSender from '../notifications/NotificationSender';
 import axios from 'axios';
 import config from '../../config';
 
-export default function ItemModal({ item, showModal, setShowModal, setChangeItemIconColor, post, setItemGives, onGive, socket }) {
+export default function ItemModal({ item, showModal, setShowModal, setChangeItemIconColor, post, setItemGives, onGive, socket, setseenGifts }) {
 
 const [currentImage, setCurrentImage] = useState(item.image.imageUrl);
 const {user: currentUser, balance, dispatch} = useContext(AuthContext);
@@ -58,7 +58,7 @@ const handleImageClick = (image) => {
     // token from local storage
     const token = localStorage.getItem('token');
     // popup to ask user if they want to give item
-    const userConfirmed = await confirmGive(itemPrice);
+    const userConfirmed = await confirmGive(itemPrice, setseenGifts);
 
     // if user confirms transaction 
     if (userConfirmed) {
@@ -157,7 +157,7 @@ async function performWithdrawal(totalPrice, currentUser, token) {
 }
 
   // confim the user wants to give this item
-  async function confirmGive(itemPrice) {
+  async function confirmGive(itemPrice, setseenGifts) {
     setShowPopup(true);
     return new Promise((resolve) => {
       popupStatus(
@@ -166,6 +166,7 @@ async function performWithdrawal(totalPrice, currentUser, token) {
         () => {
           resolve(true);
           setShowPopup(false); // Close the popup
+          setseenGifts(false); // Close the Item Modal and Gift component
         },
         "No",
         () => {
@@ -305,5 +306,6 @@ ItemModal.propTypes = {
     setItemGives: PropTypes.func.isRequired,
     setChangeItemIconColor: PropTypes.func,
     onGive: PropTypes.func,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    setseenGifts: PropTypes.func
   };

@@ -4,7 +4,7 @@ import ItemModal from './ItemModal';
 import ReactDOM from 'react-dom';
 import './ItemList.css';
 
-export default function ItemList({ items, post, setItemGives, onGive, setChangeItemIconColor, socket, onItemClick }) {
+export default function ItemList({ items, post, setItemGives, onGive, setChangeItemIconColor, socket, onItemClick, setseenGifts }) {
     const [selectedItem, setSelectedItem] = useState(null);
 
     const uniqueItems = [];
@@ -45,6 +45,7 @@ export default function ItemList({ items, post, setItemGives, onGive, setChangeI
         setChangeItemIconColor={setChangeItemIconColor}
         socket={socket}
         onGive={onGive}
+        setseenGifts={setseenGifts}
       />,
       document.body // renders directly within <body>
     )}
@@ -75,5 +76,6 @@ setItemGives: PropTypes.func,
 onGive: PropTypes.func,
 setChangeItemIconColor: PropTypes.func,
 socket: PropTypes.object,
-onItemClick: PropTypes.func
+onItemClick: PropTypes.func,
+setseenGifts: PropTypes.func
 };

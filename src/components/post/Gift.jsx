@@ -4,7 +4,7 @@ import ItemList from './ItemList';
 import PropTypes from 'prop-types';
 import './Gift.css';
 
-function Gift({post, setItemGives, onClick, onGive, setChangeItemIconColor, socket, onItemClick}) {
+function Gift({post, setItemGives, onClick, onGive, setChangeItemIconColor, socket, setseenGifts, onItemClick}) {
   const [items, setItems] = useState([]);
   const [searched, setSearched] = useState(false);
 
@@ -25,6 +25,7 @@ function Gift({post, setItemGives, onClick, onGive, setChangeItemIconColor, sock
       socket={socket}
       onItemClick={onItemClick}
       setChangeItemIconColor={setChangeItemIconColor}
+      setseenGifts={setseenGifts}
       />}
       </div>
   );
@@ -39,7 +40,8 @@ Gift.propTypes = {
   onGive: PropTypes.func,
   socket: PropTypes.object,
   setChangeItemIconColor: PropTypes.func,
-  onItemClick: PropTypes.func
+  onItemClick: PropTypes.func,
+  setseenGifts: PropTypes.func
 };
 
 // needed for the createlink component that does not need these props

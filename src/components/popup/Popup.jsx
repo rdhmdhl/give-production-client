@@ -9,8 +9,10 @@ const Popup = ({ isPopupOpen, message, button1Text, button1Action, button2Text, 
     <div className="popup">
       <div className="popup-content">
         <p>{message}</p>
+
         <button onClick={(e) => { e.stopPropagation(); button1Action(); }}>{button1Text}</button>
-        {button2Text && <button onClick={button2Action}>{button2Text}</button>}
+
+        {button2Text && <button onClick={(e) => { e.stopPropagation(); button2Action(); }}>{button2Text}</button>}
       </div>
     </div>
   );

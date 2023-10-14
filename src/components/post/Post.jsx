@@ -33,9 +33,17 @@ export default function Post({post, onGive, socket}) {
 
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
+  const [buttonOneText, setButtonOneText] = useState('');
+  const [buttonOneFunc, setButtonOneFunc] = useState(() => {});
+  const [buttonTwoText, setButtonTwoText] = useState('');
+  const [buttonTwoFunc, setButtonTwoFunc] = useState(() => {});
 
-  const popupStatus = async (message) => {
+  const popupStatus = async (message, buttonOne, buttonOneFunc, buttonTwo, buttonTwoFunc) => {
     setPopupMessage(message);
+    setButtonOneText(buttonOne);
+    setButtonOneFunc(() => buttonOneFunc); // Assuming buttonOneFunc is a function
+    setButtonTwoText(buttonTwo);
+    setButtonTwoFunc(() => buttonTwoFunc); // Assuming buttonTwoFunc is a function
     setShowPopup(true);
   }
 
@@ -130,19 +138,30 @@ const navigateToSinglePost = () => {
     try {
       event.stopPropagation();
       // if current user id matches the post user id
-      if ( currentUser._id === post.userId ) {
-        const token = localStorage.getItem("token");
-        // delete post
-        await axios.delete(`${config.apiUrl}/statuses/${post._id}`, {
-          headers: {
-            'x-auth-token': token
-          }
-        })
-      setIsDeleted(true);
+      if (currentUser._id === post.userId) {
+  
+        const userConfirmed = await new Promise((resolve) => {
+          popupStatus(
+            "Are you sure you want to delete this post?",
+            "Yes", 
+            () => { resolve(true); setShowPopup(false); setIsDeleted(true); setShowPostOptions(false)},
+            "No",
+            () => { resolve(false); setShowPopup(false); setIsDeleted(false); setShowPostOptions(false)}
+          );
+        });
+  
+        if (userConfirmed) {
+          const token = localStorage.getItem("token");
+          // delete post
+          await axios.delete(`${config.apiUrl}/statuses/${post._id}`, {
+            headers: {
+              'x-auth-token': token
+            }
+          });
+        }
       }
-
     } catch (error) {
-      await popupStatus("Failed to delete post. Try again later.",'Close')
+      await popupStatus("Failed to delete post. Try again later.", 'Close');
     }
   }
 
@@ -150,7 +169,16 @@ const navigateToSinglePost = () => {
     !isDeleted && (
 
       <div className='post linktosinglepost' onClick={navigateToSinglePost}>
-        <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
+        {showPopup && (
+        <Popup 
+          isPopupOpen={showPopup} 
+          message={popupMessage} 
+          button1Text={buttonOneText} 
+          button1Action={buttonOneFunc} 
+          button2Text={buttonTwoText} 
+          button2Action={buttonTwoFunc}       
+        />
+        )}
           <div className="postWrapper">
               <Link 
               to={`/profile/${user.username}`}
@@ -195,9 +223,10 @@ const navigateToSinglePost = () => {
                     onClick={(event) => event.stopPropagation()}
                     onGive={onGive}
                     setChangeCurrencyColor={setChangeCurrencyColor}
+                    setSeenMoney={setSeenMoney}
                   />}
 
-                  {currentUser && currentUser._id !== post.userId && post.allowGifts ? (
+                  {currentUser && currentUser._id !== post.userId && seenGifts && post.allowGifts ? (
                   <div className='browseGifts' style={{display: seenGifts ? 'flex' : 'none'}}>
                     <Gift 
                     socket={socket}
@@ -206,6 +235,7 @@ const navigateToSinglePost = () => {
                     onClick={(event) => event.stopPropagation()}
                     onGive={onGive}
                     setChangeItemIconColor={setChangeItemIconColor}
+                    setseenGifts={setseenGifts}
                     />
                   </div>
                   ) : null}

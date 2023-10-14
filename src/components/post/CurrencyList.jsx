@@ -9,7 +9,7 @@ import NotificationSender from '../notifications/NotificationSender';
 import config from '../../config';
 import Popup from '../popup/Popup';
 
-export default function CurrencyList({post, setAmount, currentUser, onClick, socket, onAmountClick, setChangeCurrencyColor, onGive = () => {} }) {
+export default function CurrencyList({post, setAmount, currentUser, onClick, socket, onAmountClick, setChangeCurrencyColor, setSeenMoney, onGive = () => {} }) {
 
 const { user, balance, dispatch } = useContext(AuthContext);
 const [showPopup, setShowPopup] = useState(false);
@@ -37,7 +37,7 @@ async function currencyHandler(currency, post, user, balance, dispatch, popupSta
     }
 
     const token = localStorage.getItem('token');
-    const userConfirmed = await confirmTransaction(currency, popupStatus);
+    const userConfirmed = await confirmTransaction(currency, popupStatus, setSeenMoney);
 
     // if user confirms transaction 
     if (userConfirmed) {
@@ -107,7 +107,7 @@ async function updatePostAndBalance(currency, post, user, dispatch) {
 
 
 // Function to show a confirmation popup
-async function confirmTransaction(currency, popupStatus) {
+async function confirmTransaction(currency, popupStatus, setSeenMoney) {
   return new Promise((resolve) => {
     popupStatus(
       `Are you sure you want to give $${currency}?`,
@@ -115,6 +115,7 @@ async function confirmTransaction(currency, popupStatus) {
       () => {
         resolve(true);
         setShowPopup(false); // Close the popup
+        setSeenMoney(false); // Close the currencyList
       },
       "No",
       () => {
@@ -227,5 +228,6 @@ CurrencyList.propTypes = {
     onGive: PropTypes.func,
     socket: PropTypes.object,
     setChangeCurrencyColor: PropTypes.func,
+    setSeenMoney: PropTypes.func,
     onAmountClick: PropTypes.func
 };
