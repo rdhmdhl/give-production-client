@@ -50,6 +50,36 @@
     color: var(--gray);
 }
 
+@keyframes postOptionsTransition {
+    0% {scale: 0;}
+    90% {scale: 1.05;}
+    100% {scale: 1;}
+}
+
+.post-options{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    right: 9.5%;
+    border-radius: 10px;
+    background-color:rgba(50, 50, 50, 0.95);
+    animation-name: postOptionsTransition;
+    animation-duration: .25s;
+}
+
+.post-options-text {
+    font-size: 16px;
+    padding: .5rem 1.5rem .5rem .5rem;
+    color: rgb(255, 46, 46);
+}
+
+.delete-icon{
+    padding: .5rem;
+    scale: 1.12;
+    color:rgb(255, 46, 46);
+}
+
 .postTopLeft{
     display: flex;
     align-items: center;

@@ -1,5 +1,5 @@
 import './Post.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {format} from 'timeago.js';
 import {Link} from 'react-router-dom'
@@ -9,6 +9,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { FiShare, FiMoreHorizontal } from "react-icons/fi";
 import { AiOutlineGift } from 'react-icons/ai';
 import { BsCurrencyDollar } from "react-icons/bs";
+import { RiDeleteBin5Line } from "react-icons/ri"
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import Gift from './Gift';
@@ -113,89 +115,133 @@ const navigateToSinglePost = () => {
     setseenGifts(false); // Hide the other component
   };
 
-  return (
-    
-    
-    <div className='post linktosinglepost' onClick={navigateToSinglePost}>
-      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
-        <div className="postWrapper">
-            <Link 
-            to={`/profile/${user.username}`}
-            onClick={(event) => event.stopPropagation()}
-            >
-              <img className='postProfileImg' src={user.profilePicture ? user.profilePicture : "/assets/person/nopicture.png"} alt="" />
-            </Link>
-            <div className="postTop">
-                <div className="postTopLeft">
-                    <span className="postUsername">{user.username}</span>
-                    <span className="postDate">{format(post.createdAt)}</span>
-                </div>
-                <div className="postTopRight">
-                <FiMoreHorizontal/>
-                </div>
-            </div>
-            
-            <div className="postCenter">
-              <span className="postText">{post.desc}</span>
-              {post.img && (
-                <img src={post.img} className="postImg" alt="" />
-              )}
-                {/* give amounts below post text, does not display for current user's post*/}
-                {currentUser && currentUser._id !== post.userId && seenMoney && post.allowGifts &&
-                <CurrencyList 
-                  socket={socket}
-                  post={post}  
-                  setAmount={setAmount} 
-                  currentUser={currentUser} 
-                  onClick={(event) => event.stopPropagation()}
-                  onGive={onGive}
-                  setChangeCurrencyColor={setChangeCurrencyColor}
-                />}
+  // post options
+  const [showPostOptions, setShowPostOptions] = useState(false);
+  const postOptionsRef = useRef(null);
 
-                {currentUser && currentUser._id !== post.userId && post.allowGifts ? (
-                <div className='browseGifts' style={{display: seenGifts ? 'flex' : 'none'}}>
-                  <Gift 
-                  socket={socket}
-                  post={post} 
-                  setItemGives={setItemGives} 
-                  onClick={(event) => event.stopPropagation()}
-                  onGive={onGive}
-                  setChangeItemIconColor={setChangeItemIconColor}
+  const openPostOptions = (event) => {
+    event.stopPropagation();
+    setShowPostOptions((prevState) => !prevState);
+  };
+  // logic for deleting posts
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  const deletePost = async (event) => {
+    try {
+      event.stopPropagation();
+      // if current user id matches the post user id
+      if ( currentUser._id === post.userId ) {
+        const token = localStorage.getItem("token");
+        // delete post
+        await axios.delete(`${config.apiUrl}/statuses/${post._id}`, {
+          headers: {
+            'x-auth-token': token
+          }
+        })
+      setIsDeleted(true);
+      }
+
+    } catch (error) {
+      await popupStatus("Failed to delete post. Try again later.",'Close')
+    }
+  }
+
+  return (
+    !isDeleted && (
+
+      <div className='post linktosinglepost' onClick={navigateToSinglePost}>
+        <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
+          <div className="postWrapper">
+              <Link 
+              to={`/profile/${user.username}`}
+              onClick={(event) => event.stopPropagation()}
+              >
+                <img className='postProfileImg' src={user.profilePicture ? user.profilePicture : "/assets/person/nopicture.png"} alt="" />
+              </Link>
+              <div className="postTop">
+                  <div className="postTopLeft">
+                      <span className="postUsername">{user.username}</span>
+                      <span className="postDate">{format(post.createdAt)}</span>
+                  </div>
+                  {currentUser._id === post.userId && 
+                  <div className="postTopRight">
+                    <FiMoreHorizontal onClick={openPostOptions}/>
+                    {showPostOptions &&
+                    <div 
+                    className="post-options" 
+                    ref={postOptionsRef}
+                    onClick={deletePost}
+                    >
+                      <p className='post-options-text'>Delete post</p>
+                      <RiDeleteBin5Line className='delete-icon'/>
+                    </div>
+                    }
+                  </div>
+                  }
+              </div>
+              
+              <div className="postCenter">
+                <span className="postText">{post.desc}</span>
+                {post.img && (
+                  <img src={post.img} className="postImg" alt="" />
+                )}
+                  {/* give amounts below post text, does not display for current user's post*/}
+                  {currentUser && currentUser._id !== post.userId && seenMoney && post.allowGifts &&
+                  <CurrencyList 
+                    socket={socket}
+                    post={post}  
+                    setAmount={setAmount} 
+                    currentUser={currentUser} 
+                    onClick={(event) => event.stopPropagation()}
+                    onGive={onGive}
+                    setChangeCurrencyColor={setChangeCurrencyColor}
+                  />}
+
+                  {currentUser && currentUser._id !== post.userId && post.allowGifts ? (
+                  <div className='browseGifts' style={{display: seenGifts ? 'flex' : 'none'}}>
+                    <Gift 
+                    socket={socket}
+                    post={post} 
+                    setItemGives={setItemGives} 
+                    onClick={(event) => event.stopPropagation()}
+                    onGive={onGive}
+                    setChangeItemIconColor={setChangeItemIconColor}
+                    />
+                  </div>
+                  ) : null}
+              </div>
+              <div className="postBottom">
+
+                <div className={`amountGave-container ${post.allowGifts ? '' : 'disabled'}`} >
+                <BsCurrencyDollar 
+                  className={`currentcy-icon ${post.allowGifts && userGaveCurrency ? 'highlight-green' : ''}`} 
+                  onClick={(event) => toggleAmounts(event)}
+                />
+                  <span className={`amountGave ${post.allowGifts && userGaveCurrency ? 'highlight-green' : ''}`}>{amount}</span>
+                </div>
+
+                <div className={`gifts-container ${post.allowGifts ? '' : 'disabled'}`}>
+
+                <AiOutlineGift 
+                  className={`gifts-icon ${post.allowGifts && userGaveItem ? 'highlight-purple' : ''}`} 
+                  onClick={(event) => toggleGift(event)}
+                />
+                  <span className={`gives ${post.allowGifts && userGaveItem ? 'highlight-purple' : '' }`}>{itemGives}</span>
+                </div>
+
+                <div className="share-icon" onClick={(event) => event.stopPropagation()}>
+                  <FiShare onClick={() => setIsModalOpen(true)}/>
+                  <SharePostModal
+                  isOpen={isModalOpen}
+                  closeModal={() => setIsModalOpen(false)}
+                  postUrl={postUrl}
                   />
                 </div>
-                ) : null}
-            </div>
-            <div className="postBottom">
-
-              <div className={`amountGave-container ${post.allowGifts ? '' : 'disabled'}`} >
-              <BsCurrencyDollar 
-                className={`currentcy-icon ${post.allowGifts && userGaveCurrency ? 'highlight-green' : ''}`} 
-                onClick={(event) => toggleAmounts(event)}
-              />
-                <span className={`amountGave ${post.allowGifts && userGaveCurrency ? 'highlight-green' : ''}`}>{amount}</span>
               </div>
-
-              <div className={`gifts-container ${post.allowGifts ? '' : 'disabled'}`}>
-
-              <AiOutlineGift 
-                className={`gifts-icon ${post.allowGifts && userGaveItem ? 'highlight-purple' : ''}`} 
-                onClick={(event) => toggleGift(event)}
-              />
-                <span className={`gives ${post.allowGifts && userGaveItem ? 'highlight-purple' : '' }`}>{itemGives}</span>
-              </div>
-
-              <div className="share-icon" onClick={(event) => event.stopPropagation()}>
-                <FiShare onClick={() => setIsModalOpen(true)}/>
-                <SharePostModal
-                isOpen={isModalOpen}
-                closeModal={() => setIsModalOpen(false)}
-                postUrl={postUrl}
-                />
-              </div>
-            </div>
-        </div>
-    </div>
-  )
+          </div>
+      </div>
+    )
+  );
 }
 Post.propTypes = {
   post: PropTypes.object.isRequired,
