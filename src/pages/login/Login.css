@@ -4,6 +4,15 @@ body{
     height: 100%;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 60px #fafafa inset !important;
+    background-color: #fafafa !important;
+    background-clip: content-box !important;
+}
+
 .login-container{
     position: relative;
     overflow: hidden;
@@ -63,8 +72,8 @@ body{
 .loginInput{
     height: 50px;
     border-radius: 2rem;
-    font-size: 14px;
-    padding-left: 7px;
+    font-size: 16px;
+    padding-left: 20px;
     width: 69%;
     border: none;
     opacity: .9;
