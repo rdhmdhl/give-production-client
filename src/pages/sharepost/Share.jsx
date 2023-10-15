@@ -411,11 +411,13 @@ return (
                             )}
                             </div>
                         </div>
-                        <SharePostModal
-                            isOpen={isModalOpen}
-                            closeModal={() => setIsModalOpen(false)}
-                            details={details}
-                            />
+                        { details && isModalOpen && (
+                            <SharePostModal 
+                            isOpen={isModalOpen} 
+                            closeModal={() => setIsModalOpen(false)} 
+                            details={details} />
+                        )}
+
                 </div>
                     <div className="bottom-row-container">
                          {/* quantity of currency gifts */}
@@ -442,7 +444,7 @@ return (
             </form>
         </div>
         <div className="account-balance-notice">
-            <p>Creating a link will adjust your account balance. Unused links will refund the balance after 24 hours 😊</p>
+            <p>Creating a link will adjust your account balance. Unused links will refund the balance after 24 hours.</p>
         </div>
     </div>
 </div>
