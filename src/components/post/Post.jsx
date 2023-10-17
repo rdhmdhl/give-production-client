@@ -191,7 +191,7 @@ const navigateToSinglePost = () => {
                       <span className="postUsername">{user.username}</span>
                       <span className="postDate">{format(post.createdAt)}</span>
                   </div>
-                  {currentUser._id === post.userId && 
+                  {currentUser && currentUser._id === post.userId && 
                   <div className="postTopRight">
                     <FiMoreHorizontal onClick={openPostOptions}/>
                     {showPostOptions &&
