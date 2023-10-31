@@ -5,6 +5,7 @@ import React from 'react';
 import Profile from "./pages/profile/Profile";
 import Settings from "./pages/profile/Settings";
 import SinglePost from "./pages/singlepost/SinglePost";
+import WishList from "./pages/wishList/WishList";
 import AcceptLink from "./pages/acceptlink/AcceptLink";
 import Topbar from "./components/Topbar";
 import Share from "./pages/sharepost/Share";
@@ -77,6 +78,7 @@ function App() {
         }/>
         <Route path="profile/:username/settings" element={user ? <Settings /> : <Navigate to="/login" />} />
         <Route path=":postId" element={user ? <SinglePost socket={socket} /> : <Navigate to="/login" />} />
+        <Route path="/wishlist" element={user ? <WishList /> : <Navigate to="/login" />} />
       </Routes>
   </Router>
   )

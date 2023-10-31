@@ -1,7 +1,8 @@
 :root {
     --gray: rgb(164, 164, 164);
-    --darkgray: rgb(50, 50, 50);
+    --darkgrayreid: rgb(28 28 28);;
     --purple: rgb(155, 5, 255);
+    --lime-green: rgb(96, 205, 0);
     --darkblack: rgba(8, 8, 8, 0.906);
     --white: #ffffff;
 }

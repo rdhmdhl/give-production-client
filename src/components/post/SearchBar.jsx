@@ -41,6 +41,7 @@ export default function SearchBar({ onSearch }) {
     <form className='searchbar-container' onSubmit={handleSubmit}>
       <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
       <input type="text"  
+      className='searchbar-input'
       value={query} 
       onChange={handleQueryChange} 
       placeholder="Search for an item..."

@@ -334,117 +334,122 @@ return (
                     </div>
             </form>
             </div>
-        </div>    
+        </div> 
+       
         <div className={`createLinkWrapper${togglePostType}`}>
-            <div className="linkOptions">
-                <div className="shareTop">
-                    <img 
-                        className='shareProfileImg' 
-                        src={
-                            user.profilePicture ? 
-                            user.profilePicture : 
-                            "/assets/person/nopicture.png"} 
-                            alt="" 
-                    />
-                </div>
-            </div>
+            <div className="top-card">
 
-            <div className="gift-selected-item">
-                {seenGifts && <Gift onItemClick={handleItemClick} />}
-                {showItem && !seenGifts && !seenMoney && <SelectedItemDetails item={selectedItem} clearSelectedItem={clearSelectedItem}/>}
-            
-                {seenMoney && <CurrencyList onAmountClick={handleCurrencyClick}/>}
-                {showCurrency && !seenGifts && !seenMoney && 
-                <SelectedCurrencyDetails 
-                    amount={selectedAmount} 
-                    giveorreceive={transactionType}
-                    clearSelectedCurrency={clearSelectedCurrency}/>
-                }
-            </div>
-        <div className="settings-form-container">
-
-            <form className='settingsForm' onSubmit={handleSubmit}>
-                <div className='radioContainer'>
-                <div className="left-side-settings">
-                    <div className='giveOrReceive'>
-                        <div className="customDropdown" onClick={() => setTypeDropdownOpen(!typeDropdownOpen)}>
-                                {defaultTypeText}
-                                <IoIosArrowDropdown className='dropdownIcon'/>
-                            <span>{transactionType}</span>
-                            {typeDropdownOpen && (
-                                <ul className="dropdownOptions">
-                                <li 
-                                onClick={() => {
-                                    setDefaultTypeText(""); // Clear the default text
-                                    setTransactionType("Give")
-                                    }}
-                                    >Give</li>
-                                <li onClick={() => {
-                                    setDefaultTypeText(""); // Clear the default text
-                                    setTransactionType("Receive")
-                                    }}
-                                    >Receive</li>
-                                </ul>
-                            )}
-                        </div>
-                    </div>
-                       
-                        <div className='itemOrCurrency'>
-                            <div className="customDropdown" onClick={() => setGiftDropdownOpen(!giftDropdownOpen)}>
-                                {defaultGiftText}
-                                <IoIosArrowDropdown className='dropdownIcon'/>
-                            <span>{selectionType}</span>
-                            {giftDropdownOpen && (
-                                <ul className="dropdownOptions">
-                                <li 
-                                onClick={() => {
-                                    setDefaultGiftText(""); // Clear the default text
-                                    setSelectionType("Item")
-                                    toggleGift()}}
-                                    >Item</li>
-                                <li onClick={() => {
-                                    setDefaultGiftText(""); // Clear the default text
-                                    setSelectionType("Currency")
-                                    toggleAmounts()}}
-                                    >Currency</li>
-                                </ul>
-                            )}
-                            </div>
-                        </div>
-                        { details && isModalOpen && (
-                            <SharePostModal 
-                            isOpen={isModalOpen} 
-                            closeModal={() => setIsModalOpen(false)} 
-                            details={details} />
-                        )}
-
-                </div>
-                    <div className="bottom-row-container">
-                         {/* quantity of currency gifts */}
-                         { selectionType === "Currency" && transactionType === "Give" &&
-                            <div className="numberInputContainer">
-                                <label htmlFor="quantity"></label>
-                                <input
-                                    type="number"
-                                    id="quantity"
-                                    name="quantity"
-                                    value={quantity}
-                                    onChange={(e) => setQuanity(e.target.value)}
-                                    min="1"
-                                    step="1"
-                                    placeholder='Quantity'
-                                />
-                            </div>
-                        }
-                    <div className="shareButtonContainer">
-                        <button className="shareButton" type="submit">Create</button>
+                <div className="linkOptions">
+                    <div className="shareTop">
+                        {/* <img 
+                            className='shareProfileImg' 
+                            src={
+                                user.profilePicture ? 
+                                user.profilePicture : 
+                                "/assets/person/nopicture.png"} 
+                                alt="" 
+                        /> */}
                     </div>
                 </div>
+
+                <div className="gift-selected-item">
+                    {seenGifts && <Gift onItemClick={handleItemClick} />}
+                    {showItem && !seenGifts && !seenMoney && <SelectedItemDetails item={selectedItem} clearSelectedItem={clearSelectedItem}/>}
+                
+                    {seenMoney && <CurrencyList onAmountClick={handleCurrencyClick}/>}
+                    {showCurrency && !seenGifts && !seenMoney && 
+                    <SelectedCurrencyDetails 
+                        amount={selectedAmount} 
+                        giveorreceive={transactionType}
+                        clearSelectedCurrency={clearSelectedCurrency}/>
+                    }
                 </div>
-            </form>
+            <div className="settings-form-container">
+
+                <form className='settingsForm' onSubmit={handleSubmit}>
+                    <div className='radioContainer'>
+                    <div className="left-side-settings">
+                        <div className='giveOrReceive'>
+                            <div className="customDropdown" onClick={() => setTypeDropdownOpen(!typeDropdownOpen)}>
+                                    {defaultTypeText}
+                                    <IoIosArrowDropdown className='dropdownIcon'/>
+                                <span>{transactionType}</span>
+                                {typeDropdownOpen && (
+                                    <ul className="dropdownOptions">
+                                    <li 
+                                    onClick={() => {
+                                        setDefaultTypeText(""); // Clear the default text
+                                        setTransactionType("Give")
+                                        }}
+                                        >Give</li>
+                                    <li onClick={() => {
+                                        setDefaultTypeText(""); // Clear the default text
+                                        setTransactionType("Receive")
+                                        }}
+                                        >Receive</li>
+                                    </ul>
+                                )}
+                            </div>
+                        </div>
+                        
+                            <div className='itemOrCurrency'>
+                                <div className="customDropdown" onClick={() => setGiftDropdownOpen(!giftDropdownOpen)}>
+                                    {defaultGiftText}
+                                    <IoIosArrowDropdown className='dropdownIcon'/>
+                                <span>{selectionType}</span>
+                                {giftDropdownOpen && (
+                                    <ul className="dropdownOptions">
+                                    <li 
+                                    onClick={() => {
+                                        setDefaultGiftText(""); // Clear the default text
+                                        setSelectionType("Item")
+                                        toggleGift()}}
+                                        >Item</li>
+                                    <li onClick={() => {
+                                        setDefaultGiftText(""); // Clear the default text
+                                        setSelectionType("Currency")
+                                        toggleAmounts()}}
+                                        >Currency</li>
+                                    </ul>
+                                )}
+                                </div>
+                            </div>
+                            { details && isModalOpen && (
+                                <SharePostModal 
+                                isOpen={isModalOpen} 
+                                closeModal={() => setIsModalOpen(false)} 
+                                details={details} />
+                            )}
+
+                    </div>
+                        <div className="bottom-row-container">
+                            {/* quantity of currency gifts */}
+                            { selectionType === "Currency" && transactionType === "Give" &&
+                                <div className="numberInputContainer">
+                                    <label htmlFor="quantity"></label>
+                                    <input
+                                        type="number"
+                                        id="quantity"
+                                        name="quantity"
+                                        value={quantity}
+                                        onChange={(e) => setQuanity(e.target.value)}
+                                        min="1"
+                                        step="1"
+                                        placeholder='Quantity'
+                                    />
+                                </div>
+                            }
+
+                    </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div className="account-balance-notice">
+        <div className="instructions-middle-card">
             <p>Creating a link will adjust your account balance. Unused links will refund the balance after 24 hours.</p>
+        </div>
+        <div className="shareButtonContainer">
+            <button className="shareButton" type="submit">Create</button>
         </div>
     </div>
 </div>

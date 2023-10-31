@@ -1,0 +1,80 @@
+.wish-list-item-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.wish-list-item-details{
+    display: flex;
+    flex-direction: row;
+    padding: 0 1rem 0 1rem;
+}
+.image-container{
+    height: 6rem;
+    width: 6rem;
+}
+
+.image-container img {
+    max-height: 6rem;
+    max-width: 6rem;
+    border-radius: .75rem;
+}
+
+.title-and-progress-container {
+    display: flex;
+    flex-direction: column;    
+    margin: 0 .5rem;
+}
+
+
+.wish-list-item-title {
+    font-size: 18px;
+    font-weight: 200;
+    color: white;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.progress-container{
+    margin: 0
+}
+
+
+.progress-container h3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 200;
+    font-size: 14px;
+    color: gray;
+}
+
+.progress-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 10px; /* Set height */
+    border-radius: 5px;
+    background-color: black;
+    margin: .5rem 0 .75rem 0;
+}
+
+.inside-progress-bar {
+    width: 25%;  /* This can be dynamic based on the progress */
+    height: 100%;  /* Take up full height of the parent */
+    background-color: var(--lime-green);  /* Color to represent progress */
+    border-radius: 5px 0 0 5px;
+}
+
+
+.line-break{
+    border: none !important;  /* Removes default border */
+    border-top: 1px solid rgb(67, 67, 67) !important;  /* Adds a new border */
+    height: 1px;  /* Sets the height */
+    background: none !important;
+    margin: 1rem;  /* Removes default margin */
+
+}

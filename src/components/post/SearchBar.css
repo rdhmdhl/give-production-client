@@ -1,27 +1,22 @@
 .searchbar-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
     margin-top: .5rem;
     margin-bottom: .5rem;
     height: 6rem;
     color: var(--lightgray);
+    width: 100%;
 }
 
 .searchbar-container input {
-    height: 2rem;
+    height: 3rem;
+    width: 100%;
     border-radius: 10px;
     border: none;
     background-color: rgb(33, 33, 33);
     color: white;
-    /* padding-left: 10px; */
-    padding: 8px 45px 8px 10px;
-    margin: auto;
     font-size: 15px;
-    font-weight: 300;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 15px rgba(155, 5, 255, 0.6);  /* Add a purple glow */
-    transition: all 0.3s ease; /* Add a smooth transition effect */
+    font-weight: 900;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 15px rgba(155, 5, 255, 0.6);
+    transition: all 0.3s ease;
 }
 
 .searchbar-container input:focus {
@@ -29,15 +24,28 @@
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 15px rgba(5, 255, 38, 0.56); /* Enhance the purple glow on focus */
   }
 
+  .searchbar-input::placeholder {
+    text-indent: 10px;
+    color: white;
+    font-weight: 300;
+}
+
+.searchbar-input {
+    text-indent: 10px;
+    padding: 0;
+}
+
+
   /* Chrome, Firefox, Opera, Safari 10.1+ */
 input::-webkit-input-placeholder {
-    color: var(--lightgray);
+    color: white;
+    font-weight: 300;
 }
 
 .search-icon {
     position: relative;
-    left: -2rem;
-    top: .5rem;
+    left: 16rem;
+    top: -1.5rem;
     transform: translateY(-50%);
     color: rgba(155,5,255);
     font-size: 1rem;
