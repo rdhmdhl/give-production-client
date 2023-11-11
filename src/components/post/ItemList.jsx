@@ -18,13 +18,17 @@ export default function ItemList({ items, post, setItemGives, onGive, setChangeI
     });
 
     // called when user clicks on item, creates modal with the product info
-    // or highlights an item for the share component
+    // or highlights an item for the share page
+    // or sets an item for the wishlist page
+    // onItemClick is a function located on the share page and the wishlist page
     const handleItemClick = (item) => {
-        if (onItemClick) {
-            onItemClick(item);
-        } else {
+        // if (onItemClick) {
+        //     // onItemClick(item);
+        //     console.log("handle item click, in item list")
+        //     setSelectedItem(item)
+        // } else {
             setSelectedItem(item);
-        }
+        // }
     };
 
     // used to exit the modal
@@ -46,6 +50,7 @@ export default function ItemList({ items, post, setItemGives, onGive, setChangeI
         socket={socket}
         onGive={onGive}
         setseenGifts={setseenGifts}
+        onItemClick={onItemClick}
       />,
       document.body // renders directly within <body>
     )}

@@ -24,11 +24,19 @@
     display: flex;
     flex-direction: column;    
     margin: 0 .5rem;
+    width: 100%;
+}
+
+.wish-list-title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }
 
 
 .wish-list-item-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 200;
     color: white;
     display: -webkit-box;
@@ -36,6 +44,14 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.wish-item-close-icon{
+    display: flex;
+    font-size: 1.25rem;
+    padding: 0;
+    margin: 0;
+    color: black;
 }
 
 .progress-container{

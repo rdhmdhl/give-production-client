@@ -9,7 +9,7 @@ import NotificationSender from '../notifications/NotificationSender';
 import axios from 'axios';
 import config from '../../config';
 
-export default function ItemModal({ item, showModal, setShowModal, setChangeItemIconColor, post, setItemGives, onGive, socket, setseenGifts }) {
+export default function ItemModal({ item, showModal, setShowModal, setChangeItemIconColor, post, setItemGives, onGive, socket, setseenGifts, onItemClick }) {
 
 const [currentImage, setCurrentImage] = useState(item.image.imageUrl);
 const {user: currentUser, balance, dispatch} = useContext(AuthContext);
@@ -92,8 +92,7 @@ const handleImageClick = (image) => {
     return parseFloat(item.price.value);
   };
 
-  // Function to update the post and balance
-
+// Function to update the post and balance
 async function updatePostAndBalance(item, totalPrice, post, dispatch, setItemGives, setChangeItemIconColor, onGive) {
   try {
       // update the post
@@ -233,6 +232,9 @@ async function performWithdrawal(totalPrice, currentUser, token) {
       if(post){
         // Call giveHandler function
         giveHandler(item, popupStatus, balance, popupStatus, setChangeItemIconColor, onGive);
+      } else {
+        onItemClick(item);
+        console.log("loggin from the item modal")
       }
     }
 
@@ -302,10 +304,11 @@ ItemModal.propTypes = {
     item: PropTypes.object.isRequired,
     showModal: PropTypes.bool.isRequired,
     setShowModal: PropTypes.func.isRequired,
-    post: PropTypes.object.isRequired,
+    post: PropTypes.object,
     setItemGives: PropTypes.func.isRequired,
     setChangeItemIconColor: PropTypes.func,
     onGive: PropTypes.func,
     socket: PropTypes.object,
-    setseenGifts: PropTypes.func
+    setseenGifts: PropTypes.func,
+    onItemClick: PropTypes.func
   };

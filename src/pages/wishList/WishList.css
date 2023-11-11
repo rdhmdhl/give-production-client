@@ -24,7 +24,7 @@
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    margin: 1rem;
+    margin-top: 1rem;
 }
 
 .wishlist-title{
@@ -33,7 +33,18 @@
     color:white;
 }
 
+.search-results-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.add-item-icon-container {
+    margin-top: 1rem;
+}
+
 .add-item-icon{
     scale: 2;
-    color: var(--darkgray)
+    color: var(--purple)
 }

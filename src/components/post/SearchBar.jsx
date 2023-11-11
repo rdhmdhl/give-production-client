@@ -40,19 +40,22 @@ export default function SearchBar({ onSearch }) {
   return (
     <form className='searchbar-container' onSubmit={handleSubmit}>
       <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
-      <input type="text"  
-      className='searchbar-input'
-      value={query} 
-      onChange={handleQueryChange} 
-      placeholder="Search for an item..."
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-      />
-      <ImSearch 
-        className={`search-icon ${isFocused ? 'focused' : ''}`} 
-        type="submit"
-        onClick={handleSubmit}
-      />
+      <div className="search-bar-and-icon-container">
+        <input type="text"  
+        className='searchbar-input'
+        value={query} 
+        onChange={handleQueryChange} 
+        placeholder="Search for an item..."
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        />
+        <ImSearch 
+          className={`search-icon ${isFocused ? 'focused' : ''}`} 
+          type="submit"
+          // onClick={handleSubmit}
+        />
+
+      </div>
     </form>
   );
 }

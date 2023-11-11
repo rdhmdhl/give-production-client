@@ -61,7 +61,7 @@ const handleSubmit = (e) => {
         return;
       }
   
-      // Update details
+      // Update details that are used in the item popup modal
       const newDetails = updateDetails();
       setDetails(newDetails);
       setIsModalOpen(true);
@@ -221,7 +221,9 @@ const clearSelectedCurrency = () => {
     setseenGifts(false);
 };
 
-    // used to set the details of the link model, used in the link generator component
+    // used to set the details of the link model
+    // used in the link generator component
+    // used in the selected item details component
     const updateDetails = () => {
         let newDetails = {
             type: selectionType.toLowerCase(),
@@ -354,7 +356,10 @@ return (
 
                 <div className="gift-selected-item">
                     {seenGifts && <Gift onItemClick={handleItemClick} />}
-                    {showItem && !seenGifts && !seenMoney && <SelectedItemDetails item={selectedItem} clearSelectedItem={clearSelectedItem}/>}
+                    {showItem && !seenGifts && !seenMoney &&
+                    <SelectedItemDetails 
+                        item={selectedItem}
+                        clearSelectedItem={clearSelectedItem}/>}
                 
                     {seenMoney && <CurrencyList onAmountClick={handleCurrencyClick}/>}
                     {showCurrency && !seenGifts && !seenMoney && 
