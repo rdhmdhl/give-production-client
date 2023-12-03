@@ -1,10 +1,28 @@
-.App {
-  text-align: center;
+:root {
+  --gray: rgb(164, 164, 164);
+  --darkgrayreid: rgb(28 28 28);
+  --purple: rgb(155, 5, 255);
+  --lime-green: rgb(96, 205, 0);
+  --darkblack: rgba(8, 8, 8, 0.906);
+  --white: #ffffff;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: black;
+}
+
+.top-bar-menu{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  margin: 2rem 3.5rem 0 3.5rem;
+
+}
+
+
+.top-options{
+  font-size: 2rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {

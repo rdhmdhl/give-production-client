@@ -17,7 +17,7 @@
 
   
   .modal-content-container {
-    background-color: rgba(8, 8, 8, 0.98);
+    background-color: var(--darkgrayreid);
     padding: 20px;
     border-radius: .75rem;
     width: 66%;
@@ -33,7 +33,7 @@
   .share-options {
     display: flex;
     justify-content: center;
-    margin: 2rem 0 2rem 0;
+    margin: 0;
     width: 100%;
     padding: 0;
   }
@@ -41,6 +41,7 @@
   .share-headline{
     display: flex;
     justify-content: center;
+    margin: 1rem 0;
   }
   
   .share-options li {
@@ -52,10 +53,10 @@
   }
   
   .share-options .icon-container {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: .5px solid #707070;
+    width: 4rem;
+    height: 3rem;
+    background-color: black;
+    border-radius: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -63,21 +64,80 @@
   }
   
   .share-options i {
-    font-size: 2rem;
-    color: var(--purple);
+    font-size: 1.5rem;
+    color: white;
   }
   
-  .share-options span {
+  .insta-steps-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .progress-circles-container{
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+
+  .circle-icon{
+    margin: 0 1rem;
     font-size: 12px;
-    margin-top: 5px;
+  }
+
+  .circle-icon.active{
+    color: var(--purple); 
+  }
+
+  .step-descriptions-container{
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+
+  .step-descriptions-container p{
+    font-size: .9rem;
+  }
+
+  .steps-container{
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1rem 0;
+    background-color: black;
   }
   
-  button {
+  .step-image{
+    height: 11rem; /* Fixed height */
+    width: auto; /* Adjust width automatically to maintain aspect ratio */
+    max-width: 100%; /* Ensure image doesn't exceed container width */
+    /* margin: 1rem 0; */
+    display: block; /* Ensures the image is centered if smaller than container */
+    object-fit: contain; /* Keeps the aspect ratio, adding empty space if necessary */
+  }
+
+  .overlay-gif{
+    scale: .2;
+  }
+
+  .download-button-cont{
+    /* margin: 0 0 0 .5rem; */
+    /* font-size: 2rem;
+    display: flex;
+    align-items: flex-end; */
+    position: absolute;
+    bottom: 16rem;
+    right: 6.5rem; 
+    font-size: 2rem;
+  }
+
+  .share-button {
     color: white;
     background-color: var(--purple);
     border: none;
+    font-size: 1rem;
     height: 3rem;
-    width: 33%;
+    width: 75%;
     margin: auto;
     border-radius: 1.5rem;
   }
@@ -91,4 +151,11 @@
 
   .alert {
     font-size: 14px;
+    padding: 1rem;
+  }
+
+  .offscreen {
+    position: absolute;
+    left: -9999px;
+    /* display: none; */
   }

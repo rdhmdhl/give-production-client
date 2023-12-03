@@ -1,5 +1,7 @@
 import "./topbar.css";
-import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+// import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import { AiOutlineMenu, AiFillMail, AiFillBell, AiOutlineClose, AiFillSetting } from "react-icons/ai";
+import { CiLocationOn } from "react-icons/ci";
 import React, { useEffect, useContext, useRef, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
@@ -22,6 +24,7 @@ export default function TopBar({socket}) {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState(''); 
+  const [showTopbar, setShowTopar] = useState(false);
 
   // function to show popup used in the catch blocks
   const popupStatus = async (message) => {
@@ -169,29 +172,60 @@ const getDestinationURL = (notification) => {
 };
 
 
+const toggleTopbar = () => {
+  setShowTopar(prev => !prev)
+}
+
+
   return (
     <div className='topbarContainer'>
-      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
-        <div className="topbarLeft">
-          <Link to='/' style={{textDecoration: 'none'}}>
-          <span className="logo">G_VE</span>
-          </Link>
-        </div>
-        <div className="topbarRight" >
-          <div className="account-balance" >
-            <p onClick={handleAccountBalanceClick}>${balance.toFixed(2)}</p>
-            <AccountBalanceModal
-              isModalOpen={isModalOpen}
-              closeModal={() => setIsModalOpen(false)}
-              balance={balance}
-            />
-          </div>
+      <div className="toggle-topbar-container">
+        {showTopbar ?
+        <AiOutlineClose className="show-topbar-icon" onClick={toggleTopbar}/>
+        :
+        <AiOutlineMenu className="show-topbar-icon" onClick={toggleTopbar}/>
+        }
+      </div>
 
-          <div className="topbarIcons">
-            <div className="topbariconItem" onClick={handleDropdownClick} ref={iconRef}>
-              <CircleNotificationsIcon className="notification-icon"/>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
+
+        <div className={`topbar-left-container ${showTopbar ? 'visible' : 'hidden'}`} >
+
+
+          <div className="topbar-left-content-wrapper">
+            <div className="top-row-container">
+              <div className="profile-photo-container">
+                <Link to={`/profile/${user ? user.username : ''}`}>
+                  <img 
+                    src={
+                      user && user.profilePicture ? 
+                      user.profilePicture
+                      : "/assets/person/nopicture.png"
+                    }
+                    alt="No Picture" 
+                    className="topbarImg"
+                  />
+                </Link>
+
+                {user && (
+                <>
+                <p className="username-type">{user.username}</p>
+                <div className="location-container">
+                  <p className="location-type">{user.location}</p>
+                  <CiLocationOn className="location-icon"/>
+                </div>
+                </>
+                )}
+              </div>
+            </div>
+
+
+            <div className="notificaitons-container">
+              <p>Notifications</p>
+              <div className="notifications-icon-container" onClick={handleDropdownClick} ref={iconRef}>
+                <AiFillBell className="notification-bell-icon"/>
               <span className="topbarIconBadge">{unreadNotifications.length}</span>
-          </div>
+            </div>
 
      {/* dropdown notifications */}
 
@@ -272,19 +306,32 @@ const getDestinationURL = (notification) => {
           )
           }
       </div>     
-      <Link to={`/profile/${user ? user.username : ''}`}>
-        <img 
-          src={
-            user && user.profilePicture ? 
-            user.profilePicture
-            : "/assets/person/nopicture.png"
-          }
-          alt="No Picture" 
-          className="topbarImg"
-        />
-      </Link>
-        </div>
+      <div className="messages-container">
+            <p>Messages</p>
+            <div className="messages-icon-container">
+              <AiFillMail className="messages-icon"/>
+              <span className="message-count-icon">{unreadNotifications.length}</span>
+            </div>
+      </div>
+      <div className="messages-container">
+            <p>Settings</p>
+            <div className="messages-icon-container">
+              <AiFillSetting className="messages-icon"/>
+            </div>
+      </div>
+      <hr className="bottom-line"/>
+      <div className="account-balance-container" >
+                <p>Balance:</p>
+                <p onClick={handleAccountBalanceClick}>${balance.toFixed(2)}</p>
+                <AccountBalanceModal
+                  isModalOpen={isModalOpen}
+                  closeModal={() => setIsModalOpen(false)}
+                  balance={balance}
+                />
+      </div>
     </div>
+  </div>  
+</div>
   )
 }
 

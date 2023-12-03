@@ -17,7 +17,6 @@ const useLinkGenerator = () => {
         used: false,
         expired: false,
       });
-
       const totalAmount = details.amount * Number(details.quantity);
       const newBalance = balance - totalAmount;
 

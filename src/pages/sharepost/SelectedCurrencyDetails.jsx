@@ -6,6 +6,14 @@ import {AiOutlineClose} from 'react-icons/ai';
 const SelectedCurrencyDetails = ({ amount, clearSelectedCurrency, giveorreceive}) => {
   if (!amount) return null;
 
+  let descriptionSentance;
+
+  if (giveorreceive === 'give') {
+    descriptionSentance = "Select enter the number of times this can be used in the quantity field."
+  } else {
+    descriptionSentance = "";
+  }
+
   return (
     <div className="selected-currency-details">
         <div className="currency-amount-container">
@@ -13,10 +21,10 @@ const SelectedCurrencyDetails = ({ amount, clearSelectedCurrency, giveorreceive}
         </div>
         <div className="right-currency-section">
             <div className="close-icon-container">
-            <AiOutlineClose className="close-icon" onClick={clearSelectedCurrency}/>
+            <AiOutlineClose className="close-currency-icon" onClick={clearSelectedCurrency}/>
             </div>
             <div className="currency-description">
-              <p>{giveorreceive} this gift. Click share below to create a link 🥰</p>
+              <p>{giveorreceive} this gift. {descriptionSentance} Click create below to share this link.</p>
             </div>
         </div>
     </div>

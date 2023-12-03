@@ -1,0 +1,108 @@
+.image-template {
+    width: 20rem;
+    height: 25rem;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.cta-headline-container{
+    /* margin: 1rem 0; */
+    /* width: 100%; */
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.cta-headline{
+    font-size: 1rem;
+    font-weight: 300;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 13rem;
+    text-align: center;
+}
+
+.currency-cta-headline{
+    font-size: 1rem;
+    font-weight: 300;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.currency-div{
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.currency-amount{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6rem;
+    width: 6rem;
+    padding: .5rem;
+    margin: 1rem;
+    border: solid 1px var(--purple);
+    border-radius: 1rem;
+}
+
+.currency-amount h4 {
+    font-size: 3rem;
+    font-weight: 400;
+}
+
+.img-container{
+    display: flex;
+    justify-content: center;
+    /* width: 10rem; */
+    /* max-height: 10rem; */
+}
+
+.img-container img{
+    border-radius: 1rem;
+    /* width: 10rem; */
+    max-height: 13rem;
+}
+
+.item-details-container{
+    width: 13rem;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.currency-details-container{
+    width: 13rem;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.currency-details-container p{
+    color: var(--darkgrayreid)
+}
+
+.item-details-img-temp{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 4.5rem; /* Adjust based on your font-size */
+    line-height: 1.5em; /* Adjust based on your font-size */
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--darkgrayreid);
+    text-align: center;
+}

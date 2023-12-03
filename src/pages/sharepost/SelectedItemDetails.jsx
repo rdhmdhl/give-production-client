@@ -10,8 +10,8 @@ const SelectedItemDetails = ({ item, clearSelectedItem}) => {
     <div className="selected-item-details">
       <img className="product-img" src={item.image.imageUrl} alt={item.title} />
       <div className="right-section">
-        <div className="close-icon-container">
-          <AiOutlineClose className="close-icon" onClick={clearSelectedItem}/>
+        <div className="close-item-icon-container">
+          <AiOutlineClose className="close-icon-item" onClick={clearSelectedItem}/>
         </div>
         <div className="titleandprice">
           <p className='selected-item-title'> {item.title}</p>

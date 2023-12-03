@@ -4,52 +4,164 @@ body{
 }
 
 .topbarContainer {
-    height: 50px;
-    height: 4rem;
     width: 100%;
-    background-color: rgba(155,5,255);
+    height: 5rem;
     display: flex;
-    align-items: center;
-    position: sticky;
-    top: 0;
+    flex-direction: row;
+    z-index: 2;
+}
+
+.toggle-topbar-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    z-index: 1000; /* Ensure it's above other content */
+  }
+  
+.topbar-left-container.hidden {
+    transform: translateX(-100%); /* Adjust this value so that the icon is still visible */
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
     z-index: 1;
 }
 
-.topbarLeft {
- flex: 3;   
-}
+.topbar-left-container.visible {
+    transform: translateX(0%); /* Slide in */
+    width: 100%;
+    z-index: 1;
+  }
 
-.logo {
-    font-family: 'Exo', sans-serif;
-    font-weight: bold;
-    font-size: 36px;
-    margin-left: 20px;
+.show-topbar-icon{
+    font-size: 1.75rem;
     color: white;
-    cursor: pointer;
+    margin: 3rem 3rem 0 3rem;
 }
 
-.topbarRight {
- flex: 4;  
- display: flex;
- align-items: center;
- justify-content:flex-end;
- margin-right: 10%;
- color: white;
+.topbar-left-container {
+    position: fixed; /* Fixed or absolute, based on your layout */
+    top: 2rem;
+    left: 0;
+    width: 100vw;
+    height: 55vh;
+    transform: translateX(-100%); /* Start off-screen */
+    transition: transform 0.3s ease-in-out;
 }
 
-.account-balance{
-    margin: 1rem;
-    font-size: 1.25rem;
+.topbar-left-content-wrapper{
+    margin: 5rem 0;
+    padding: 5rem 4rem 2rem 4rem;
+    background-color: var(--darkgrayreid);
+    z-index: 1000;
+    height: 100%;
 }
 
-.topbarIcons {
+.top-row-container{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
-.topbariconItem{
-    margin-right: 1.2rem;
+.profile-photo-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.profile-photo-container img {
+    width: 5rem;
+    height: 5rem;
+}
+
+.username-type{
+    font-weight: 100;
+    color: gray;
+    /* margin-left: 1.1rem; */
+}
+
+.location-container{
+    display: flex;
+    justify-content: center;
+}
+
+.location-type{
+    font-weight: 100;
+    color: gray;
+}
+
+.location-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: .25rem;
+    color: gray;
+}
+
+.account-balance-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+    border-radius: 2rem;
+    /* width: 33%;
+    height: 33%; */
+    color: black;
+    margin-top: 2rem;
+    padding: .5rem 1rem;
+    background-color: var(--lime-green);
+}
+
+.account-balance-container p{
+    color: black;
+    font-weight: 600;
+}
+
+.notificaitons-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    align-items: center;
+}
+
+.notificaitons-container p {
+    font-size: 18px;
+}
+
+.notifications-icon-container{
     cursor: pointer;
     position: relative;
+    color: white;
+    height: 2rem;
+    width: 2rem;
+}
+
+.notification-bell-icon{
+    font-size: 2rem;
+}
+
+.messages-container{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    align-items: center;
+}
+
+.messages-container{
+    font-size: 18px;
+}
+
+.messages-icon-container{
+    position: relative;
+    cursor: pointer;
+    color: white;
+    height: 2rem;
+    width: 2rem;
+}
+
+.messages-icon{
+    font-size: 2rem;
 }
 
 .topbarIconBadge {
@@ -64,11 +176,20 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    scale: 1.1;
 }
 
-.notification-icon{
-    scale: 1.5;
+.message-count-icon{
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50%;
+    color: white;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .topbarImg {
@@ -77,6 +198,11 @@ body{
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
+}
+
+.bottom-line{
+    margin-top: 2.5rem;
+    border-color: gray;
 }
 
 .notificationsDropdown {
