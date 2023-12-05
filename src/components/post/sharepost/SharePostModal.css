@@ -51,6 +51,23 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .share-options li.highlighted {
+    background-color: white; /* Highlight color */
+    /* Other styles for highlighted item */
+    border-radius: 2rem;
+    width: 4rem;
+    height: 3rem;
+    margin: 0.25rem;
+  }
+
+  /* New rule for icon container within a highlighted list item */
+  .share-options li.highlighted .icon-container {
+    background-color: white; /* This will override the black background for the icon container */
+    width: 4rem;
+    height: 3rem;
+    margin: 0.25rem;
+  }
   
   .share-options .icon-container {
     width: 4rem;
@@ -64,8 +81,12 @@
   }
   
   .share-options i {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     color: white;
+  }
+
+  .share-options li.highlighted .icon-container i {
+    color: black;
   }
   
   .insta-steps-container{
@@ -114,6 +135,8 @@
     /* margin: 1rem 0; */
     display: block; /* Ensures the image is centered if smaller than container */
     object-fit: contain; /* Keeps the aspect ratio, adding empty space if necessary */
+    /* scale: 1.4; */
+    overflow: hidden;
   }
 
   .overlay-gif{

@@ -72,7 +72,9 @@
 .img-container img{
     border-radius: 1rem;
     /* width: 10rem; */
-    max-height: 13rem;
+    /* max-height: 6rem; */
+    height: 6rem;
+    width: 6rem;
 }
 
 .item-details-container{

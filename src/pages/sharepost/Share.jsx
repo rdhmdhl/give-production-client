@@ -74,19 +74,14 @@ export default function Share() {
       setIsModalOpen(false);
     }
   };
-  // underline and post type logic
 
-  // slide to gives feed
-  // const [givesState, setGivesState] = useState(false);
-
-  const resetHasToggled = () => {
-    //   setGivesState(false);
-  };
-
-  // resets toggle gives feed on reload
+  // resets details on selection type
   useEffect(() => {
-    resetHasToggled();
-  }, []);
+    setDetails(null);
+    setSelectedAmount(null);
+    setSelectedItem(null);
+    console.log("reseting the details");
+  }, [selectionType]);
 
   // use state for currency amounts popup
   const [seenGifts, setseenGifts] = useState(false);
@@ -115,10 +110,17 @@ export default function Share() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showItem, setShowItem] = useState(false);
 
+  /* CURRENCY AMOUNT HANDLING LOGIC BELOW */
+  // used for the selected currency amount
+  const [selectedAmount, setSelectedAmount] = useState(null);
+  const [showCurrency, setShowCurrency] = useState(false);
+  const [quantity, setQuanity] = useState("");
+
   const handleItemClick = (item) => {
     setSelectedItem(item);
     setShowItem(true);
     setseenGifts(false); // used to hide the item list when a selection is made
+    setSelectedAmount(null);
   };
 
   // used for exiting the item
@@ -128,17 +130,12 @@ export default function Share() {
     setseenGifts(true); // used to hide the item list when a selection is made
   };
 
-  /* CURRENCY AMOUNT HANDLING LOGIC BELOW */
-  // used for the selected currency amount
-  const [selectedAmount, setSelectedAmount] = useState(null);
-  const [showCurrency, setShowCurrency] = useState(false);
-  const [quantity, setQuanity] = useState("");
-
   const handleCurrencyClick = (amount) => {
     setSelectedAmount(amount);
     setShowCurrency(true);
     setSeenMoney(false); // used to hide the currency list when a selection is made
     setseenGifts(false); // used to hide the item list when a selection is made
+    setSelectedItem(null);
   };
 
   // used for exiting the currency amount
@@ -160,12 +157,12 @@ export default function Share() {
 
     let newDetails = {
       type: selectionType.toLowerCase(),
-      amount: selectedAmount,
+      amount: null,
       giveorreceive: transactionType.toLowerCase(),
-      quantity: quantity || 1,
-      title: selectedItem?.title || null,
-      photo: selectionType === "Item" ? lowerResolutionUrl : null,
-      itemId: selectedItem?.itemId || null,
+      quantity: null,
+      title: null,
+      photo: null,
+      itemId: null,
     };
 
     // If it's a currency, update the amount and set the other fields to null
@@ -195,10 +192,11 @@ export default function Share() {
       }
 
       newDetails.amount = itemAmount;
+      newDetails.quantity = 1;
       newDetails.title = selectedItem.title;
       (newDetails.photo =
         selectedItem?.thumbnailImages?.length > 0 ? lowerResolutionUrl : null),
-        (newDetails.itemId = selectedItem.itemId);
+        (newDetails.itemId = selectedItem?.itemId || null);
     }
     console.log(newDetails);
     return newDetails;
@@ -286,6 +284,7 @@ export default function Share() {
                             onClick={() => {
                               setDefaultGiftText(""); // Clear the default text
                               setSelectionType("Item");
+                              setQuanity(1); // reset quantity to 1 when selecting
                               toggleGift();
                             }}
                           >
@@ -323,7 +322,7 @@ export default function Share() {
                           id="quantity"
                           name="quantity"
                           value={quantity}
-                          onChange={(e) => setQuanity(e.target.value)}
+                          onChange={(e) => setQuanity(Number(e.target.value))}
                           min="1"
                           step="1"
                           placeholder="Quantity"

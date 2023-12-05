@@ -96,7 +96,7 @@ ImageTemplate.propTypes = {
     title: PropTypes.string,
     amount: PropTypes.number,
     giveorreceive: PropTypes.string,
-    quantity: PropTypes.string,
+    quantity: PropTypes.number,
     photo: PropTypes.string,
   }),
 };
