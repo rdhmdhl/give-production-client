@@ -85,7 +85,7 @@ const ShareToInstagram = ({
     }
   };
 
-  const stepImages = [generatedImage, "/assets/step1.png"];
+  const stepImages = [generatedImage, "/assets/twitter-step2.png"];
 
   //   const gifPositions = [
   //     { top: "0", left: "0", display: "none" }, // No display for step 1
@@ -94,7 +94,7 @@ const ShareToInstagram = ({
 
   const stepInstructions = [
     "Optional: download image",
-    "Click share, a tweet will be composed",
+    "Click share & a post will be composed",
   ];
 
   return (
