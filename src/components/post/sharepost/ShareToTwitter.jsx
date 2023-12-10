@@ -45,7 +45,7 @@ const ShareToInstagram = ({
 
     // used for post urls, not link urls
     if (postUrl) {
-      // Handle sharing to Twitter
+    // Handle sharing to Twitter
       text = "Check out this post on G-ve.";
       url = `${config.publicUrl}` + postUrl; // Assuming generatedLink contains the URL you want to share
       const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -72,11 +72,12 @@ const ShareToInstagram = ({
 
       // Handle sharing to Twitter
       let url = generatedLink; // Assuming generatedLink contains the URL you want to share
-    //   let encodedText = encodeURIComponent(text);
-      let textWithBreak = `${encodeURIComponent(text)}%0A%0A${encodeURIComponent(url)}`; // Adding two encoded newline characters
+      //   let encodedText = encodeURIComponent(text);
+      let textWithBreak = `${encodeURIComponent(
+        text
+      )}%0A%0A${encodeURIComponent(url)}`; // Adding two encoded newline characters
 
       const tweetUrl = `https://twitter.com/intent/tweet?text=${textWithBreak}`;
-      
 
       if (currentStep === 1) {
         // Open the Twitter share dialog in a new window

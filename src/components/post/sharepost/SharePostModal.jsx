@@ -4,7 +4,6 @@ import "./SharePostModal.css";
 import "font-awesome/css/font-awesome.min.css";
 import { AuthContext } from "../../../context/AuthContext";
 
-// import { toPng } from 'html-to-image';
 import config from "../../../config";
 import ImageTemplate from "../../../pages/sharepost/ImageTemplate";
 import Popup from "../../popup/Popup";
@@ -13,6 +12,7 @@ import React, { useContext, useState, useEffect } from "react";
 import useLinkGenerator from "../../../pages/sharepost/LinkGenerator";
 import ShareToInstagram from "./ShareToInstagram";
 import ShareToTwitter from "./ShareToTwitter";
+import ShareToMessages from "./ShareToMessages";
 
 // TODO:
 // REMOVED postUrl, FROM PARAMETERS TEMPORARILY
@@ -36,8 +36,8 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
   const socialOptions = [
     { name: "Instagram", iconClass: 'fa fa-instagram' },
     { name: "Twitter", iconClass: 'fa fa-twitter' },
-    {iconClass: 'fa fa-comment' },
-    {iconClass: 'fa fa-clone' }
+    {name: "Messages", iconClass: 'fa fa-comment' },
+    // {name: "Clipboard", iconClass: 'fa fa-clone' }
   ];
   
   // function to show popup used in the catch blocks
@@ -86,65 +86,8 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
   //   // Handle sharing to Facebook
   // };
 
-  // const copyUrlToClipboard = async () => {
-  //   try {
-  //     // copy post url
-  //     if (postUrl) {
-  //       await navigator.clipboard.writeText(`${config.publicUrl}` + postUrl);
-  //       // setCaution("Copied to clipboard!");
-  //     }
-  //     // copy link url
-  //     if (linkGenerated && generatedLink) {
-  //       await navigator.clipboard.writeText(generatedLink);
-  //       // setCaution("Copied to clipboard!");
-  //     }
-  //     // clear alert after 3 seconds
-  //     // setTimeout(() => setCaution(null), 3000);
-  //   } catch (error) {
-  //     // setCaution("An unexpected error occurred. Please try again later.");
-  //   }
-  // };
-
-  // Handle sharing via text message
-  // const shareToTextMessage = () => {
-  //   // Check if the link is generated or if a postURL is provided
-  //   if ((linkGenerated && generatedLink) || postUrl) {
-  //     // Create the message text
-  //     let text =
-  //       "Check out this post on G-ve. It's a website where you can give and receive anonymously. ";
-  //     let urlToShare = postUrl
-  //       ? `${config.publicUrl}/${postUrl}`
-  //       : generatedLink; // Use postURL if available, otherwise use generatedLink
-
-  //     if (generatedLink && linkGenerated && details) {
-  //       if (details.giveorreceive === "give" && details.type === "currency") {
-  //         text = `I'll give you $${details.amount}. Check it out: `;
-  //       }
-  //       if (
-  //         details.giveorreceive === "receive" &&
-  //         details.type === "currency"
-  //       ) {
-  //         text = `Checkout this new website, you can give me $${details.amount} anonymously. `;
-  //       }
-  //       if (details.giveorreceive === "give" && details.type === "item") {
-  //         text = `Sending this out to someone anonymous -- ${details.title} 🎁 `;
-  //       }
-  //       if (details.giveorreceive === "receive" && details.type === "item") {
-  //         text = `Send it and make my day! ${details.title} 💖 `;
-  //       }
-  //     }
-
-  //     // Complete the message with the URL to share
-  //     text += urlToShare;
-
-  //     // Encode the text
-  //     const encodedText = encodeURIComponent(text);
-
-  //     // Open the text message app (this example is for iOS)
-  //     window.location.href = `sms:?&body=${encodedText}`;
-  //   }
-  // };
-
+  
+  
   return (
     <div className={`modal ${isOpen ? "open" : ""}`} onClick={closeModal}>
       <Popup
@@ -196,9 +139,17 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
             downloadImage={downloadImage}
         />
         )}
-
-
-
+        {socialOptions[selectedItem]?.name === "Messages" && (
+          <ShareToMessages
+            details={details}
+            postUrl={postUrl}
+            linkGenerated={linkGenerated}
+            generatedLink={generatedLink}
+            generatedImage={generatedImage}
+            isLoadingImage={isLoadingImage}
+            downloadImage={downloadImage}
+        />
+        )}
       </div>
 
       <div className="offscreen">
