@@ -14,5 +14,5 @@
   background-color: rgb(33, 33, 33);
   width: 75%; /* Width */
   text-align: center; /* Centered text */
-  border-radius: 10%;
+  border-radius: 1rem;
 }

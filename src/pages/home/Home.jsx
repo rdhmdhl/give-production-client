@@ -1,5 +1,6 @@
 import './Home.css';
-import TimelineFeed from '../../components/feed/TimelineFeed';
+// import TimelineFeed from '../../components/feed/TimelineFeed';
+import LinksFeed from '../../components/feed/LinksFeed';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,7 +9,7 @@ export default function Home({socket, user}) {
   return (
     <>
       <div className="homeContainer">
-        <TimelineFeed socket={socket} user={user} />
+        <LinksFeed socket={socket} user={user} />
       </div>
    </>
   )

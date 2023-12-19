@@ -3,48 +3,50 @@ import './feed.css';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import React from 'react';
-import Post from '../post/Post';
 import PropTypes from 'prop-types';
 import config from '../../config';
+import Link from '../link/Link';
 
 const PAGE_SIZE = 25;
 
-const fetchPosts = async (username, page) => {
-  const res = await axios.get(`${config.apiUrl}/statuses/profile/${username}?page=${page}`);
+const fetchActiveLinks = async (username, page) => {
+  const res = await axios.get(`${config.apiUrl}/links/${username}?page=${page}`);
   const data = res.data || [];
 
   const hasMore = data.length === PAGE_SIZE;
   
-  return { posts: data, hasMore };
+  return { links: data, hasMore };
 };
 
 
+
+
 export default function Feed({username}) {
-  const [posts, setPosts] = useState([]);
+  const [links, setlinks] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
   
   const loadMore = async () => {
-    const { posts: newPosts, hasMore: newHasMore } = await fetchPosts(username, page + 1);
+    const { links: newlinks, hasMore: newHasMore } = await fetchActiveLinks(username, page + 1);
     
-    setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+    setlinks((prevlinks) => [...prevlinks, ...newlinks]);
     setHasMore(newHasMore);
     setPage((prevPage) => prevPage + 1);
   };
 
   useEffect(() => {
-    const loadPosts = async () => {
-      const { posts: newPosts, hasMore: newHasMore } = await fetchPosts(username, 1);
+    const loadlinks = async () => {
+      const { links: newlinks, hasMore: newHasMore } = await fetchActiveLinks(username, 1);
       
-      setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+      setlinks((prevlinks) => [...prevlinks, ...newlinks]);
       setHasMore(newHasMore);
     };
 
     setPage(1);
-    setPosts([]);
+    setlinks([]);
     setHasMore(true);
-    loadPosts();
+    loadlinks();
   }, [username]);
   
 return (
@@ -52,7 +54,8 @@ return (
     <div className="feedWrap">
 
       <InfiniteScroll
-        dataLength={posts.length}
+        className="infinite-scroll-component" style={{ height: 'auto', overflow: 'visible' }}
+        dataLength={links.length}
         next={loadMore}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
@@ -69,8 +72,8 @@ return (
         // refreshFunction={this.refresh}
         
         >
-      {posts.map((p, index) => (
-        <Post key={p._id + '-' + index} post={p} />
+      {links.map((l, index) => (
+        <Link key={l._id + '-' + index} link={l} />
       ))}
       </InfiniteScroll>
   </div>

@@ -1,0 +1,157 @@
+.notifications-page-wrapper{
+    margin: 2rem;
+    width: auto;
+    height: auto;
+}
+
+.mark-as-read-button {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--offwhite);
+    background-color: var(--dakgrayreid);
+    border-radius: 1.5rem;
+    border: solid 1px var(--offwhite);
+}
+
+
+.undread-read-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--offwhite);
+    background-color: var(--dakgrayreid);
+    border: solid 1px var(--offwhite);
+    border-radius: 1.5rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+  }
+
+.mark-as-read-container{
+    width: 50%;
+    margin-bottom: 1rem;
+}
+
+
+.notificationDetails {
+    z-index: 100;
+    /* color: black; */
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: .5rem 1rem 1rem 1rem;
+    border-bottom: solid .5px var(--gray);
+}
+  
+.notification-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .unread-read-button-container {
+    width: 50%;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  
+.notificationSender {
+    font-weight: 500;
+    font-size: .8rem;
+}
+
+.notification-message {
+    font-weight: 500;
+    font-size: .8rem;
+    margin-bottom: 5px;
+}
+
+.notificationAmount {
+    border: 1px solid var(--darkgray);   
+    max-width: 3rem;
+    max-height: 3rem;
+    display: flex;
+    /* margin-top: 0.5rem; */
+    margin-bottom: .5rem;
+    margin-left: 1rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    /* background-color: var(--white); */
+    overflow: hidden;
+    border: solid 1px var(--gray);
+}
+  
+  .notificationAmount img {
+    width: 100%;
+    height: 100%;
+    /* object-fit: contain; */
+    border-radius: 5%;
+  }
+
+
+  .currency-box {
+    /* color: black; */
+    font-size: 1.5rem;
+    font-weight: 600;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem
+  }
+  
+.senderandamount{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.notificationDate {
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-bottom: 5px;
+    color: var(--gray);
+}
+
+
+.notificationItemTitle{
+    font-size: 10px;
+    margin: 5px 0;
+}
+
+.senderandtitle {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.profilePhoto {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: .4rem;
+};
+
+.mark-as-read-container {
+    display: flex;
+    width: 100%;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

@@ -157,7 +157,6 @@ export default function Settings() {
     {/* <Topbar/> */}
       <div className='settingsWrapper'>
       <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
-        <h1 className='heading'>Edit Profile</h1>
         <div className="profile-images">
           {/* COVER PHOTO */}
           <label htmlFor='coverFile' className="shareOption">

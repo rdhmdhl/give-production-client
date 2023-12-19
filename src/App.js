@@ -1,4 +1,4 @@
-// import Home from "./pages/home/Home";
+import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import React from 'react';
@@ -9,7 +9,8 @@ import WishList from "./pages/wishList/WishList";
 import AcceptLink from "./pages/acceptlink/AcceptLink";
 import Topbar from "./components/Topbar";
 import Share from "./pages/sharepost/Share";
-// import WriteIcon from "./components/share/writeIcon";
+import Notifications from "./pages/notifications/Notifications";
+import WriteIcon from "./components/share/writeIcon";
 import ReactLoading from 'react-loading';
 import './App.css';
 
@@ -26,7 +27,7 @@ import { io } from "socket.io-client";
 function App() {
   const {isLoading, user} = useContext(AuthContext);
   const [socket, setSocket] = useState(null);
-  const [showProfile, setShowProfile] = useState(false);
+  // const [showProfile, setShowProfile] = useState(false);
   //  socket io for real-time notifications
   useEffect(() => {
     if (user && user._id) {
@@ -49,10 +50,11 @@ function App() {
       <>
       <Topbar socket={socket} />
 
-        <div className="top-bar-menu">
+        {/* <div className="top-bar-menu">
           <p className="top-options" style={{ textDecoration: showProfile ? 'none' : 'underline' }} onClick={() => setShowProfile(false)}>Share</p>
+
           <p className="top-options" style={{ textDecoration: showProfile ? 'underline' : 'none' }} onClick={() => setShowProfile(true)}>Profile</p>
-        </div>
+        </div> */}
 
         <Routes>
           <Route 
@@ -71,13 +73,29 @@ function App() {
           <Route path="/" element={
           user ? (
             <>
-              {/* <WriteIcon /> */}
-              {showProfile ? <Profile /> : <Share />}
+              <WriteIcon />
+              <Home socket={socket} user={user}/>
             </>
           ) : <Navigate to="/login" />
           }/>
+
+          <Route path="share" element={user ? <Share /> : <Navigate to="/login" />} />
+
+          <Route path="/notifications" element={user ? <Notifications  socket={socket}/> : <Navigate to="/login" />} />
+
+          <Route path="profile/:username" element={
+            user ? (
+              <>
+                <WriteIcon />
+                <Profile />
+              </>
+            ) : <Navigate to="/login" />
+            }/>
+
           <Route path="profile/:username/settings" element={user ? <Settings /> : <Navigate to="/login" />} />
+
           <Route path="/wishlist" element={user ? <WishList /> : <Navigate to="/login" />} />
+        
         </Routes>
     </>
   </Router>

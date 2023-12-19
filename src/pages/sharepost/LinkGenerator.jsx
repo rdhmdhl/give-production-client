@@ -11,7 +11,7 @@ const useLinkGenerator = () => {
 
   const generateLink = async (user, details) => {
     try {
-      const response = await axios.post(`${config.apiUrl}/api/create`, {
+      const response = await axios.post(`${config.apiUrl}/links/create`, {
         creatorUserId: user._id,
         details: details,
         used: false,

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
 import PropTypes from "prop-types";
@@ -14,6 +16,8 @@ const ShareToInstagram = ({
   const [currentStep, setCurrentStep] = useState(0);
 
   const [caution, setCaution] = useState(null);
+
+  const navigate = useNavigate();
 
   //   useEffect(() => {
   //     try {
@@ -43,6 +47,9 @@ const ShareToInstagram = ({
         }
         // if the user is on step 4, send them to instagram
         if (currentStep === 3) {
+          // navigate back to the home page
+          navigate('/');
+
           const instaUrl = "https://instagram.com/";
           // Open the Twitter share dialog in a new window
           window.open(instaUrl, "_blank");
@@ -62,8 +69,8 @@ const ShareToInstagram = ({
 
   const gifPositions = [
     { top: "0", left: "0", display: "none" }, // No display for step 1
-    { top: "13.5rem", left: "-.15rem" }, // Position for step 2
-    { top: "15.75rem", left: "-3rem" }, // Position for step 3
+    { top: "12rem", left: "-.15rem" }, // Position for step 2
+    { top: "14.25rem", left: "-3rem" }, // Position for step 3
     { top: "0", left: "0", display: "none" }, // No display for step 4
   ];
 

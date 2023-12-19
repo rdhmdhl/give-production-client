@@ -8,6 +8,7 @@ import { AuthContext } from '../../context/AuthContext';
 import NotificationSender from '../notifications/NotificationSender';
 import config from '../../config';
 import Popup from '../popup/Popup';
+import './CurrencyList.css';
 
 export default function CurrencyList({post, setAmount, currentUser, onClick, socket, onAmountClick, setChangeCurrencyColor, setSeenMoney, onGive = () => {} }) {
 

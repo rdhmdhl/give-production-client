@@ -68,7 +68,7 @@ export default function Share() {
       setIsModalOpen(true);
     } else {
       popupStatus(
-        "Please select a gift type, gift, and to give or receive.",
+        "Please select give or receive, item or currency, and the item or currency amount.",
         "Close"
       );
       setIsModalOpen(false);

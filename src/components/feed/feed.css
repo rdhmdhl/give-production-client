@@ -1,18 +1,20 @@
 .feed {
     flex: 1;
-    /* margin: 0 5% 0 5%; */
+    margin: 3rem 0;
     /* padding: 0 5% 0 5%; */
     color: white;
     font-family: 'Exo', sans-serif;
     justify-content: center;
     align-items: center;
     width: 100vw;
+    z-index: 0;
     /* height: 100vh; */
 }
 
 .infinite-scroll-component  {
     padding: 5px;
 }
+
 
 @media only screen and (min-width: 700px){
     .feed {

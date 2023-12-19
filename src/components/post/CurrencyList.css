@@ -1,0 +1,29 @@
+.giveMoney {
+    border: 1px solid var(--offwhite);
+    border-radius: 5px;
+    color: var(--offwhite);
+    cursor: pointer;
+    font-size: 1.5rem;
+    height: 4.5rem;
+    width: 4.5rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.amounts, .giveMoney {
+    align-items: center;
+    display: flex;
+}
+
+.amounts {
+    grid-area: center;
+    height: 6rem;
+    justify-content: space-evenly;
+}
+
+.gift-selected-item {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: center;
+}
