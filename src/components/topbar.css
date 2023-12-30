@@ -150,14 +150,14 @@ body{
     font-size: 2rem;
 }
 
-.messages-container{
+.topbar-messages-container{
     display: flex;
     justify-content: space-between;
     margin: 1rem 0;
     align-items: center;
 }
 
-.messages-container{
+.topbar-messages-container{
     font-size: 18px;
 }
 

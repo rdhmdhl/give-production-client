@@ -106,6 +106,11 @@ const goToProfile = () => {
   navigate(`/profile/${user ? user.username : ''}`)
 };
 
+const goToMessages = () => {
+  setShowTopbar(false);
+  navigate('/messages');
+};
+
 
   return (
     <div className='topbarContainer'>
@@ -166,7 +171,7 @@ const goToProfile = () => {
 
 
       </div>     
-      <div className="messages-container">
+      <div className="topbar-messages-container" onClick={goToMessages}>
             <p>Messages</p>
             <div className="messages-icon-container">
               <AiFillMail className="messages-icon"/>
@@ -174,7 +179,7 @@ const goToProfile = () => {
               {/* <span className="message-count-icon">{unreadNotifications.length}</span> */}
             </div>
       </div>
-        <div className="messages-container" onClick={goToSettings}>
+        <div className="topbar-messages-container" onClick={goToSettings}>
               <p>Settings</p>
               <div className="messages-icon-container">
                 <AiFillSetting className="messages-icon"/>

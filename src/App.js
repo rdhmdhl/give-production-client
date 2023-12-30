@@ -10,6 +10,7 @@ import AcceptLink from "./pages/acceptlink/AcceptLink";
 import Topbar from "./components/Topbar";
 import Share from "./pages/sharepost/Share";
 import Notifications from "./pages/notifications/Notifications";
+import Messages from "./pages/messages/Messages";
 import WriteIcon from "./components/share/writeIcon";
 import ReactLoading from 'react-loading';
 import './App.css';
@@ -95,6 +96,8 @@ function App() {
           <Route path="profile/:username/settings" element={user ? <Settings /> : <Navigate to="/login" />} />
 
           <Route path="/wishlist" element={user ? <WishList /> : <Navigate to="/login" />} />
+
+          <Route path="/messages" element={user ? <Messages/> : <Navigate to="/login" />} />
         
         </Routes>
     </>

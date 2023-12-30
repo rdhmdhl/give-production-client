@@ -1,0 +1,39 @@
+.single-conversation-container{
+    width: 100%;
+    max-height: 5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    margin: 1rem 0rem;
+}
+
+.left-side-container{
+    margin: 0 2rem;
+}
+
+.right-side-container{
+    width: 100%;
+}
+
+.username-title{
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--offwhite);
+    display: flex;
+    align-items:flex-start;
+}
+
+.profile-picture{
+    display: flex;
+    justify-content: flex-start;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 50%;
+}
+
+.message-preview{
+    font-size: 16px;
+    font-weight: 100;
+    color: rgb(190, 190, 190)
+}
