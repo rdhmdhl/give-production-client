@@ -1,6 +1,6 @@
 .share {
     width: 100vw;
-    height: 100vh;
+    height: auto;
 }
 
 .createLinkWrapper{
@@ -180,7 +180,6 @@
     border-radius: .5rem;
     /* background-color: black; */
     border: .5px solid var(--offwhite);
-    margin-top: .2rem;
 }
 
 .instructions-middle-card p {
@@ -327,7 +326,7 @@ input::-webkit-input-placeholder {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 1rem 0 0rem 0;
+    margin: 1rem 0rem;
   }
 
   .numberInputContainer {

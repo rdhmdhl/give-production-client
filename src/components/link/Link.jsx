@@ -4,13 +4,23 @@ import {format} from 'timeago.js';
 import './Link.css';
 
 function Link({link}) {
-    let giveorreceive;
+    let giveOrReceive;
+    let titleOrAmount;
 
     if (link.details.giveorreceive === "give"){
-        giveorreceive = "giving"
+        giveOrReceive = "giving"
     } else {
-        giveorreceive = "requesting"
+        giveOrReceive = "requesting"
     }
+
+    if(link.details.type === "currency"){
+        const giveAmount = link.details.amount;
+        titleOrAmount = `${giveAmount} dollars.`;
+    } else{
+        titleOrAmount = `${link.details.title}.`;
+    }
+
+
 
   return (
     <div className='link-container'>
@@ -28,7 +38,7 @@ function Link({link}) {
                 </div>
             </div>
             <div className="right-side">
-                <p className='description'>User near Los Angeles, CA is {giveorreceive} {link.details.title}</p>
+                <p className='description'>User near Los Angeles, CA is {giveOrReceive} {titleOrAmount}</p>
                 <p className="created-at">{format(link.updatedAt)}</p>
             </div>
         </div>
@@ -46,7 +56,9 @@ Link.propTypes = {
             title: PropTypes.string,
             photo: PropTypes.string,
             amount: PropTypes.number,
-            giveorreceive: PropTypes.string
+            giveorreceive: PropTypes.string,
+            type: PropTypes.string
+            
         }),
         updatedAt: PropTypes.string
     }),

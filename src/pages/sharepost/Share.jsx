@@ -114,7 +114,7 @@ export default function Share() {
   // used for the selected currency amount
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [showCurrency, setShowCurrency] = useState(false);
-  const [quantity, setQuanity] = useState("");
+  const [quantity, setQuanity] = useState(null);
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
