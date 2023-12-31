@@ -80,9 +80,15 @@ return (
               //   </div>}
               page={page}
               endMessage={
-                <p style={{textAlign: 'center', margin: `3rem`, fontWeight: '100', color: 'var(--offwhite)'}}>
-                  Send or receive a gift to start a conversation. 
+                <div style={{ textAlign: 'center', margin: '2rem' }}>
+                <p style={{ fontWeight: '100', color: 'var(--gray)' }}>
+                  We prioritize your security. All messages are encrypted end-to-end for maximum privacy and security.
                 </p>
+                <br/>
+                <p style={{ fontWeight: '100', color: 'var(--gray)' }}>
+                  Send or receive a gift to start a conversation.
+                </p>
+              </div>
               }
               // TODO --> write a refresh fuction
               // pullDownToRefresh

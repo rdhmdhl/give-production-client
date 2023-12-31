@@ -7,7 +7,6 @@ function Conversation({conversation,
 
   function truncateAtWord(str, maxLength) {
     if (str.length <= maxLength) {
-        console.log("str.length <= maxLength")
         return str;
     }
 
