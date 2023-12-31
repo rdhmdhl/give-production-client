@@ -4,6 +4,7 @@
     align-items: center;
     flex-direction: column;
     max-width: 100%;
+    margin: 0 .5rem;
 }
 
 .top-box{
@@ -11,7 +12,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 2rem;
     border-bottom: solid 1px var(--offwhite);
 }
 

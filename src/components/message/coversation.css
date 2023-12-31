@@ -10,15 +10,18 @@
 
 .left-side-container{
     margin: 0 2rem;
+    flex: 0 0 auto;
 }
 
 .right-side-container{
-    width: 100%;
+    /* width: 100%; */
+    flex: 1 1 auto;
+    padding-right: 1rem;
 }
 
 .username-title{
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     color: var(--offwhite);
     display: flex;
     align-items:flex-start;
@@ -32,8 +35,18 @@
     border-radius: 50%;
 }
 
-.message-preview{
+.message-preview {
     font-size: 16px;
     font-weight: 100;
-    color: rgb(190, 190, 190)
+    color: rgb(190, 190, 190);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    padding-right: 20px;
+    box-sizing: border-box;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines you want */
+    -webkit-box-orient: vertical;
+    line-height: 1.2em; /* Adjust based on your font size */
+    max-height: 2.4em; /* Twice the line-height */
 }

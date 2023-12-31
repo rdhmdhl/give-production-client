@@ -97,7 +97,7 @@ function App() {
 
           <Route path="/wishlist" element={user ? <WishList /> : <Navigate to="/login" />} />
 
-          <Route path="/messages" element={user ? <Messages/> : <Navigate to="/login" />} />
+          <Route path="/messages" element={user ? <Messages socket={socket} user={user}/> : <Navigate to="/login" />} />
         
         </Routes>
     </>

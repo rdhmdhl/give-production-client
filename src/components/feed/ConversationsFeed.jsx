@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-// import Post from '../post/Post'
-// import Share from '../share/Share'
-import './feed.css';
+import './conversationFeed.css';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 // import { AuthContext } from '../../context/AuthContext';
@@ -10,16 +8,16 @@ import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import config from '../../config';
 import Popup from '../popup/Popup';
-import Link from '../link/Link';
+import Conversation from '../message/Conversation';
 
-export default function LinksFeed({
+export default function ConversationsFeed({
     socket, 
-    // user
+    user
 }) {
-  const [links, setLinks] = useState([]);
+  const [conversations, setConversations] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [alllinksLoaded, setAlllinksLoaded] = useState(false); // New state variable
+  const [allConversationsLoaded, setAllConversationsLoaded] = useState(false); // New state variable
   const [initialLoad, setInitialLoad] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
@@ -30,50 +28,51 @@ export default function LinksFeed({
     setShowPopup(true);
   }
 
-  const fetchLinks = async () => {
+  const fetchConversations = async () => {
     let res;
     try {
-        // fetch links if user isn't logged in
-        res = await axios.get(`${config.apiUrl}/links/all?page=${page}`);
-        
+        // fetch conversations
+        res = await axios.get(`${config.apiUrl}/conversations/${user._id}?page=${page}`);
+        console.log("res conversations: ", res);
+
       if (res.data.length === 25) {
         setPage(prevPage => prevPage + 1);
-        setLinks((links) => [...links, ...res.data]);
+        setConversations((conversations) => [...conversations, ...res.data]);
         setHasMore(true);
       } if (res.data.length < 25 && res.data.length > 0){
-        setLinks((links) => [...links, ...res.data]);
+        setConversations((conversations) => [...conversations, ...res.data]);
         setHasMore(false);
-        setAlllinksLoaded(true);
+        setAllConversationsLoaded(true);
       } else if (res.data.length === 0 ) { 
         setHasMore(false);
-        setAlllinksLoaded(true);
+        setAllConversationsLoaded(true);
       }
     } catch (error) {
-      await popupStaus("An error occured when fetching links. Please try again later.")
+      await popupStaus("An error occured when fetching conversations. Please try again later.")
     }
 };
 
 useEffect(() => {
   if (initialLoad) {
-    fetchLinks();
+    fetchConversations();
     setInitialLoad(false);
   }
 }, [hasMore]);
 
 
 return (
-      <div className='feed' style={{backgroundColor: 'rgb(21, 24, 25)'}}>
+      <div className='conversations-feed' style={{backgroundColor: 'rgb(21, 24, 25)'}}>
         <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
           <div className="feedWrap">
-            {!alllinksLoaded ? (
+            {!allConversationsLoaded ? (
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem', marginBottom: '20px' }}>
                 <ReactLoading type={'balls'} color={'white'} height={'20%'} width={'20%'} />
               </div>
             ) : (
               <InfiniteScroll
               className="infinite-scroll-component" style={{ height: 'auto', overflow: 'visible' }}
-              dataLength={links.length}
-              next={fetchLinks}
+              dataLength={conversations.length}
+              next={fetchConversations}
               hasMore={hasMore}
               // loader={
               // <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '20px' }}>
@@ -82,7 +81,7 @@ return (
               page={page}
               endMessage={
                 <p style={{textAlign: 'center', margin: `3rem`, fontWeight: '100', color: 'var(--offwhite)'}}>
-                  There are no more links availble. Create one for it to show up on the home page. 
+                  Send or receive a gift to start a conversation. 
                 </p>
               }
               // TODO --> write a refresh fuction
@@ -97,8 +96,8 @@ return (
               
               >
             {/* <Share/> */}
-            {links.map((l, index) => (
-              <Link key={l._id + '-' + index} link={l} socket={socket}/>
+            {conversations.map((c, index) => (
+              <Conversation key={c._id + '-' + index} conversation={c} socket={socket}/>
             ))}
 
             </InfiniteScroll>
@@ -108,9 +107,7 @@ return (
       )
 }
 
-LinksFeed.propTypes = {
-  username: PropTypes.string, 
+ConversationsFeed.propTypes = {
   socket: PropTypes.object,
-  setIsLoading: PropTypes.bool, 
   user: PropTypes.object
 };
