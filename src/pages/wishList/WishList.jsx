@@ -24,7 +24,6 @@ export default function wishList() {
     setSelectedItem(item);
     setShowItem(true);
     // setseenGifts(false); // used to hide the item list when a selection is made
-    console.log("logging from the wishlist, here is the item: ", item);
     setShowSearchBar(prev => !prev)
 };
 

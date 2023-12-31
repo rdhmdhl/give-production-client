@@ -122,10 +122,7 @@ const acceptorgive = async () => {
                 }
             }
 
-            console.log("last message ", lastMessage);
-            console.log("receiver user id: ", receiverUserId);
-
-            const res = await axios.post(`${config.apiUrl}/conversations/create-conversation`, {
+            await axios.post(`${config.apiUrl}/conversations/create-conversation`, {
                 'initiatorUserId': receiverUserId,
                 'responderUserId': currentUser._id,
                 'linkId': link._id,
@@ -133,8 +130,6 @@ const acceptorgive = async () => {
             
             });
 
-            console.log("res data ", res.data);
-    
             navigate('/messages');
             
         } catch (error) {
