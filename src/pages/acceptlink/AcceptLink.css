@@ -4,8 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 80vh;
-    color: white;
-    border: 1px solid var(--purple);
+    color: var(--offwhite);
     border-radius: 1rem;
     margin: 0 1rem;
 }
@@ -19,11 +18,7 @@
 }
 
 .own-link-message {
-    color: white;
-}
-
-button{
-    margin: 1rem;
+    color: var(--offwhite);
 }
 
 .profile-pic {
@@ -31,30 +26,43 @@ button{
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
-    margin: 1rem;
 }
 
 .link-creator-and-title {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 1rem 2rem;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 90%;
+    font-size: 12px;
+    font-weight: 300;
 }
 
-.image-quantity-button {
+.image-description-amount {
     display: flex;
-    flex-direction: row;
-    margin: 1rem 2rem;
-    justify-content: space-between;
-    width: 90%;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 80%;
 }
 
-.image-quantity-button img {
-    max-height: 15rem;
-    max-width: 10rem;
+.image-description-amount img {
+    max-height: 8rem;
+    max-width: 8rem;
     border-radius: 1rem;
+}
+
+.image-amount-container{
+    display: flex;
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.link-right-side-container{
+    padding: 0 0 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .bottom-right-container {
@@ -65,15 +73,30 @@ button{
     align-items: center;
 }
 
+.CTA-button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.link-title-and-details{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 2rem;
+}
+
 .give-or-accept-button {
-    width: 7rem;
+    width: 100%;
     height: 3.5rem;
     border-radius: 2rem;
     font-size: 1.25rem;
     background-color: var(--purple);
+    border: none;
+    color: var(--offwhite);
+    margin: 0;
 }
 
 .amount {
     color: rgb(0, 176, 26);
     font-weight: 800;
+    margin-top: .5rem;
 }

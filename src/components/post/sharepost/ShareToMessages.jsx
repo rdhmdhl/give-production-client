@@ -3,6 +3,7 @@ import { FaCircle } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
 import config from "../../../config";
 import PropTypes from "prop-types";
+import { useNavigate } from 'react-router';
 
 function ShareToMessages({  
     details,
@@ -16,6 +17,8 @@ function ShareToMessages({
     const [showMessageSteps, setShowMessageSteps] = useState(true);
 
     const [currentStep, setCurrentStep] = useState(0);
+
+    const navigate = useNavigate();
 
 // Handle sharing via text message
   const shareToTextMessage = () => {
@@ -60,6 +63,7 @@ function ShareToMessages({
       const encodedText = encodeURIComponent(text);
 
       if (currentStep === 1){
+        navigate('/')
         // Open the text message app (this example is for iOS)
         window.location.href = `sms:?&body=${encodedText}`;
 

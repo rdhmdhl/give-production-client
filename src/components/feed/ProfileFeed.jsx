@@ -10,7 +10,7 @@ import Link from '../link/Link';
 const PAGE_SIZE = 25;
 
 const fetchActiveLinks = async (username, page) => {
-  const res = await axios.get(`${config.apiUrl}/links/${username}?page=${page}`);
+  const res = await axios.get(`${config.apiUrl}/links/profile/${username}?page=${page}`);
   const data = res.data || [];
 
   const hasMore = data.length === PAGE_SIZE;

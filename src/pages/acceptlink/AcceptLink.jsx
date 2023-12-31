@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { IoArrowBackOutline } from "react-icons/io5";
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import NotificationSender from '../../components/notifications/NotificationSender';
 import './AcceptLink.css';
@@ -29,7 +28,7 @@ const popupStatus = async (message) => {
 useEffect(() => {
     const fetchLink = async () => {
         try {
-            const res = await axios.get(`${config.apiUrl}/api/${linkId}`);
+            const res = await axios.get(`${config.apiUrl}/links/${linkId}`);
             if (res.data.link.creatorUserId === currentUser._id) {
                 // users cannot use their own link
                 setisUserLink(true);
@@ -105,8 +104,38 @@ const acceptorgive = async () => {
                 message,
                 ebItemPhoto
             });
+            
+            let lastMessage;
+
+            if (link.details.type === "currency") {
+                if (giveorreceive === "give") {
+                    lastMessage = `User gave you ${amount}`;
+                }
+                else {
+                    lastMessage = `You gave user ${amount}`
+                }
+            } else {
+                if (giveorreceive === "give") {
+                    lastMessage = `User gave you ${link.details.title}`
+                } else { 
+                    lastMessage = `You gave user ${link.details.title}`
+                }
+            }
+
+            console.log("last message ", lastMessage);
+            console.log("receiver user id: ", receiverUserId);
+
+            const res = await axios.post(`${config.apiUrl}/conversations/create-conversation`, {
+                'initiatorUserId': receiverUserId,
+                'responderUserId': currentUser._id,
+                'linkId': link._id,
+                'lastMessage': lastMessage
+            
+            });
+
+            console.log("res data ", res.data);
     
-            navigate('/');
+            navigate('/messages');
             
         } catch (error) {
             await popupStatus("An error occured when trying to use this link. Please try again later.", "Close")
@@ -116,17 +145,11 @@ const acceptorgive = async () => {
 return (
     <div className="link-page-container">
         <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
-      <div className="top">
-        <Link className='back-icon' to='/'>
-          <IoArrowBackOutline />
-        </Link>
-        <h2>Link</h2>
-      </div>
   
       {hasUserResponded
         ?
         <div className='own-link-container'>
-        <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "/assets/person/nopicture.png"}/>
+        <img className="profile-pic" src={currentUser.profilePicture ? currentUser.profilePicture : "/assets/person/nopicture.png"}/>
     <h3 className='own-link-message'>... you can`t use this link more than once</h3>
     </div> :
         isUserLink
@@ -136,13 +159,11 @@ return (
                     </div> 
                 : link.details 
                     ? <div className="link-details">
-                        <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "/assets/person/nopicture.png"}
-                        alt="link creator profile picture" />
                         {link.details.type === 'currency' && link.details.quantity > 0 
                             ? (
                                 <>
-                                    <h3>
-                                        {linkUserData.username} 
+                                    <h3 className='link-title-and-details'>
+                                        User 
                                         {link.details.giveorreceive === "give" ? " wants to give you " : " would like "} 
                                         ${link.details.amount}
                                     </h3>
@@ -158,18 +179,24 @@ return (
                             : link.details.type === 'item' && link.details.quantity > 0 
                             ? (
                                 <>   
-                                    <h3 className='link-creator-and-title'>{linkUserData.username} wants to {link.details.giveorreceive}: {link.details.title}</h3>
-                                    <div className="image-quantity-button">
-                                    <img src={link.details.photo}/>
-                                    <div className="bottom-right-container">
-                                        <p className='amount'>${link.details.amount}</p> 
-                                        {link.details.giveorreceive === "give" && 
-                                            <button className='give-or-accept-button' onClick={() => acceptorgive()}>Accept</button>
-                                        }
-                                        {link.details.giveorreceive === "receive" && 
-                                            <button className='give-or-accept-button' onClick={() => acceptorgive()}>Give</button>
-                                        }
-                                    </div>
+                                    <div className="image-description-amount">
+
+                                        <div className="image-amount-container">
+                                            <img src={link.details.photo}/>
+                                            <div className="link-right-side-container">
+                                                <h3 className='link-creator-and-title'>User wants to {link.details.giveorreceive}: {link.details.title}</h3>
+                                                <p className='amount'>${link.details.amount}</p> 
+                                            </div>
+                                        </div>
+
+                                        <div className="CTA-button-container">
+                                            {link.details.giveorreceive === "give" && 
+                                                <button className='give-or-accept-button' onClick={() => acceptorgive()}>Accept</button>
+                                            }
+                                            {link.details.giveorreceive === "receive" && 
+                                                <button className='give-or-accept-button' onClick={() => acceptorgive()}>Give</button>
+                                            }
+                                        </div>
                                     </div>
                                 </>
                             )

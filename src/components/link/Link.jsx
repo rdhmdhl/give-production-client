@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {format} from 'timeago.js';
 import './Link.css';
+import { useNavigate } from 'react-router';
 
 function Link({link}) {
     let giveOrReceive;
     let titleOrAmount;
+    const navigate = useNavigate();
 
     if (link.details.giveorreceive === "give"){
         giveOrReceive = "giving"
@@ -20,10 +22,12 @@ function Link({link}) {
         titleOrAmount = `${link.details.title}.`;
     }
 
-
+    const goToLink = () => {
+        navigate(`/link/${link.link}`)
+    }
 
   return (
-    <div className='link-container'>
+    <div className='link-container' onClick={goToLink}>
         <div className="link-content-container">
             <div className="left-side">
                 <div className="link-item-container">
@@ -60,6 +64,7 @@ Link.propTypes = {
             type: PropTypes.string
             
         }),
+        link: PropTypes.string,
         updatedAt: PropTypes.string
     }),
 };
