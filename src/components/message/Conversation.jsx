@@ -1,11 +1,16 @@
 import React from 'react'
 import './coversation.css';
 import PropTypes from 'prop-types';
+import {useNavigate} from 'react-router-dom';
+
 function Conversation({conversation,
     //  socket
     }) {
 
-  function truncateAtWord(str, maxLength) {
+    const navigate = useNavigate();
+
+
+    function truncateAtWord(str, maxLength) {
     if (str.length <= maxLength) {
         return str;
     }
@@ -18,11 +23,15 @@ function Conversation({conversation,
     }
 
     return truncated.slice(0, maxLength) + '...';
-  }
+    }
+
+    const goToConversationPage = () => {
+        navigate(`/messages/${conversation._id}`);
+    }
         
 
   return (
-    <div className='single-conversation-container'>
+    <div className='single-conversation-container' onClick={goToConversationPage}>
         <div className="left-side-container">
             <img className='profile-picture' src="/assets/person/nopicture.png" alt="" />
         </div>
@@ -39,6 +48,7 @@ function Conversation({conversation,
 Conversation.propTypes = {
     conversation: PropTypes.shape({
         lastMessage: PropTypes.string,
+        _id: PropTypes.string,
         // updatedAt: PropTypes.string
     }),
 };

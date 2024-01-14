@@ -234,7 +234,6 @@ async function performWithdrawal(totalPrice, currentUser, token) {
         giveHandler(item, popupStatus, balance, popupStatus, setChangeItemIconColor, onGive);
       } else {
         onItemClick(item);
-        console.log("loggin from the item modal")
       }
     }
 

@@ -80,7 +80,6 @@ export default function Share() {
     setDetails(null);
     setSelectedAmount(null);
     setSelectedItem(null);
-    console.log("reseting the details");
   }, [selectionType]);
 
   // use state for currency amounts popup
@@ -198,7 +197,6 @@ export default function Share() {
         selectedItem?.thumbnailImages?.length > 0 ? lowerResolutionUrl : null),
         (newDetails.itemId = selectedItem?.itemId || null);
     }
-    console.log(newDetails);
     return newDetails;
   };
 

@@ -38,7 +38,6 @@ const ImageTemplate = ({ details, setIsLoadingImage, setGeneratedImage }) => {
             setIsLoadingImage(false);
           })
           .catch((error) => {
-            console.error("Could not generate image:", error);
             setIsLoadingImage(false);
           });
       }
