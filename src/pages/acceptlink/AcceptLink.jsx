@@ -74,8 +74,37 @@ const acceptorgive = async () => {
     try {
 
         const token = localStorage.getItem("token");
+        let receiverUserId = link.creatorUserId;
+        let amount = link.details.amount;
+        let type = link.details.type;
+        let giveorreceive = link.details.giveorreceive;
+        let linkorpost = "link";
+        let relatedPostId = linkId;
+        let message = "interacted with your link"
+        let ebItemPhoto = link.details.photo;
+        let lastMessage;
+
+        if (link.details.type === "currency") {
+            if (giveorreceive === "give") {
+                lastMessage = `User gave you $${amount}`;
+            }
+            else {
+                lastMessage = `You gave user $${amount}`
+            }
+        } else {
+            if (giveorreceive === "give") {
+                lastMessage = `User gave you ${link.details.title}`
+            } else { 
+                lastMessage = `You gave user ${link.details.title}`
+            }
+        }
+
         // accepts link and update's both of the user's balances on the server
-        await axios.put(`${config.apiUrl}/api/accept-link/${linkId}`, {}, {
+        // also creates a conversation between the two users if there is not one already
+        // if conversation already exists, it updates the last message in the convo
+        await axios.put(`${config.apiUrl}/api/accept-link/${linkId}`, {
+            'lastMessage': lastMessage
+        }, {
             headers: {
                 'x-auth-token': token
             }
@@ -84,14 +113,7 @@ const acceptorgive = async () => {
             // so that the ui matches the server data
             updateBalance()
     
-            let receiverUserId = link.creatorUserId;
-            let amount = link.details.amount;
-            let type = link.details.type;
-            let giveorreceive = link.details.giveorreceive;
-            let linkorpost = "link";
-            let relatedPostId = linkId;
-            let message = "interacted with your link"
-            let ebItemPhoto = link.details.photo;
+
     
             await NotificationSender({
                 socket,
@@ -105,36 +127,11 @@ const acceptorgive = async () => {
                 ebItemPhoto
             });
             
-            let lastMessage;
-
-            if (link.details.type === "currency") {
-                if (giveorreceive === "give") {
-                    lastMessage = `User gave you ${amount}`;
-                }
-                else {
-                    lastMessage = `You gave user ${amount}`
-                }
-            } else {
-                if (giveorreceive === "give") {
-                    lastMessage = `User gave you ${link.details.title}`
-                } else { 
-                    lastMessage = `You gave user ${link.details.title}`
-                }
-            }
-
-            await axios.post(`${config.apiUrl}/conversations/create-conversation`, {
-                'initiatorUserId': receiverUserId,
-                'responderUserId': currentUser._id,
-                'linkId': link._id,
-                'lastMessage': lastMessage
-            
-            });
-
             navigate('/messages');
-            
-        } catch (error) {
-            await popupStatus("An error occured when trying to use this link. Please try again later.", "Close")
-        }
+        
+    } catch (error) {
+        await popupStatus("An error occured when trying to use this link. Please try again later.", "Close")
+    }
 }
 
 return (

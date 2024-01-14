@@ -108,7 +108,7 @@ const goToProfile = () => {
 
 const goToMessages = () => {
   setShowTopbar(false);
-  navigate('/messages');
+  navigate('/conversations');
 };
 
 

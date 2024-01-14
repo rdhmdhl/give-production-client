@@ -1,14 +1,13 @@
 import React from 'react'
-import './Messages.css';
 // import Conversation
 //  from '../../components/message/Conversation';
 import ConversationsFeed from '../../components/feed/ConversationsFeed';
 import PropTypes from 'prop-types';
+import './ConversationsPage.css';
 
-
-function Messages({user, socket}) {
+function ConversationsPage({user, socket}) {
   return (
-    <div className='messages-container'>
+    <div className='ConversationsPage-container'>
         <div className="top-box">
             <h2 className='inbox-title'>Inbox</h2>
         </div>
@@ -17,9 +16,9 @@ function Messages({user, socket}) {
   )
 }
 
-Messages.propTypes = {
+ConversationsPage.propTypes = {
     user: PropTypes.object,
     socket: PropTypes.object
 }
 
-export default Messages;
+export default ConversationsPage;

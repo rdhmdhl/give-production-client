@@ -1,0 +1,36 @@
+.individual-message-container {
+    padding: .5rem .5rem;
+    width: fit-content;
+    max-width: 60%; /* Adjust as needed */
+    border-radius: 18px 18px 18px 5px; /* Top-Left, Top-Right, Bottom-Right, Bottom-Left */
+    position: relative; /* Needed for positioning */
+    margin: 5px; /* Space between messages */
+    color: white; /* For text color */
+}
+
+
+.message-sent {
+    background-color: var(--purple);; /* Color for sent messages */
+    margin-left: auto; /* Align to the right */
+    border-radius: 18px 18px 5px 18px; /* Rounded corners */
+}
+
+.message-received {
+    background-color: var(--offwhite); /* Different color for received messages */
+    margin-right: auto; /* Align to the left */
+    border-radius: 18px 18px 18px 5px; /* Rounded corners */
+}
+
+.message-received p {
+    color: var(--darkgrayreid);
+}
+
+/* When a sent message follows a received message */
+.message-received + .message-sent {
+    margin-top: 15px; /* Increase top margin */
+}
+
+/* When a received message follows a sent message */
+.message-sent + .message-received {
+    margin-top: 15px; /* Increase top margin */
+}

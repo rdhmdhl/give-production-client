@@ -10,7 +10,8 @@ import AcceptLink from "./pages/acceptlink/AcceptLink";
 import Topbar from "./components/Topbar";
 import Share from "./pages/sharepost/Share";
 import Notifications from "./pages/notifications/Notifications";
-import Messages from "./pages/messages/Messages";
+import ConversationsPage from "./pages/messages/ConversationsPage";
+import MessagesPage from "./pages/conversations/MessagesPage";
 import WriteIcon from "./components/share/writeIcon";
 import ReactLoading from 'react-loading';
 import './App.css';
@@ -97,7 +98,9 @@ function App() {
 
           <Route path="/wishlist" element={user ? <WishList /> : <Navigate to="/login" />} />
 
-          <Route path="/messages" element={user ? <Messages socket={socket} user={user}/> : <Navigate to="/login" />} />
+          <Route path="/conversations" element={user ? <ConversationsPage socket={socket} user={user}/> : <Navigate to="/login" />} />
+        
+          <Route path="/messages/:conversationId" element={user ? <MessagesPage socket={socket} user={user}/> : <Navigate to="/login" />} />
         
         </Routes>
     </>
