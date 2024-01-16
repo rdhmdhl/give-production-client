@@ -72,7 +72,6 @@ if(isLoading) {
 
 const acceptorgive = async () => {
     try {
-
         const token = localStorage.getItem("token");
         let receiverUserId = link.creatorUserId;
         let amount = link.details.amount;
@@ -86,16 +85,16 @@ const acceptorgive = async () => {
 
         if (link.details.type === "currency") {
             if (giveorreceive === "give") {
-                lastMessage = `User gave you $${amount}`;
+                lastMessage = `$${amount}`;
             }
             else {
-                lastMessage = `You gave user $${amount}`
+                lastMessage = `$${amount}`
             }
         } else {
             if (giveorreceive === "give") {
-                lastMessage = `User gave you ${link.details.title}`
+                lastMessage = `${link.details.title}`
             } else { 
-                lastMessage = `You gave user ${link.details.title}`
+                lastMessage = `${link.details.title}`
             }
         }
 
