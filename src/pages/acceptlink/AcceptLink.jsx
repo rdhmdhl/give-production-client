@@ -102,7 +102,7 @@ const acceptorgive = async () => {
         // accepts link and update's both of the user's balances on the server
         // also creates a conversation between the two users if there is not one already
         // if conversation already exists, it updates the last message in the convo
-        await axios.put(`${config.apiUrl}/api/accept-link/${linkId}`, {
+        let res = await axios.put(`${config.apiUrl}/api/accept-link/${linkId}`, {
             'lastMessage': lastMessage
         }, {
             headers: {
@@ -112,8 +112,6 @@ const acceptorgive = async () => {
             // update context to call the latest user balance
             // so that the ui matches the server data
             updateBalance()
-    
-
     
             await NotificationSender({
                 socket,
@@ -126,11 +124,12 @@ const acceptorgive = async () => {
                 message,
                 ebItemPhoto
             });
-            
-            navigate('/messages');
+
+            navigate(`/messages/${res.data.conversationId}`);
         
     } catch (error) {
         await popupStatus("An error occured when trying to use this link. Please try again later.", "Close")
+        console.log("error from accept link: ", error);
     }
 }
 

@@ -12,6 +12,7 @@
 
 .messages-feed-container {
   overflow-y: auto;
+  width: 80%;
 }
 
 .message-input-container {

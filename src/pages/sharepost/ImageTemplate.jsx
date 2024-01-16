@@ -37,7 +37,7 @@ const ImageTemplate = ({ details, setIsLoadingImage, setGeneratedImage }) => {
             setGeneratedImage(dataUrl);
             setIsLoadingImage(false);
           })
-          .catch((error) => {
+          .catch(() => {
             setIsLoadingImage(false);
           });
       }
