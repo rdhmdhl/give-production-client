@@ -1,70 +1,22 @@
-# Getting Started with Create React App
-# deployed on aws amplify
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# G_VE
 
-## Available Scripts
+## Overview
+G_VE is a unique platform that allows users to give and receive gifts anonymously. It's designed to foster genuine connections and bring a touch of real-world kindness to the digital realm. Create a link, share it on your social media, and wait for someone to send or accept your gift. 
 
-In the project directory, you can run:
+## Why?
+In a world where digital interactions often lack a personal touch, this platform aims to bridge the gap by introducing a real love language—gifts! This app is more than just a platform; it's a movement towards more heartfelt, meaningful connections between people on the internet.
 
-### `npm start`
+## Features
+- **Anonymous Gifting**: Send and receive gifts without revealing your identity, making every interaction a pleasant surprise.
+- **Link Sharing**: Easily create and share links on your social media, inviting friends or followers to participate in the joy of giving.
+- **Real-Time Notifications**: Stay updated with real-time notifications and direct messages powered by WebSockets.
+- **Secure and Private**: With bcrypt for robust encryption, your data and interactions remain secure and private.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Usage
+This repository contains the client-side code of the application. Here's a sneak peek into the tech stack and libraries that power our app:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **React**: For building a dynamic and responsive UI.
+- **React Context**: For managing state globally in a more efficient and straightforward way.
+- **WebSockets**: Enabling real-time, bidirectional communication between web clients and servers.
+- **Bcrypt**: For securing user passwords through hashing.
+- **AWS S3**: Reliable and scalable cloud storage solution for hosting and retrieving media content.
