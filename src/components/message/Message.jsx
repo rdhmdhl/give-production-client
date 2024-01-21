@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types';
 // import {useNavigate} from 'react-router-dom';
+import 'normalize.css';
 import './message.css';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -15,16 +16,45 @@ function Message({message,
 
   // Apply different styles based on who sent the message
   const messageClass = isCurrentUser ? 'message-sent' : 'message-received';
+  let giftTitle;
 
   // Render different content based on the message type
   const renderMessageContent = () => {
-    if (message.messageType === 'gift') {
+    if (message.messageType === 'gift' ) {
+      if (message.senderUserId === user._id) {
+          giftTitle = message.giftDetails.title ? (
+          <div className="gift-title">{`You gave a ${message.giftDetails.title}`}</div>
+        ) : null;
+      } else {
+          giftTitle = message.giftDetails.title ? (
+          <div className="gift-title">{`User sent a ${message.giftDetails.title}`}</div>
+        ) : null;
+      }
+  
       if (message.giftDetails.giftType === 'item') {
         // Render image for item type gift
-        return <img src={message.giftDetails.img} alt="Gift Item" />;
+        return (
+          <>
+            <div className='gift-title'>{giftTitle}</div>
+            <img src={message.giftDetails.img} alt="Gift Item" />
+          </>
+        );
       } else {
+        if (message.senderUserId === user._id){
+          giftTitle = "You gave: "
+        } else {
+          giftTitle = "User sent: "
+        }
+        
         // Render text for currency type gift
-        return <div className="currency-gift-box">{message.text}</div>;
+        return (
+          <>
+            <div className='gift-title'>{giftTitle}</div>
+            <div className="currency-gift-box">
+                <span className="currency-symbol">$</span>{message.text}
+            </div>
+          </>
+        );
       }
     } else {
       // Render text message

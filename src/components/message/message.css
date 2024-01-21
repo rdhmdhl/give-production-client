@@ -11,14 +11,20 @@
 
 .message-sent {
     background-color: var(--purple);; /* Color for sent messages */
+    color: var(--offwhite);
     margin-left: auto; /* Align to the right */
     border-radius: 18px 18px 5px 18px; /* Rounded corners */
 }
 
 .message-received {
     background-color: var(--offwhite); /* Different color for received messages */
+    color: var(--darkgrayreid);
     margin-right: auto; /* Align to the left */
     border-radius: 18px 18px 18px 5px; /* Rounded corners */
+}
+
+.gift-title {
+    padding: 0 3px;
 }
 
 .message-received p {
@@ -37,18 +43,46 @@
 
 .currency-gift-box {
     display: inline-block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     border: 1px solid #CCC;
     padding: 20px;
     border-radius: 5px;
     background-color: var(--darkgrayreid);
     margin-top: 5px;
-    font-size: 3rem;
+    margin-bottom: 5px;
+    font-size: 5rem;
     border: 1px solid var(--offwhite);
 }
+
+.currency-gift-box .currency-symbol {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 
 img {
     max-width: 100%;
     height: auto;
-    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message-received img {
+    border-radius: 18px 18px 18px 5px; /* Rounded corners */
+}
+
+.message-sent img {
+    border-radius: 18px 18px 5px 18px; /* Rounded corners */
+}
+
+.message-received .currency-gift-box {
+    color: var(--offwhite);
+    border-radius: 18px 18px 18px 5px;
+}
+
+.message-sent .currency-gift-box {
+    border-radius: 18px 18px 5px 18px;
 }

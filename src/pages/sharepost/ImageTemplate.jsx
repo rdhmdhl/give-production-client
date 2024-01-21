@@ -6,6 +6,8 @@ import { toPng } from "html-to-image";
 const ImageTemplate = ({ details, setIsLoadingImage, setGeneratedImage }) => {
   const [imageLoaded, setImageLoaded] = useState(true);
 
+  // USED FOR GENERATING IMAGES FOR DOWNLOADING AND POSTING ON SOCIALS
+  
   let cta = "";
 
   if (!details) {

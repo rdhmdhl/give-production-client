@@ -104,11 +104,13 @@ function MessagesPage({user, socket}) {
     let scrollTimer;
 
     const handleScroll = () => {
+      if(scrollContainer.scrollHeight - scrollContainer.scrollTop !== scrollContainer.clientHeight){
         scrollContainer.classList.add('scrolling');
         clearTimeout(scrollTimer);
         scrollTimer = setTimeout(() => {
             scrollContainer.classList.remove('scrolling');
         }, 1000); // Adjust time as needed
+      }
     };
 
     scrollContainer.addEventListener('scroll', handleScroll);

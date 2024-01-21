@@ -12,6 +12,7 @@
 
 .messages-feed-container {
   overflow-y: auto;
+  max-height: 500px;
   width: 80%;
 }
 
@@ -50,22 +51,20 @@
 
 .messages-feed-container::-webkit-scrollbar {
   width: 5px; /* Adjust the width of the scrollbar */
-  opacity: 0; /* Transparent by default */
-  transition: opacity 0.3s; /* Smooth transition for the opacity */
 }
 
-.messages-feed-container.scrolling::-webkit-scrollbar {
-    opacity: 1; /* Visible when scrolling */
+.messages-feed-container.scrolling::-webkit-scrollbar-thumb {
+  background-color: #888; /* Visible when scrolling */
 }
-
 
 .messages-feed-container::-webkit-scrollbar-track {
-  background: #f1f1f104; /* Track color */
+  background: transparent; /* Track color */
 }
 
+
 .messages-feed-container::-webkit-scrollbar-thumb {
-  background: #888; /* Handle color */
-  border-radius: 5px; /* Handle border radius */
+  background-color: transparent; /* Transparent by default */
+  transition: background-color 0.3s; /* Smooth transition for the background color */
 }
 
 .messages-feed-container::-webkit-scrollbar-thumb:hover {

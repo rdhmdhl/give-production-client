@@ -80,13 +80,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
     }
   };
 
-  
-
-  // const shareToFacebook = () => {
-  //   // Handle sharing to Facebook
-  // };
-
-  
+  // TODO: add share to snapchat function
   
   return (
     <div className={`modal ${isOpen ? "open" : ""}`} onClick={closeModal}>

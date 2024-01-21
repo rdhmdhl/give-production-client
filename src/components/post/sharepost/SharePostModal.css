@@ -127,11 +127,11 @@
     display: flex;
     justify-content: center;
     /* margin: 0 0 1rem 0; */
-    background-color: black;
+    /* background-color: black; */
   }
   
   .step-image{
-    height: 11rem; /* Fixed height */
+    height: 12rem; /* Fixed height */
     width: auto; /* Adjust width automatically to maintain aspect ratio */
     max-width: 100%; /* Ensure image doesn't exceed container width */
     /* margin: 1rem 0; */
@@ -157,20 +157,21 @@
   }
 
   .share-button {
+    /* display: flex; */
     color: white;
     background-color: var(--purple);
     border: none;
     font-size: 1rem;
     height: 3rem;
     width: 75%;
-    margin: auto;
+    /* margin: auto; */
     border-radius: 1.5rem;
   }
 
   .alert-and-button {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     margin: 0;
     height: 100%;

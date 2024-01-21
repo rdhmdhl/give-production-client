@@ -85,10 +85,10 @@ const acceptorgive = async () => {
 
         if (link.details.type === "currency") {
             if (giveorreceive === "give") {
-                lastMessage = `$${amount}`;
+                lastMessage = `${amount}`;
             }
             else {
-                lastMessage = `$${amount}`
+                lastMessage = `${amount}`
             }
         } else {
             if (giveorreceive === "give") {
