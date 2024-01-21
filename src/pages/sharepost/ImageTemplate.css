@@ -1,11 +1,31 @@
 .image-template {
     width: 20rem;
     height: 25rem;
-    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.standard {
+    /* Standard template might have a solid color or a subtle gradient */
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+  
+.purple-gradient {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.green-gradient {
+    background: linear-gradient(135deg, #66ff66, #009933);
+}
+
+.blue-gradient {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
+
+.orange-gradient {
+    background: linear-gradient(135deg, #f12711, #f5af19);
 }
 
 .cta-headline-container{

@@ -20,7 +20,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
 
   const [linkGenerated, setLinkGenerated] = useState(false);
   const [generatedLink, setGeneratedLink] = useState(null);
-  const [generatedImage, setGeneratedImage] = useState(null);
+  const [generatedImage, setGeneratedImage] = useState([]);
   const [isLoadingImage, setIsLoadingImage] = useState(true);
   // const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -30,6 +30,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
   const [popupMessage, setPopupMessage] = useState("");
   // const [stepsCompleted, setStepsCompleted] = useState(false);
 
+  // used for selecting the social media icon
   const [selectedItem, setSelecteditem] = useState(0)
 
   // Array of objects representing each social media option and its corresponding Font Awesome class
@@ -151,7 +152,6 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
           details={details}
           setGeneratedImage={setGeneratedImage}
           setIsLoadingImage={setIsLoadingImage}
-          
         />
       </div>
     </div>
