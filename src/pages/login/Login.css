@@ -8,32 +8,28 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 60px #fafafa inset !important;
-    background-color: #fafafa !important;
+    -webkit-box-shadow: 0 0 0 60px var(--offwhite) inset !important;
+    background-color: var(--offwhite) !important;
     background-clip: content-box !important;
 }
 
 .login-container{
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    height: 100vh;
-}
-
-
-.loginImg{
-    position: absolute;
-    top: 40%;
-    right: 50%;
-    width: 100%;
-    z-index: -1;
-    background-size: cover;
-    background-repeat: no-repeat;
-    scale: 2.25;
+    width: 100vw;
+    height: 80vh;
+    background-color: var(--darkgrayreid);
 }
 
 .loginWrapper{
-    position: relative;
-    top: 10rem;
+    width: 100%;
+    padding: 2rem 1rem;
+    margin: 0 2rem;
+    /* background-color: black; */
+    border-radius: 1rem;
+    border: solid 1px var(--offwhite);    
 }
 
 
@@ -59,14 +55,16 @@ input:-webkit-autofill:active  {
 .loginDesc{
     font-size: 20px;
     text-align: center;
+    color: var(--offwhite);
+    margin-bottom: 2rem;
 }
 
 .loginBox{
-    height: 300px;
+    height: 250px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .loginInput{
@@ -74,6 +72,7 @@ input:-webkit-autofill:active  {
     border-radius: 2rem;
     font-size: 16px;
     padding-left: 20px;
+    margin: 1rem;
     width: 69%;
     border: none;
     opacity: .9;
@@ -83,43 +82,28 @@ input:-webkit-autofill:active  {
     outline: none;
 }
 
+.login-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
 .loginButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 50px;
     border-radius: 2rem;
     border: none;
-    background-color: rgba(155,5,255,0.75);
-    color: white;
+    background-color: var(--offwhite);
+    color: black;
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
-    width: 69%;
+    width: 10rem;
 }
 
 .loginButton:disabled{
     cursor: not-allowed;
-}
-
-.loginForgot{
-    text-align: center;
-    color: skyblue !important
-}
-
-.createaccount{
-    height: 50px;
-    border-radius: 2rem;
-    border: none;
-    background-color: rgba(5, 255, 47, 0.75);
-    color: white;
-    font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    width: 69%;
-    margin-top: 0;
-}
-
-.createAccountContainer{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    height: 50px;
 }
