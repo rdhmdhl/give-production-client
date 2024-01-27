@@ -199,6 +199,7 @@
     align-items: center; /* Center items vertically */
     justify-content: center; /* Center items horizontally */
     overflow-x: scroll; /* Allow horizontal scrolling if content overflows */
+    overflow-y:hidden;
     position: relative;
     z-index: 1;
     /* padding: 10px; */
@@ -247,19 +248,15 @@
     justify-content: center; /* Center items horizontally */
     min-width: 10rem;
     min-height: 15rem;
-    padding: 5px 12px;
+    padding: 0 12px;
   }
   
   .image-selection-container .thumbnail img {
-    max-width: 15rem; /* Adjust as needed */
-    max-height: 15rem; /* Adjust as needed */
-    height: auto;
-    width: 100%;
     object-fit: cover; /* Adjust as needed */
     border: 2px solid transparent; /* Transparent border for a smooth transition when selected */
     border-radius: 1rem; /* Rounded corners for the images */
   }
   
-.thumbnail.active img{
-    transform: scale(1.1); 
+.thumbnail.active {
+    /* transform: scale(1.05);  */
   }

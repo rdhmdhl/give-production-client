@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const ShareToInstagram = ({
   linkGenerated,
   generatedLink,
-  generatedImage,
+  generatedElements,
   isLoadingImage,
   downloadImage,
 }) => {
@@ -35,7 +35,7 @@ const ShareToInstagram = ({
 
     try {
       // copy link url
-      if (linkGenerated && generatedLink && generatedImage) {
+      if (linkGenerated && generatedLink && generatedElements) {
         if (currentStep === 2) {
           await navigator.clipboard.writeText(generatedLink);
           setCaution("Link copied to clipboard!");
@@ -58,7 +58,7 @@ const ShareToInstagram = ({
   };
 
   const stepImages = [
-    generatedImage.length > 0 ? generatedImage[selectedImageIndex] : null,
+    generatedElements.length > 0 ? generatedElements[selectedImageIndex] : null,
     "/assets/step1.png",
     "/assets/step2.png",
     "/assets/paste-link.gif",
@@ -157,12 +157,12 @@ const ShareToInstagram = ({
     return () => {
       unbind(); // clean up scroll snap behavior
     };
-  }, [generatedImage]);
+  }, [generatedElements]);
 
   return (
     <>
       {/* Instagram steps */}
-      {showInstaSteps && !isLoadingImage && generatedImage && (
+      {showInstaSteps && !isLoadingImage && generatedElements && (
         <div className="insta-steps-container">
           <div className="progress-circles-container">
             {stepImages.map((_, index) => (
@@ -208,8 +208,8 @@ const ShareToInstagram = ({
               {/* Thumbnails */}
               <div className="image-selection-container">
                 {currentStep === 0 &&
-                  generatedImage.length > 0 &&
-                  generatedImage.map((image, index) => (
+                  generatedElements.length > 0 &&
+                  generatedElements.map((element, index) => (
                     <div
                       key={index}
                       className={`thumbnail ${
@@ -217,7 +217,7 @@ const ShareToInstagram = ({
                       }`}
                       onClick={() => setSelectedImageIndex(index)}
                     >
-                      <img src={image} alt={`Option ${index + 1}`} />
+                      {element}
                     </div>
                   ))}
               </div>
@@ -250,7 +250,7 @@ export default ShareToInstagram;
 ShareToInstagram.propTypes = {
   linkGenerated: PropTypes.bool,
   generatedLink: PropTypes.string,
-  generatedImage: PropTypes.array,
+  generatedElements: PropTypes.array,
   isLoadingImage: PropTypes.bool,
   downloadImage: PropTypes.func,
 };

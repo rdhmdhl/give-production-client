@@ -1,27 +1,29 @@
 .image-template {
-    width: 20rem;
-    height: 25rem;
+    width: 10rem;
+    height: 100%; /* Adjust based on your font-size */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border-radius: 1rem;
 }
 
 .standard {
     /* Standard template might have a solid color or a subtle gradient */
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    background: linear-gradient(90deg, rgba(221,221,221,1) 0%, rgba(150,150,150,1) 100%);
 }
   
 .purple-gradient {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(120deg, #667eea, var(--purple));
 }
 
 .green-gradient {
-    background: linear-gradient(135deg, #66ff66, #009933);
+    background: linear-gradient(120deg, rgb(59, 69, 255) 0%, rgba(60,253,45,1) 99%);
 }
 
 .blue-gradient {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgb(240, 166, 198) 0%, rgba(148,187,233,1) 100%);
 }
 
 .orange-gradient {
@@ -29,33 +31,41 @@
 }
 
 .cta-headline-container{
-    /* margin: 1rem 0; */
-    /* width: 100%; */
-    margin: 1rem;
+    width: 100%;
+    margin: 1rem 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    flex-direction: column; /* Allows content to flow vertically */
+    align-items: center; /* Center aligns items horizontally */
 }
 
 .cta-headline{
-    font-size: 1rem;
-    font-weight: 300;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 13rem;
+    line-height: 1.5em;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--offwhite);
     text-align: center;
+    padding: 0 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline-block; /* Or 'block', depending on layout */
+    width: 100%; /* Adjust as needed */
+    white-space: normal;
 }
 
 .currency-cta-headline{
-    font-size: 1rem;
-    font-weight: 300;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    line-height: 1.5em;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--offwhite);
     text-align: center;
-}
+    padding: 0 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline-block; /* Or 'block', depending on layout */
+    width: 100%; /* Adjust as needed */
+    white-space: normal;
+} 
 
 .currency-div{
     margin: 1rem;
@@ -73,7 +83,7 @@
     width: 6rem;
     padding: .5rem;
     margin: 1rem;
-    border: solid 1px var(--purple);
+    border: solid 2px var(--offwhite);
     border-radius: 1rem;
 }
 
@@ -97,13 +107,6 @@
     width: 6rem;
 }
 
-.item-details-container{
-    width: 13rem;
-    margin: 1rem 0;
-    display: flex;
-    justify-content: center;
-}
-
 .currency-details-container{
     width: 13rem;
     margin: 1rem 0;
@@ -112,19 +115,28 @@
 }
 
 .currency-details-container p{
-    color: var(--darkgrayreid)
+    color: var(--offwhite)
+}
+
+.item-details-container{
+    width: 100%;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column; /* Allows content to flow vertically */
+    align-items: center; /* Center aligns items horizontally */
 }
 
 .item-details-img-temp{
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 4.5rem; /* Adjust based on your font-size */
-    line-height: 1.5em; /* Adjust based on your font-size */
-    font-size: 1rem;
+    line-height: 1.5em;
+    font-size: 10px;
     font-weight: 400;
     color: var(--darkgrayreid);
     text-align: center;
+    padding: 0 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline-block; /* Or 'block', depending on layout */
+    width: 100%; /* Adjust as needed */
+    white-space: normal;
 }

@@ -20,7 +20,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
 
   const [linkGenerated, setLinkGenerated] = useState(false);
   const [generatedLink, setGeneratedLink] = useState(null);
-  const [generatedImage, setGeneratedImage] = useState([]);
+  const [generatedElements, setGeneratedElements] = useState([]);
   const [isLoadingImage, setIsLoadingImage] = useState(true);
   // const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -71,9 +71,9 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
 // download image
 // update to only run if user clicks on the download image button 
   const downloadImage = () => {
-    if (generatedImage) {
+    if (generatedElements) {
       const link = document.createElement('a');
-      link.href = generatedImage;
+      link.href = generatedElements;
       link.download = 'image.png';  // or any other name you want
       document.body.appendChild(link);
       link.click();
@@ -118,7 +118,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
           <ShareToInstagram
               linkGenerated={linkGenerated}
               generatedLink={generatedLink}
-              generatedImage={generatedImage}
+              generatedElements={generatedElements}
               isLoadingImage={isLoadingImage}
               downloadImage={downloadImage}
           />
@@ -129,7 +129,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
             postUrl={postUrl}
             linkGenerated={linkGenerated}
             generatedLink={generatedLink}
-            generatedImage={generatedImage}
+            generatedElements={generatedElements}
             isLoadingImage={isLoadingImage}
             downloadImage={downloadImage}
         />
@@ -140,7 +140,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
             postUrl={postUrl}
             linkGenerated={linkGenerated}
             generatedLink={generatedLink}
-            generatedImage={generatedImage}
+            generatedElements={generatedElements}
             isLoadingImage={isLoadingImage}
             downloadImage={downloadImage}
         />
@@ -150,7 +150,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
       <div className="offscreen">
         <ImageTemplate
           details={details}
-          setGeneratedImage={setGeneratedImage}
+          setGeneratedElements={setGeneratedElements}
           setIsLoadingImage={setIsLoadingImage}
         />
       </div>
