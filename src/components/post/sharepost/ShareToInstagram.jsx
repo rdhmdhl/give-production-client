@@ -19,7 +19,7 @@ const ShareToInstagram = ({
 
   // state to track the selected image index
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
+  const [isLastThumbnail, setIsLastThumbnail] = useState(false);
   const navigate = useNavigate();
 
   const shareToInstagramStory = async () => {
@@ -81,19 +81,23 @@ const ShareToInstagram = ({
   useEffect(() => {
     const container = document.querySelector(".image-selection-container");
     if (!container) return;
-
+    
     // Function to calculate the average width of thumbnails
     const calculateAverageThumbnailWidth = () => {
       const thumbnails = container.querySelectorAll(".thumbnail");
       if (thumbnails.length === 0) return 0;
-
+      
       const totalWidth = Array.from(thumbnails).reduce((total, thumbnail) => {
-        const style = window.getComputedStyle(thumbnail);
+        // const style = window.getComputedStyle(thumbnail);
         const width = thumbnail.offsetWidth; // width with padding
-        const margin =
-          parseFloat(style.marginLeft) + parseFloat(style.marginRight);
-        return total + (width + margin);
+        // const padding = parseFloat(style.paddingRight);
+        // console.log("padding: ", padding);
+        return total + (width);
       }, 0);
+
+      console.log("total width: ", totalWidth);
+      console.log("thumbnails.length: ", thumbnails.length);
+      console.log("return: ", totalWidth/thumbnails.length);
 
       return totalWidth / thumbnails.length;
     };
@@ -103,6 +107,8 @@ const ShareToInstagram = ({
       const thumbnails = container.querySelectorAll(".thumbnail");
       let minDistance = Infinity;
       let closestIndex = -1;
+
+      setIsLastThumbnail(selectedImageIndex === thumbnails.length - 1);
 
       // Use the scrollLeft as the reference point
       const referencePoint = container.scrollLeft;
@@ -137,11 +143,10 @@ const ShareToInstagram = ({
 
     // Calculate average thumbnail width
     const averageThumbnailWidth = calculateAverageThumbnailWidth();
-
     const { bind, unbind } = createScrollSnap(
       container,
       {
-        snapDestinationX: `${averageThumbnailWidth}px`, // Snap to the width of each thumbnail
+        snapDestinationX: isLastThumbnail ? 'start' : `${averageThumbnailWidth}px`, // Snap to the width of each thumbnail
         snapDestinationY: "0%",
         timeout: 100,
         duration: 300,
@@ -159,7 +164,32 @@ const ShareToInstagram = ({
     };
   }, [generatedElements]);
 
-  return (
+  // Function to scroll to a specific thumbnail
+const scrollToThumbnail = (index) => {
+  const container = document.querySelector(".image-selection-container");
+    if (!container) return;
+
+  const thumbnails = container.querySelectorAll(".thumbnail");
+  if (index < 0 || index >= thumbnails.length) return;
+
+  const selectedThumbnail = thumbnails[index];
+
+  let scrollPosition;
+  if (index === thumbnails.length){
+    // For the last thumbnail, scroll just enough to bring it into view
+    scrollPosition = selectedThumbnail.offsetLeft - container.scrollLeft + selectedThumbnail.offsetWidth - container.offsetWidth;
+  } else {
+    // For other thumbnails, center them in the view
+    scrollPosition = selectedThumbnail.offsetLeft - (container.offsetWidth - selectedThumbnail.offsetWidth) / 2;
+  }
+
+  container.scrollTo({
+    left: scrollPosition,
+    behavior: 'smooth'
+  });
+}
+
+return (
     <>
       {/* Instagram steps */}
       {showInstaSteps && !isLoadingImage && generatedElements && (
@@ -194,6 +224,7 @@ const ShareToInstagram = ({
             /> */}
 
             <div className="image-row-container">
+
               {/* Selected Image */}
               {currentStep > 0 && (
                 <div className="selected-image-container">
@@ -206,7 +237,7 @@ const ShareToInstagram = ({
               )}
 
               {/* Thumbnails */}
-              <div className="image-selection-container">
+              <div className={`image-selection-container ${currentStep === 0 ? 'with-padding' : ''}`}>
                 {currentStep === 0 &&
                   generatedElements.length > 0 &&
                   generatedElements.map((element, index) => (
@@ -215,7 +246,10 @@ const ShareToInstagram = ({
                       className={`thumbnail ${
                         selectedImageIndex === index ? "active" : ""
                       }`}
-                      onClick={() => setSelectedImageIndex(index)}
+                      onClick={() => {
+                        setSelectedImageIndex(index)
+                        scrollToThumbnail(index)
+                      }}
                     >
                       {element}
                     </div>

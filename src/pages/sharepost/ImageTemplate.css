@@ -9,8 +9,7 @@
 }
 
 .standard {
-    /* Standard template might have a solid color or a subtle gradient */
-    background: linear-gradient(90deg, rgba(221,221,221,1) 0%, rgba(150,150,150,1) 100%);
+    background: linear-gradient(90deg, rgba(34,34,34,1) 0%, rgba(68,68,68,1) 50%, rgba(34,34,34,1) 100%);
 }
   
 .purple-gradient {
@@ -81,7 +80,7 @@
     align-items: center;
     height: 6rem;
     width: 6rem;
-    padding: .5rem;
+    /* padding: .5rem; */
     margin: 1rem;
     border: solid 2px var(--offwhite);
     border-radius: 1rem;
@@ -100,7 +99,7 @@
 }
 
 .img-container img{
-    border-radius: 1rem;
+    border-radius: .5rem;
     /* width: 10rem; */
     /* max-height: 6rem; */
     height: 6rem;
@@ -115,6 +114,7 @@
 }
 
 .currency-details-container p{
+    font-size: 10px;
     color: var(--offwhite)
 }
 
@@ -131,7 +131,7 @@
     line-height: 1.5em;
     font-size: 10px;
     font-weight: 400;
-    color: var(--darkgrayreid);
+    color: var(--offwhite);
     text-align: center;
     padding: 0 15px;
     word-wrap: break-word;
