@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import "./ImageTemplate.css";
-// import { toPng } from "html-to-image";
+// import { toJpeg } from "html-to-image";
 
 // Generate an array of react components that will be rendered as image thumbails for
 // the user to download!
@@ -9,13 +9,9 @@ import "./ImageTemplate.css";
 const ImageTemplate = ({ 
   details, 
   setIsLoadingImage, 
-  setGeneratedElements }) => {
-  // USED FOR GENERATING IMAGES FOR DOWNLOADING AND POSTING ON SOCIALS
-  // const [loadedImage1, setLoadedImage1] = useState(false);
-  // const [loadedImage2, setLoadedImage2] = useState(false);
-  // const [loadedImage3, setLoadedImage3] = useState(false);
-  // const [loadedImage4, setLoadedImage4] = useState(false);
-  // const [loadedImage5, setLoadedImage5] = useState(false);
+  setGeneratedElements
+}) => {
+
 
   // define different image styles
   const templates = [
@@ -39,10 +35,11 @@ const ImageTemplate = ({
     cta = "Make my day, anonymously.";
   }
 
+
   useEffect(() => {
     // Create an array of React components for each template
     const elements = templates.map((template, index) => (
-      <div key={index} className={`image-template ${template}`}>
+      <div key={index} id={`image-template-${index}`} className={`image-template ${template}`}>
         {details.type === "item" && (
           <>
             <div className="cta-headline-container">

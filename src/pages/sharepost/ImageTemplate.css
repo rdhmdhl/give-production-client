@@ -9,7 +9,7 @@
 }
 
 .standard {
-    background: linear-gradient(90deg, rgba(34,34,34,1) 0%, rgba(68,68,68,1) 50%, rgba(34,34,34,1) 100%);
+    background:radial-gradient(circle, rgba(117,117,117,1) 0%, rgba(201,201,201,1) 100%);
 }
   
 .purple-gradient {
@@ -133,10 +133,27 @@
     font-weight: 400;
     color: var(--offwhite);
     text-align: center;
-    padding: 0 15px;
+    /* padding: 0 15px; */
+    /* margin: 0 20px; */
     word-wrap: break-word;
     overflow-wrap: break-word;
     display: inline-block; /* Or 'block', depending on layout */
-    width: 100%; /* Adjust as needed */
+    width: 80%; /* Adjust as needed */
     white-space: normal;
+}
+
+.download-image-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    width: 390px;
+    height: 844px;
+}
+
+.downloaded-image{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

@@ -237,6 +237,10 @@
   .image-selection-container.with-padding {
     padding-right: 50px; /* Padding applied only when this class is present */
   }
+
+  .image-selection-container.with-padding .thumbnail:first-child {
+    margin-left: 0; /* Remove left padding for the first thumbnail */
+}
   
   .image-selection-container .thumbnail {
     cursor: pointer; /* Indicate that items are selectable */
@@ -246,7 +250,7 @@
     justify-content: center; /* Center items horizontally */
     min-width: 10rem;
     height: 15rem;
-    padding: 5px 12px;
+    padding: 12px;
   }
   
   .image-selection-container .thumbnail img {

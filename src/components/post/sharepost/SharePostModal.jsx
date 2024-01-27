@@ -13,6 +13,8 @@ import useLinkGenerator from "../../../pages/sharepost/LinkGenerator";
 import ShareToInstagram from "./ShareToInstagram";
 import ShareToTwitter from "./ShareToTwitter";
 import ShareToMessages from "./ShareToMessages";
+import DownloadImage from "../../../pages/sharepost/DownloadImage";
+// import { toPng } from 'html-to-image';
 
 // TODO:
 // REMOVED postUrl, FROM PARAMETERS TEMPORARILY
@@ -32,6 +34,14 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
 
   // used for selecting the social media icon
   const [selectedItem, setSelecteditem] = useState(0)
+
+  // state to track the selected image index
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  // state for running the download function within the image template 
+  // use state for indexing which element to download
+  const [downloadFunction, setDownloadFunction] = useState(null);
+
 
   // Array of objects representing each social media option and its corresponding Font Awesome class
   const socialOptions = [
@@ -67,19 +77,6 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
     }
   }, [details]);
 
-
-// download image
-// update to only run if user clicks on the download image button 
-  const downloadImage = () => {
-    if (generatedElements) {
-      const link = document.createElement('a');
-      link.href = generatedElements;
-      link.download = 'image.png';  // or any other name you want
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
 
   // TODO: add share to snapchat function
   
@@ -120,7 +117,10 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
               generatedLink={generatedLink}
               generatedElements={generatedElements}
               isLoadingImage={isLoadingImage}
-              downloadImage={downloadImage}
+              // downloadImage={downloadImage}
+              selectedImageIndex={selectedImageIndex}
+              setSelectedImageIndex={setSelectedImageIndex}
+              setDownloadFunction={setDownloadFunction}
           />
         )}
         {socialOptions[selectedItem]?.name === "Twitter" && (
@@ -131,7 +131,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
             generatedLink={generatedLink}
             generatedElements={generatedElements}
             isLoadingImage={isLoadingImage}
-            downloadImage={downloadImage}
+            // downloadImage={downloadImage}
         />
         )}
         {socialOptions[selectedItem]?.name === "Messages" && (
@@ -142,7 +142,7 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
             generatedLink={generatedLink}
             generatedElements={generatedElements}
             isLoadingImage={isLoadingImage}
-            downloadImage={downloadImage}
+            // downloadImage={downloadImage}
         />
         )}
       </div>
@@ -152,6 +152,12 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
           details={details}
           setGeneratedElements={setGeneratedElements}
           setIsLoadingImage={setIsLoadingImage}
+          // downloadFunction={downloadFunction}
+        />
+        <DownloadImage
+          details={details}
+          template={selectedImageIndex}
+          downloadFunction={downloadFunction}
         />
       </div>
     </div>

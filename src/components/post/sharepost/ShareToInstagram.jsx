@@ -9,7 +9,10 @@ const ShareToInstagram = ({
   generatedLink,
   generatedElements,
   isLoadingImage,
-  downloadImage,
+  // downloadImage,
+  selectedImageIndex,
+  setSelectedImageIndex,
+  setDownloadFunction
 }) => {
   const [showInstaSteps, setShowInstaSteps] = useState(true);
 
@@ -17,8 +20,8 @@ const ShareToInstagram = ({
 
   const [caution, setCaution] = useState(null);
 
-  // state to track the selected image index
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  
   const [isLastThumbnail, setIsLastThumbnail] = useState(false);
   const navigate = useNavigate();
 
@@ -88,16 +91,9 @@ const ShareToInstagram = ({
       if (thumbnails.length === 0) return 0;
       
       const totalWidth = Array.from(thumbnails).reduce((total, thumbnail) => {
-        // const style = window.getComputedStyle(thumbnail);
         const width = thumbnail.offsetWidth; // width with padding
-        // const padding = parseFloat(style.paddingRight);
-        // console.log("padding: ", padding);
         return total + (width);
       }, 0);
-
-      console.log("total width: ", totalWidth);
-      console.log("thumbnails.length: ", thumbnails.length);
-      console.log("return: ", totalWidth/thumbnails.length);
 
       return totalWidth / thumbnails.length;
     };
@@ -189,6 +185,16 @@ const scrollToThumbnail = (index) => {
   });
 }
 
+// Use the download function passed from ImageTemplate
+// const handleDownloadClick = (index) => {
+//   if (downloadFunction){
+//     downloadFunction(index)
+//   } else {
+//     console.log("download function not available")
+//   }
+// };
+
+
 return (
     <>
       {/* Instagram steps */}
@@ -243,6 +249,7 @@ return (
                   generatedElements.map((element, index) => (
                     <div
                       key={index}
+                      id={`thumbnail-container-${index}`}
                       className={`thumbnail ${
                         selectedImageIndex === index ? "active" : ""
                       }`}
@@ -259,7 +266,7 @@ return (
           </div>
 
           <div className="download-button-cont">
-            {currentStep === 0 && <MdDownload onClick={downloadImage} />}
+            {currentStep === 0 && <MdDownload onClick={() => setDownloadFunction(selectedImageIndex)} />}
           </div>
 
           {/* Alert and button container */}
@@ -287,4 +294,7 @@ ShareToInstagram.propTypes = {
   generatedElements: PropTypes.array,
   isLoadingImage: PropTypes.bool,
   downloadImage: PropTypes.func,
+  selectedImageIndex: PropTypes.number,
+  setSelectedImageIndex: PropTypes.func,
+  setDownloadFunction: PropTypes.func
 };
