@@ -43,7 +43,7 @@ function Link({link}) {
             </div>
             <div className="right-side">
                 <p className='description'>User near Los Angeles, CA is {giveOrReceive} {titleOrAmount}</p>
-                <p className="created-at">{format(link.updatedAt)}</p>
+                <p className="created-at">{format(link.createdAt)}</p>
             </div>
         </div>
         <div className="line-break-container">
@@ -65,7 +65,7 @@ Link.propTypes = {
             
         }),
         link: PropTypes.string,
-        updatedAt: PropTypes.string
+        createdAt: PropTypes.string
     }),
 };
 
