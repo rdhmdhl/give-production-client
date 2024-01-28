@@ -23,11 +23,11 @@ function Message({message,
     if (message.messageType === 'gift' ) {
       if (message.senderUserId === user._id) {
           giftTitle = message.giftDetails.title ? (
-          <div className="gift-title">{`You gave a ${message.giftDetails.title}`}</div>
+          <div className="gift-title">{`You gave: ${message.giftDetails.title}`}</div>
         ) : null;
       } else {
           giftTitle = message.giftDetails.title ? (
-          <div className="gift-title">{`User sent a ${message.giftDetails.title}`}</div>
+          <div className="gift-title">{`User gave: ${message.giftDetails.title}`}</div>
         ) : null;
       }
   
@@ -35,7 +35,10 @@ function Message({message,
         // Render image for item type gift
         return (
           <>
-            <div className='gift-title'>{giftTitle}</div>
+            <div className='gift-title'>
+              <p>
+                {giftTitle}  
+              </p></div>
             <img src={message.giftDetails.img} alt="Gift Item" />
           </>
         );
@@ -43,15 +46,19 @@ function Message({message,
         if (message.senderUserId === user._id){
           giftTitle = "You gave: "
         } else {
-          giftTitle = "User sent: "
+          giftTitle = "User gave: "
         }
         
         // Render text for currency type gift
         return (
           <>
-            <div className='gift-title'>{giftTitle}</div>
+            <div className='gift-title'>
+              <p>
+                {giftTitle}  
+              </p>
+            </div>
             <div className="currency-gift-box">
-                <span className="currency-symbol">$</span>{message.text}
+                ${message.text}
             </div>
           </>
         );
