@@ -40,6 +40,7 @@ export default function LinksFeed({
         setPage(prevPage => prevPage + 1);
         setLinks((links) => [...links, ...res.data]);
         setHasMore(true);
+        setAlllinksLoaded(true);
       } if (res.data.length < 25 && res.data.length > 0){
         setLinks((links) => [...links, ...res.data]);
         setHasMore(false);
