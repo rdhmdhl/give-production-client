@@ -50,16 +50,16 @@ export const AuthContextProvider = ({children}) => {
       const response = await axios.get(`${config.apiUrl}/api/billing-settings-balance`, {
         headers: {
           "x-auth-token": token,
-          },
-          });
+        },
+      });
 
-          let newBalance = parseFloat(response.data.balance);
+      let newBalance = parseFloat(response.data.balance);
 
-          if (isNaN(newBalance)) {
-            newBalance = 0;
-          }
+      if (isNaN(newBalance)) {
+        newBalance = 0;
+      }
 
-          setNewBalance(newBalance);
+      setNewBalance(newBalance);
 
     } catch (error) {
       alert("Error fetching user balance.");
