@@ -19,34 +19,34 @@ const INITIAL_STATE = {
 export const AuthContext = createContext(INITIAL_STATE);
 
 export const AuthContextProvider = ({children}) => {
-    const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
-    const [showPopup, setShowPopup] = useState(false);
-    const [popupMessage, setPopupMessage] = useState('Log in or Register to Gain Full Access to all Features.');
+  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('Log in or Register to Gain Full Access to all Features.');
 
-    const showErrorPopup = (message) => {
-      setPopupMessage(message);
-      setShowPopup(true);
+  const showErrorPopup = (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  };
+
+  useEffect(() => {
+    // When the user is fetched, set isLoading to false
+    const fetchUser = async () => {
+      await getUser(dispatch, showErrorPopup);
+      dispatch({ type: 'SET_LOADING', payload: false });  // Add this line
     };
+    fetchUser();
+  }, []);
 
-    useEffect(() => {
-      // When the user is fetched, set isLoading to false
-      const fetchUser = async () => {
-        await getUser(dispatch, showErrorPopup);
-        dispatch({ type: 'SET_LOADING', payload: false });  // Add this line
-      };
-      fetchUser();
-    }, []);
+  const [balance, setNewBalance] = useState(0);
 
-    const [balance, setNewBalance] = useState(0);
-
-    // this doesn't really update the balance, it just retreives the balance.
-    const updateBalance = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setNewBalance(0); // set balance to 0 with no token
-        return;
-      }
-    try {
+  // this doesn't really update the balance, it just retreives the balance.
+  const updateBalance = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setNewBalance(0); // set balance to 0 with no token
+      return;
+    }
+    try { 
       const response = await axios.get(`${config.apiUrl}/api/billing-settings-balance`, {
         headers: {
           "x-auth-token": token,
@@ -58,14 +58,11 @@ export const AuthContextProvider = ({children}) => {
       if (isNaN(newBalance)) {
         newBalance = 0;
       }
-
       setNewBalance(newBalance);
-
     } catch (error) {
       alert("Error fetching user balance.");
     }
-};
-
+  };
 
 return (
   <AuthContext.Provider 

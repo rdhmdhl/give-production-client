@@ -16,3 +16,15 @@
   text-align: center; /* Centered text */
   border-radius: 1rem;
 }
+
+.button-container{
+  margin: 1rem 0;
+}
+
+.callback-button{
+  background-color: var(--purple);
+  color: var(--offwhite);
+  border: none;
+  border-radius: 1.5rem;
+  padding: .75rem 1.5rem;
+}

@@ -7,7 +7,9 @@ const CallbackPopup = ({ message, onClose }) => {
     <div className="popup-container">
       <div className="popup-content">
         <p>{message}</p>
-        <button onClick={onClose}>Close</button>
+        <div className="button-container">
+          <button className="callback-button" onClick={onClose}>Close</button>
+        </div>
       </div>
     </div>
   );

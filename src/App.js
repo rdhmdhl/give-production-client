@@ -73,12 +73,10 @@ function App() {
 
           {/* For all other routes, check the authentication inside each Route */}
           <Route path="/" element={
-          user ? (
             <>
               <WriteIcon />
               <Home socket={socket} user={user}/>
             </>
-          ) : <Navigate to="/login" />
           }/>
 
           <Route path="share" element={user ? <Share /> : <Navigate to="/login" />} />
