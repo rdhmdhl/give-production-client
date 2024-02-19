@@ -70,9 +70,10 @@ function MessagesPage({user, socket}) {
       } catch (error) {
         await popupStaus("An error occured when sending your message. Try again later.")
       }
+      // clear the input feild after sending
+      setMessageText(''); 
+      document.querySelector('.message-input').style.height = '38px';
     }
-    setMessageText(''); // Clear the input field after sending
-    
   };
 
   // used for adjusting the height of the text area when typing

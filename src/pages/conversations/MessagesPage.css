@@ -26,27 +26,31 @@
     width: 100%;
   }
   
-  .message-input {
-    flex-grow: 1;
-    margin-right: 10px;
-    padding: 8px;
-    border-radius: 1rem;
-    border: 1px solid #ccc;
-    resize: none; /* Disables manual resizing */
-    overflow: hidden; /* Hides the scrollbar */
-    min-height: 20px; /* Initial height */
-    box-sizing: border-box; 
-  }
-  
-  .send-message-button {
-    padding: 8px 15px;
-    height: 20px;
-    background-color: var(--lime-green);
-    color: white;
-    border: none;
-    border-radius: 1rem;
-    cursor: pointer;
-  }
+.message-input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 8px;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  resize: none; /* Disables manual resizing */
+  overflow: hidden; /* Hides the scrollbar */
+  min-height: 20px; /* Initial height */
+  box-sizing: border-box; 
+}
+
+.send-message-button {
+  padding: 8px 15px;
+  height: 20px;
+  background-color: var(--lime-green);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+textarea:focus {
+  outline: 2px solid var(--purple)
+}
 
   /* scrollbar */
   /* For Webkit (Chrome, Safari, etc.) */

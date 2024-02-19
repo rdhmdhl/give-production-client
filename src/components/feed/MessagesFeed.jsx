@@ -24,7 +24,6 @@ export default function MessagesFeed({
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
 
-
   // used for catch blocks
   const popupStaus = async (message) => {
     setPopupMessage(message);
@@ -35,21 +34,16 @@ export default function MessagesFeed({
     if (!socket) {
       return;
     }
-
     // Listen for new messages
     const handleNewMessage = (newMessage) => {
-
       if (newMessage.conversationId === conversationId) {
-        setMessages(prevMessages => [ ...prevMessages, newMessage]);
+        setMessages(prevMessages => [newMessage, ...prevMessages]);
       }
     };
-  
     socket.on('new-message', handleNewMessage);
-    
     return () => {
       socket.off('new-message', handleNewMessage);
     };
-
   }, [socket, conversationId])
 
   const fetchMessages = async () => {
@@ -68,16 +62,13 @@ export default function MessagesFeed({
       if (res.data.length === 25) {
         setPage(prevPage => prevPage + 1);
         setMessages((messages) => [...reversedData, ...messages]);
-        console.log("reversed Data.len = 25: ", reversedData);
         setHasMore(true);
         setAllMessagesLoaded(true);
       } if (res.data.length < 25 && res.data.length > 0){
         setMessages((messages) => [...messages, ...reversedData, ]);
-        console.log("reversed Data.len < 25 and > 0: ", reversedData);
         setHasMore(false);
         setAllMessagesLoaded(true);
       } else if (res.data.length === 0 ) { 
-        console.log("no messages left ?");
         setHasMore(false);
         setAllMessagesLoaded(true);
       }
@@ -85,7 +76,6 @@ export default function MessagesFeed({
       await popupStaus("An error occured when fetching messages. Please try again later.")
     }
 }
-
 
 useEffect(() => {
   if (initialLoad) {
@@ -95,43 +85,30 @@ useEffect(() => {
 }, [hasMore]);
 
 return (
-      <div className='messages-feed-infinite-container' id="messagesInfiniteScroll" onScroll={() => console.log('Scrolling...')}>
-        <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
-            {!allMessagesLoaded ? (
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem', marginBottom: '20px' }}>
-                <ReactLoading type={'balls'} color={'white'} height={'20%'} width={'20%'} />
-              </div>
-            ) : (
-              <InfiniteScroll
-              style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column-reverse' }}
-              inverse={true}
-              dataLength={messages.length}
-              scrollableTarget="messagesInfiniteScroll"
-              // scrollThreshold="30%"
-              next={fetchMessages}
-              hasMore={hasMore}
-              loader={<p>loading more messages</p>}
-              page={page}
-              // TODO --> write a refresh fuction
-              // pullDownToRefresh
-              // pullDownToRefreshContent={
-              //   <h3 style={{textAlign: 'center'}}>&#8595; Pull down to refresh</h3>
-              // }
-              // releaseToRefreshContent={
-              //   <h3 style={{textAlign: 'center'}}>&#8593; Release to refresh</h3>
-              // }
-              // refreshFunction={this.refresh}
-              
-              >
-            {/* <Share/> */}
-            {messages.map((m, index) => (
-              <Message key={m._id + '-' + index} message={m} socket={socket}/>
-            ))}
-
-            </InfiniteScroll>
-            )}
-          </div>
-      )
+  <div className='messages-feed-infinite-container' id="messagesInfiniteScroll">
+    <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
+      {!allMessagesLoaded ? (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem', marginBottom: '20px' }}>
+          <ReactLoading type={'balls'} color={'white'} height={'20%'} width={'20%'} />
+        </div>
+      ) : (
+        <InfiniteScroll
+          style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column-reverse' }}
+          inverse={true}
+          dataLength={messages.length}
+          scrollableTarget="messagesInfiniteScroll"
+          scrollThreshold="50%"
+          next={fetchMessages}
+          hasMore={hasMore}
+          page={page}
+        >
+        {messages.map((m, index) => (
+          <Message key={m._id + '-' + index} message={m} socket={socket}/>
+        ))}
+        </InfiniteScroll>
+        )}
+  </div>
+  )
 }
 
 MessagesFeed.propTypes = {
