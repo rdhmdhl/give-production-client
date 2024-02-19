@@ -1,27 +1,29 @@
 .messages-container{
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+    padding: 5rem 2.5rem 3rem 2.5rem;
     height: 70vh;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    /* overflow-y: auto; */
     max-width: 100%;
-    overflow-y: auto;
 }
 
-.messages-feed-container {
-  overflow-y: auto;
-  max-height: 500px;
-  width: 80%;
+.messages-feed-infinite-container {
+  max-height: 70vh;
+  /* vertical scrolling */
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column-reverse; /* Newest messages at the bottom */
+  width: 100%; /* Adjust as necessary */
 }
 
 .message-input-container {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    /* padding: 10px; */
     align-items: flex-end; /* Aligns the button and textarea properly */
-    width: 80%;
+    width: 100%;
   }
   
   .message-input {

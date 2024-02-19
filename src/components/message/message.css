@@ -6,8 +6,10 @@
     position: relative; /* Needed for positioning */
     margin: 5px; /* Space between messages */
     color: white; /* For text color */
+    word-wrap: break-word; /* Ensure words can break and wrap to the next line */
+    overflow-wrap: break-word; /* Use this for better cross-browser compatibility */
+    display: inline-block; /* Ensures the container can grow with its content up to max-width */
 }
-
 
 .message-sent {
     background-color: var(--purple);; /* Color for sent messages */

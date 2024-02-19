@@ -35,10 +35,7 @@ function Message({message,
         // Render image for item type gift
         return (
           <>
-            <div className='gift-title'>
-              <p>
-                {giftTitle}  
-              </p></div>
+            {giftTitle && <div className="gift-title">{giftTitle}</div>}
             <img src={message.giftDetails.img} alt="Gift Item" />
           </>
         );
@@ -52,20 +49,16 @@ function Message({message,
         // Render text for currency type gift
         return (
           <>
-            <div className='gift-title'>
-              <p>
-                {giftTitle}  
-              </p>
-            </div>
+            {giftTitle && <div className="gift-title">{giftTitle}</div>}
             <div className="currency-gift-box">
-                ${message.text}
+              ${message.text}
             </div>
           </>
         );
       }
     } else {
       // Render text message
-      return <p>{message.text}</p>;
+      return <div>{message.text}</div>;
     }
   };
 

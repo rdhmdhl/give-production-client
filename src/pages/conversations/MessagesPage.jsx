@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './MessagesPage.css';
 import MessagesFeed from '../../components/feed/MessagesFeed';
@@ -87,72 +87,34 @@ function MessagesPage({user, socket}) {
     setMessageText(textarea.value);
   };
 
-  // scroll to bottom logic
-  const messagesEndRef = useRef(null);
+  return (
+    <div className='messages-container'>
+      <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+        <MessagesFeed 
+          onScroll={() => console.log('Scrolling from messages feed...')}
+          user={user} 
+          socket={socket} 
+          conversationId={conversationId}
+        />
 
-  // Callback function to be called from MessagesFeed when messages change
-  const onMessagesUpdated = () => {
-    scrollToBottom();
-  };
-
-  useEffect(() => {
-    const scrollContainer = document.querySelector('.messages-feed-container');
-    let scrollTimer;
-
-    const handleScroll = () => {
-      if(scrollContainer.scrollHeight - scrollContainer.scrollTop !== scrollContainer.clientHeight){
-        scrollContainer.classList.add('scrolling');
-        clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(() => {
-            scrollContainer.classList.remove('scrolling');
-        }, 1000); // Adjust time as needed
-      }
-    };
-
-    scrollContainer.addEventListener('scroll', handleScroll);
-
-    return () => {
-        clearTimeout(scrollTimer);
-        scrollContainer.removeEventListener('scroll', handleScroll);
-    };
-}, []);
-
-
-    return (
-      <div className='messages-container'>
-        <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
-
-        <div className="messages-feed-container">
-          <MessagesFeed 
-            user={user} 
-            socket={socket} 
-            conversationId={conversationId}
-            onMessagesUpdated={onMessagesUpdated} // Pass the callback
-            />
-          <div ref={messagesEndRef} /> {/* Invisible element at the end of messages */}
-        </div>
-
-        {/* Input (textarea) and Button for sending message */}
-        <div className='message-input-container'>
-          <textarea 
-            value={messageText}
-            onChange={adjustHeight}
-            placeholder='Type a message...'
-            className='message-input'
-            rows="1" // Start with a single line
-            style={{ height: '38px' }}
-          />
-          {messageText &&
-            <IoSend onClick={sendMessage} className='send-message-button'>Send</IoSend>
-          }
-        </div>
+      {/* Input (textarea) and Button for sending message */}
+      <div className='message-input-container'>
+        <textarea 
+          value={messageText}
+          onChange={adjustHeight}
+          placeholder='Type a message...'
+          className='message-input'
+          rows="1" // Start with a single line
+          style={{ height: '38px' }}
+        />
+        {messageText &&
+          <IoSend onClick={sendMessage} className='send-message-button'>Send</IoSend>
+        }
       </div>
-    )
-  }
+    </div>
+  )
+}
 
 MessagesPage.propTypes = {
   user: PropTypes.object,
