@@ -79,8 +79,20 @@ img {
 .message-received .currency-gift-box {
     color: var(--offwhite);
     border-radius: 18px 18px 18px 5px;
+    font-size: 4.33rem;
+    height: 9rem;
+    width: 9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .message-sent .currency-gift-box {
     border-radius: 18px 18px 5px 18px;
+    font-size: 4.33rem;
+    height: 9rem;
+    width: 9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
