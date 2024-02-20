@@ -139,60 +139,61 @@ export default function AcceptLink({ socket }) {
             ?
             <div className='own-link-container'>
             <img className="profile-pic" src={currentUser.profilePicture ? currentUser.profilePicture : "/assets/person/nopicture.png"}/>
-        <h3 className='own-link-message'>... you can`t use this link more than once</h3>
-        </div> :
-            isUserLink
-                    ? <div className='own-link-container'>
-                            <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "/assets/person/nopicture.png"}/>
-                        <h3 className='own-link-message'>... you can`t use your own link</h3>
-                        </div> 
-                    : link.details 
-                        ? <div className="link-details">
-                            {link.details.type === 'currency' && link.details.quantity > 0 
-                                ? (
-                                    <>
-                                        <h3 className='link-title-and-details'>
-                                            User 
-                                            {link.details.giveorreceive === "give" ? " wants to give you " : " would like "} 
-                                            ${link.details.amount}
-                                        </h3>
+            <h3 className='own-link-message'>... you can`t use this link more than once</h3>
+            </div> :
+                isUserLink
+                        ? <div className='own-link-container'>
+                                <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "/assets/person/nopicture.png"}/>
+                            <h3 className='own-link-message'>... you can`t use your own link</h3>
+                            </div> 
+                        : link.details 
+                            ? <div className="link-details">
+                                {link.details.type === 'currency' && link.details.quantity > 0 
+                                    ? (
+                                        <>
+                                            <div className="currency-square">${link.details.amount}</div>
+                                            <h3 className='link-title-and-details'>
+                                                User 
+                                                {link.details.giveorreceive === "give" ? " wants to give you " : " would like "} 
+                                                ${link.details.amount}
+                                            </h3>
 
-                                        {link.details.giveorreceive === "give" && 
-                                            <button className='give-or-accept-button' onClick={() => acceptorgive()}>Accept</button>
-                                        }
-                                        {link.details.giveorreceive === "receive" && 
-                                            <button className='give-or-accept-button' onClick={() => acceptorgive()}>Give</button>
-                                        }
-                                    </>
-                                ) 
-                                : link.details.type === 'item' && link.details.quantity > 0 
-                                ? (
-                                    <>   
-                                        <div className="image-description-amount">
+                                            {link.details.giveorreceive === "give" && 
+                                                <button className='give-or-accept-button' onClick={() => acceptorgive()}>Accept</button>
+                                            }
+                                            {link.details.giveorreceive === "receive" && 
+                                                <button className='give-or-accept-button' onClick={() => acceptorgive()}>Give</button>
+                                            }
+                                        </>
+                                    ) 
+                                    : link.details.type === 'item' && link.details.quantity > 0 
+                                    ? (
+                                        <>   
+                                            <div className="image-description-amount">
 
-                                            <div className="image-amount-container">
-                                                <img src={link.details.photo}/>
-                                                <div className="link-right-side-container">
-                                                    <h3 className='link-creator-and-title'>User wants to {link.details.giveorreceive}: {link.details.title}</h3>
-                                                    <p className='amount'>${link.details.amount}</p> 
+                                                <div className="image-amount-container">
+                                                    <img src={link.details.photo}/>
+                                                    <div className="link-right-side-container">
+                                                        <h3 className='link-creator-and-title'>User wants to {link.details.giveorreceive}: {link.details.title}</h3>
+                                                        <p className='amount'>${link.details.amount}</p> 
+                                                    </div>
+                                                </div>
+
+                                                <div className="CTA-button-container">
+                                                    {link.details.giveorreceive === "give" && 
+                                                        <button className='give-or-accept-button' onClick={() => acceptorgive()}>Accept</button>
+                                                    }
+                                                    {link.details.giveorreceive === "receive" && 
+                                                        <button className='give-or-accept-button' onClick={() => acceptorgive()}>Give</button>
+                                                    }
                                                 </div>
                                             </div>
-
-                                            <div className="CTA-button-container">
-                                                {link.details.giveorreceive === "give" && 
-                                                    <button className='give-or-accept-button' onClick={() => acceptorgive()}>Accept</button>
-                                                }
-                                                {link.details.giveorreceive === "receive" && 
-                                                    <button className='give-or-accept-button' onClick={() => acceptorgive()}>Give</button>
-                                                }
-                                            </div>
-                                        </div>
-                                    </>
-                                )
-                                : <p>Link is no longer available.</p>
-                            }
-                        </div>
-                        : <p>Link not found</p> 
+                                        </>
+                                    )
+                                    : <p>Link is no longer available.</p>
+                                }
+                            </div>
+                            : <p>Link not found</p> 
                 }
         </div>
     )

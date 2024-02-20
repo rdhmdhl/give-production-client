@@ -85,7 +85,7 @@
 }
 
 .give-or-accept-button {
-    width: 100%;
+    width: 70%;
     height: 3.5rem;
     border-radius: 2rem;
     font-size: 1.25rem;
@@ -93,10 +93,23 @@
     border: none;
     color: var(--offwhite);
     margin: 0;
+    cursor: pointer;
 }
 
 .amount {
     color: rgb(0, 176, 26);
     font-weight: 800;
     margin-top: .5rem;
+}
+
+.currency-square{
+    border: 1px solid var(--purple);
+    font-size: 5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    height: 9rem;
+    width: 9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
