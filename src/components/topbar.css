@@ -86,7 +86,7 @@ body{
 .username-type{
     font-weight: 100;
     color: gray;
-    /* margin-left: 1.1rem; */
+    margin: 1rem 0 .5rem 0;
 }
 
 .location-container{
