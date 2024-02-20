@@ -12,12 +12,16 @@
   }
   
   .popup-content {
-    background: rgb(33, 33, 33);
+    background: var(--darkgrayreid);
     padding: 20px;
     text-align: center;
     border-radius: 1rem;
   }
   
+  .content-p{
+    color: var(--offwhite);
+  }
+
   .popup-button{
     color: white;
     background-color: var(--purple);

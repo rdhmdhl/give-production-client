@@ -19,6 +19,8 @@
 
 .own-link-message {
     color: var(--offwhite);
+    font-size: 1rem;
+    margin: 2rem;
 }
 
 .profile-pic {

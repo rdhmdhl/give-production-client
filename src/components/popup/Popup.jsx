@@ -8,7 +8,7 @@ const Popup = ({ isPopupOpen, message, button1Text, button1Action, button2Text, 
   return (
     <div className="popup">
       <div className="popup-content">
-        <p>{message}</p>
+        <p className='content-p'>{message}</p>
 
         <button className='popup-button' onClick={(e) => { e.stopPropagation(); button1Action(); }}>{button1Text}</button>
 

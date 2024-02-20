@@ -11,10 +11,15 @@
   position: relative;
   margin: 33% auto; /* Center vertically */
   padding: 20px;
-  background-color: rgb(33, 33, 33);
+  background-color: var(--darkgrayreid);
   width: 75%; /* Width */
   text-align: center; /* Centered text */
   border-radius: 1rem;
+  color: var(--offwhite);
+}
+
+.content-p{
+  color: var(--offwhite);
 }
 
 .button-container{
