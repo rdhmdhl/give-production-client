@@ -126,11 +126,13 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
         {socialOptions[selectedItem]?.name === "Twitter" && (
           <ShareToTwitter
             details={details}
-            postUrl={postUrl}
             linkGenerated={linkGenerated}
             generatedLink={generatedLink}
             generatedElements={generatedElements}
+            selectedImageIndex={selectedImageIndex}
+            setSelectedImageIndex={setSelectedImageIndex}
             isLoadingImage={isLoadingImage}
+            setDownloadFunction={setDownloadFunction}
             // downloadImage={downloadImage}
         />
         )}

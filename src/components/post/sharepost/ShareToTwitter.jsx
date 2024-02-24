@@ -1,28 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCircle } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
-import config from "../../../config";
+import { FaCheckCircle } from "react-icons/fa";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 const ShareToInstagram = ({
   details,
-  postUrl,
   linkGenerated,
   generatedLink,
-  generatedImage,
+  generatedElements,
   isLoadingImage,
-  downloadImage,
+  selectedImageIndex,
+  setSelectedImageIndex,
+  setDownloadFunction
 }) => {
   const [showTwitterSteps, setshowTwitterSteps] = useState(true);
 
   const [currentStep, setCurrentStep] = useState(0);
-
-  //   const [caution, setCaution] = useState(null);
-
-  // useEffect(() => {
-  //   try {
-  //     shareToInstagramStory();
-  //   } catch (error) {}
-  // }, [shareToInstagramStory]);
+  const [isDownloaded, setIsDownloaded] = useState(false);
 
   let peopleOrPerson;
 
@@ -32,8 +27,32 @@ const ShareToInstagram = ({
     peopleOrPerson = "person";
   }
 
+  const stepImages = [
+    generatedElements.length > 0 ? generatedElements[selectedImageIndex] : null, 
+    "/assets/twitter-step2.png"
+  ];
+
+  //   const gifPositions = [
+  //     { top: "0", left: "0", display: "none" }, // No display for step 1
+  //     { top: "13.5rem", left: "-.15rem" }, // Position for step 2
+  //   ];
+
+  const stepInstructions = [
+    "Optional: download image",
+    "Click share & a post will be composed",
+  ];
+
+  const handleDownload = (index) => {
+    setDownloadFunction(index);
+    setIsDownloaded(true);
+    
+    setTimeout(() => setIsDownloaded(false), 2000); // Reset after 2 seconds
+  };
+
+  const navigate = useNavigate();
+
   const shareToTwitter = () => {
-    let text, url;
+    let text;
     // i guess this is used to conditionally render?
     setshowTwitterSteps(true);
 
@@ -43,20 +62,7 @@ const ShareToInstagram = ({
       return nextStep < stepInstructions.length ? nextStep : prev; // Prevent incrementing beyond array length
     });
 
-    // used for post urls, not link urls
-    if (postUrl) {
-    // Handle sharing to Twitter
-      text = "Check out this post on G-ve.";
-      url = `${config.publicUrl}` + postUrl; // Assuming generatedLink contains the URL you want to share
-      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        text
-      )}&url=${encodeURIComponent(url)}`;
-
-      // Open the Twitter share dialog in a new window
-      window.open(tweetUrl, "_blank");
-
-      // if the user is sharing a link
-    } else if (generatedLink && linkGenerated) {
+    if (generatedLink && linkGenerated) {
       if (details.giveorreceive === "give" && details.type === "currency") {
         text = `I'm giving $${details.amount} to ${details.quantity} anonymous ${peopleOrPerson} today.`;
       }
@@ -80,28 +86,68 @@ const ShareToInstagram = ({
       const tweetUrl = `https://twitter.com/intent/tweet?text=${textWithBreak}`;
 
       if (currentStep === 1) {
+        // navigate back to home page 
+        navigate("/");
+
         // Open the Twitter share dialog in a new window
         window.open(tweetUrl, "_blank");
       }
     }
   };
 
-  const stepImages = [generatedImage, "/assets/twitter-step2.png"];
+  useEffect(() => {
+    const container = document.querySelector('.image-selection-container');
+    if (!container) return;
+    let frameId = null; // To hold the requestAnimationFrame ID
 
-  //   const gifPositions = [
-  //     { top: "0", left: "0", display: "none" }, // No display for step 1
-  //     { top: "13.5rem", left: "-.15rem" }, // Position for step 2
-  //   ];
+    // Define the scroll event listener function
+    const onScroll = () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
 
-  const stepInstructions = [
-    "Optional: download image",
-    "Click share & a post will be composed",
-  ];
+      frameId = requestAnimationFrame(() => {
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+        const thumbnails = document.querySelectorAll('.thumbnail'); // Move inside the event listener if thumbnails might change
+        
+        thumbnails.forEach((thumbnail, index) => {
+          const scrollPosition = container.scrollLeft + container.offsetWidth / 2;
+          const thumbnailCenter = thumbnail.offsetLeft + thumbnail.offsetWidth / 2;
+          const distance = Math.abs(scrollPosition - thumbnailCenter);
+          
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+          }
+        });
+        
+        thumbnails.forEach((thumbnail, index) => {
+          if (index === closestIndex) {
+            thumbnail.classList.add('active');
+            setSelectedImageIndex(index)
+          } else {
+            thumbnail.classList.remove('active');
+          }
+        });
+      })
+    }
+
+    // Add the event listener
+    container.addEventListener('scroll', onScroll);
+
+    return () => {
+      container.removeEventListener('scroll', onScroll);
+      if (frameId !== null){
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }, [generatedElements]);
+
 
   return (
     <>
-      {/* instagram steps */}
-      {showTwitterSteps && !isLoadingImage && generatedImage && (
+      {showTwitterSteps && !isLoadingImage && generatedElements && (
         <div className="insta-steps-container">
           <div className="progress-circles-container">
             {stepImages.map((_, index) => (
@@ -117,36 +163,64 @@ const ShareToInstagram = ({
           <div className="step-descriptions-container">
             <p>{stepInstructions[currentStep]}</p>
           </div>
-          <div className="steps-container">
+
+          <div className="steps-and-images-container">
+            {/* Overlay GIF for highlighting steps */}
             {/* <img
               className="overlay-gif"
               src="/assets/circle-gif.gif"
               style={{
                 position: "absolute",
-                top:
-                  (gifPositions[currentStep] &&
-                    gifPositions[currentStep].top) ||
-                  "0",
-                left:
-                  (gifPositions[currentStep] &&
-                    gifPositions[currentStep].left) ||
-                  "0",
-                display:
-                  (gifPositions[currentStep] &&
-                    gifPositions[currentStep].display) ||
-                  "block",
+                top: gifPositions[currentStep]?.top || "0",
+                left: gifPositions[currentStep]?.left || "0",
+                display: gifPositions[currentStep]?.display || "block",
               }}
               alt="Highlight"
             /> */}
 
-            <img
-              className="step-image"
-              src={stepImages[currentStep]}
-              alt={`Step ${currentStep + 1} for posting on Instagram`}
-            />
-            <div className="download-button-cont">
-              {currentStep === 0 && <MdDownload onClick={downloadImage} />}
+            <div className="image-row-container">
+
+              {/* Selected Image */}
+              {currentStep > 0 && (
+                <div className="selected-image-container">
+                  <img
+                    className="step-image"
+                    src={stepImages[currentStep]}
+                    alt={`Step ${currentStep + 1} for posting on Instagram`}
+                  />
+                </div>
+              )}
+
+              {/* Thumbnails */}
+              <div className={`image-selection-container ${currentStep === 0 ? 'with-padding' : ''}`}>
+                {currentStep === 0 &&
+                  generatedElements.length > 0 &&
+                  generatedElements.map((element, index) => (
+                    <div
+                      key={index}
+                      id={`thumbnail-container-${index}`}
+                      className={`thumbnail ${
+                        selectedImageIndex === index ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        setSelectedImageIndex(index)
+                        // scrollToThumbnail(index)
+                      }}
+                    >
+                      {element}
+                    </div>
+                  ))}
+              </div>
             </div>
+          </div>
+
+            {/* download button */}
+          <div className="download-button-cont">
+            {currentStep === 0 && (
+              isDownloaded ? 
+                <FaCheckCircle className="download-success-icon" /> :
+                <MdDownload onClick={() => handleDownload(selectedImageIndex)} />
+            )}
           </div>
 
           {/* alert and button container */}
@@ -169,10 +243,11 @@ export default ShareToInstagram;
 
 ShareToInstagram.propTypes = {
   details: PropTypes.object,
-  postUrl: PropTypes.string,
   linkGenerated: PropTypes.bool,
   generatedLink: PropTypes.string,
-  generatedImage: PropTypes.string,
+  generatedElements: PropTypes.array,
   isLoadingImage: PropTypes.bool,
-  downloadImage: PropTypes.func,
+  selectedImageIndex: PropTypes.number,
+  setSelectedImageIndex: PropTypes.func,
+  setDownloadFunction: PropTypes.func
 };
