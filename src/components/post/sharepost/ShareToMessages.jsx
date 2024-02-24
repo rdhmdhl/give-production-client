@@ -1,26 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCircle } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
-import config from "../../../config";
+import { FaCheckCircle } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useNavigate } from 'react-router';
 
 function ShareToMessages({  
     details,
-    postUrl,
     linkGenerated,
     generatedLink,
-    generatedImage,
+    generatedElements,
     isLoadingImage,
-    downloadImage,}) {
+    selectedImageIndex,
+    setSelectedImageIndex,
+    setDownloadFunction
+}) {
 
-    const [showMessageSteps, setShowMessageSteps] = useState(true);
+  const [showMessageSteps, setShowMessageSteps] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isDownloaded, setIsDownloaded] = useState(false);
+  const navigate = useNavigate();
+  const stepImages = [
+    generatedElements.length > 0 ? generatedElements[selectedImageIndex] : null,
+    "/assets/messages-step2.jpeg"
+  ];
 
-    const [currentStep, setCurrentStep] = useState(0);
+  const stepInstructions = [
+    "Optional: download image",
+    "Click share and go to messages",
+  ];
 
-    const navigate = useNavigate();
+  const handleDownload = (index) => {
+    setDownloadFunction(index);
+    setIsDownloaded(true);
+    
+    setTimeout(() => setIsDownloaded(false), 2000); // Reset after 2 seconds
+  };
 
-// Handle sharing via text message
+  // Handle sharing via text message
   const shareToTextMessage = () => {
     setShowMessageSteps(true);
 
@@ -31,22 +48,20 @@ function ShareToMessages({
         });
 
     // Check if the link is generated or if a postURL is provided
-    if ((linkGenerated && generatedLink) || postUrl && currentStep === 1) {
+    if (linkGenerated && generatedLink){
       // Create the message text
       let text;
-      let urlToShare = postUrl
-        ? `${config.publicUrl}/${postUrl}`
-        : generatedLink; // Use postURL if available, otherwise use generatedLink
+      let urlToShare = generatedLink; 
 
       if (generatedLink && linkGenerated && details && currentStep === 1) {
         if (details.giveorreceive === "give" && details.type === "currency") {
-          text = `Can I give you $${details.amount}?`;
+          text = `Can I give you $${details.amount}? `;
         }
         if (
           details.giveorreceive === "receive" &&
           details.type === "currency"
         ) {
-          text = `Wanna give me $${details.amount}?`;
+          text = `Wanna give me $${details.amount}? `;
         }
         if (details.giveorreceive === "give" && details.type === "item") {
           text = `Do you want this? -- ${details.title} 🎁 `;
@@ -71,19 +86,59 @@ function ShareToMessages({
     }
   };
 
-  const stepImages = [generatedImage, "/assets/messages-step2.jpeg"];
+  useEffect(() => {
+    const container = document.querySelector('.image-selection-container');
+    if (!container) return;
+    let frameId = null; // To hold the requestAnimationFrame ID
 
-  const stepInstructions = [
-    "Optional: download image",
-    "Click share and go to messages",
-  ];
+    // Define the scroll event listener function
+    const onScroll = () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
 
-  
+      frameId = requestAnimationFrame(() => {
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+        const thumbnails = document.querySelectorAll('.thumbnail'); // Move inside the event listener if thumbnails might change
+        
+        thumbnails.forEach((thumbnail, index) => {
+          const scrollPosition = container.scrollLeft + container.offsetWidth / 2;
+          const thumbnailCenter = thumbnail.offsetLeft + thumbnail.offsetWidth / 2;
+          const distance = Math.abs(scrollPosition - thumbnailCenter);
+          
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+          }
+        });
+        
+        thumbnails.forEach((thumbnail, index) => {
+          if (index === closestIndex) {
+            thumbnail.classList.add('active');
+            setSelectedImageIndex(index)
+          } else {
+            thumbnail.classList.remove('active');
+          }
+        });
+      })
+    }
+
+    // Add the event listener
+    container.addEventListener('scroll', onScroll);
+
+    return () => {
+      container.removeEventListener('scroll', onScroll);
+      if (frameId !== null){
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }, [generatedElements]);
+
   
   return (
     <>
-    {/* instagram steps */}
-    {showMessageSteps && !isLoadingImage && generatedImage && (
+    {showMessageSteps && !isLoadingImage && generatedElements && (
       <div className="insta-steps-container">
         <div className="progress-circles-container">
           {stepImages.map((_, index) => (
@@ -97,17 +152,66 @@ function ShareToMessages({
           ))}
         </div>
         <div className="step-descriptions-container">
-          <p>{stepInstructions[currentStep]}</p>
+            <p>{stepInstructions[currentStep]}</p>
         </div>
-        <div className="steps-container">
-          <img
-            className="step-image"
-            src={stepImages[currentStep]}
-            alt={`Step ${currentStep + 1} for sharing via messenger`}
-          />
-          <div className="download-button-cont">
-            {currentStep === 0 && <MdDownload onClick={downloadImage} />}
+
+        <div className="steps-and-images-container">
+            {/* Overlay GIF for highlighting steps */}
+            {/* <img
+              className="overlay-gif"
+              src="/assets/circle-gif.gif"
+              style={{
+                position: "absolute",
+                top: gifPositions[currentStep]?.top || "0",
+                left: gifPositions[currentStep]?.left || "0",
+                display: gifPositions[currentStep]?.display || "block",
+              }}
+              alt="Highlight"
+            /> */}
+
+            <div className="image-row-container">
+
+              {/* Selected Image */}
+              {currentStep > 0 && (
+                <div className="selected-image-container">
+                  <img
+                    className="step-image"
+                    src={stepImages[currentStep]}
+                    alt={`Step ${currentStep + 1} for posting on Instagram`}
+                  />
+                </div>
+              )}
+
+              {/* Thumbnails */}
+              <div className={`image-selection-container ${currentStep === 0 ? 'with-padding' : ''}`}>
+                {currentStep === 0 &&
+                  generatedElements.length > 0 &&
+                  generatedElements.map((element, index) => (
+                    <div
+                      key={index}
+                      id={`thumbnail-container-${index}`}
+                      className={`thumbnail ${
+                        selectedImageIndex === index ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        setSelectedImageIndex(index)
+                        // scrollToThumbnail(index)
+                      }}
+                    >
+                      {element}
+                    </div>
+                  ))}
+              </div>
+            </div>
           </div>
+
+        {/* download button */}
+        <div className="download-button-cont">
+          {currentStep === 0 && (
+            isDownloaded ? 
+              <FaCheckCircle className="download-success-icon" /> :
+              <MdDownload onClick={() => handleDownload(selectedImageIndex)} />
+          )}
         </div>
 
         {/* alert and button container */}
@@ -133,8 +237,10 @@ ShareToMessages.propTypes = {
     postUrl: PropTypes.string,
     linkGenerated: PropTypes.bool,
     generatedLink: PropTypes.string,
-    generatedImage: PropTypes.string,
+    generatedElements: PropTypes.array,
     isLoadingImage: PropTypes.bool,
-    downloadImage: PropTypes.func,
+    selectedImageIndex: PropTypes.number,
+    setSelectedImageIndex: PropTypes.func,
+    setDownloadFunction: PropTypes.func
   };
   

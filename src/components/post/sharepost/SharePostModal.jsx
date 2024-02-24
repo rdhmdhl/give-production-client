@@ -18,7 +18,11 @@ import DownloadImage from "../../../pages/sharepost/DownloadImage";
 
 // TODO:
 // REMOVED postUrl, FROM PARAMETERS TEMPORARILY
-const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
+const SharePostModal = ({ 
+  isOpen, 
+  closeModal, 
+  // postUrl, 
+  details }) => {
 
   const [linkGenerated, setLinkGenerated] = useState(false);
   const [generatedLink, setGeneratedLink] = useState(null);
@@ -117,7 +121,6 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
               generatedLink={generatedLink}
               generatedElements={generatedElements}
               isLoadingImage={isLoadingImage}
-              // downloadImage={downloadImage}
               selectedImageIndex={selectedImageIndex}
               setSelectedImageIndex={setSelectedImageIndex}
               setDownloadFunction={setDownloadFunction}
@@ -133,18 +136,18 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
             setSelectedImageIndex={setSelectedImageIndex}
             isLoadingImage={isLoadingImage}
             setDownloadFunction={setDownloadFunction}
-            // downloadImage={downloadImage}
         />
         )}
         {socialOptions[selectedItem]?.name === "Messages" && (
           <ShareToMessages
             details={details}
-            postUrl={postUrl}
             linkGenerated={linkGenerated}
             generatedLink={generatedLink}
             generatedElements={generatedElements}
+            selectedImageIndex={selectedImageIndex}
+            setSelectedImageIndex={setSelectedImageIndex}
             isLoadingImage={isLoadingImage}
-            // downloadImage={downloadImage}
+            setDownloadFunction={setDownloadFunction}
         />
         )}
       </div>
@@ -154,7 +157,6 @@ const SharePostModal = ({ isOpen, closeModal, postUrl, details }) => {
           details={details}
           setGeneratedElements={setGeneratedElements}
           setIsLoadingImage={setIsLoadingImage}
-          // downloadFunction={downloadFunction}
         />
         <DownloadImage
           details={details}
