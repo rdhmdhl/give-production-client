@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
-import createScrollSnap from "scroll-snap";
+// import createScrollSnap from "scroll-snap";
 import PropTypes from "prop-types";
 const ShareToInstagram = ({
   linkGenerated,
   generatedLink,
   generatedElements,
   isLoadingImage,
-  // downloadImage,
   selectedImageIndex,
   setSelectedImageIndex,
   setDownloadFunction
@@ -20,9 +19,9 @@ const ShareToInstagram = ({
 
   const [caution, setCaution] = useState(null);
 
+  // const [isLastThumbnail, setIsLastThumbnail] = useState(false);
 
   
-  const [isLastThumbnail, setIsLastThumbnail] = useState(false);
   const navigate = useNavigate();
 
   const shareToInstagramStory = async () => {
@@ -82,119 +81,42 @@ const ShareToInstagram = ({
   ];
 
   useEffect(() => {
-    const container = document.querySelector(".image-selection-container");
+    const container = document.querySelector('.image-selection-container');
     if (!container) return;
-    
-    // Function to calculate the average width of thumbnails
-    const calculateAverageThumbnailWidth = () => {
-      const thumbnails = container.querySelectorAll(".thumbnail");
-      if (thumbnails.length === 0) return 0;
-      
-      const totalWidth = Array.from(thumbnails).reduce((total, thumbnail) => {
-        const width = thumbnail.offsetWidth; // width with padding
-        return total + (width);
-      }, 0);
 
-      return totalWidth / thumbnails.length;
-    };
-
-    // fucntion to determine and update the active thumbnail
-    const updateActiveThumbnail = () => {
-      const thumbnails = container.querySelectorAll(".thumbnail");
-      let minDistance = Infinity;
-      let closestIndex = -1;
-
-      setIsLastThumbnail(selectedImageIndex === thumbnails.length - 1);
-
-      // Use the scrollLeft as the reference point
-      const referencePoint = container.scrollLeft;
+    // Define the scroll event listener function
+    const onScroll = () => {
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+      const thumbnails = document.querySelectorAll('.thumbnail'); // Move inside the event listener if thumbnails might change
 
       thumbnails.forEach((thumbnail, index) => {
+        const scrollPosition = container.scrollLeft + container.offsetWidth / 2;
+        const thumbnailCenter = thumbnail.offsetLeft + thumbnail.offsetWidth / 2;
+        const distance = Math.abs(scrollPosition - thumbnailCenter);
 
-        const thumbnailRect = thumbnail.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-
-        // Calculate the start position of the thumbnail relative to the container's viewport
-        const thumbnailStart = thumbnailRect.left - containerRect.left + container.scrollLeft;
-
-        // find distance of the thumbnails center from the container's start
-        const distance = Math.abs(thumbnailStart - referencePoint);
-
-        if (distance < minDistance) {
-          minDistance = distance;
+        if (distance < closestDistance) {
+          closestDistance = distance;
           closestIndex = index;
         }
       });
-
-      if (closestIndex !== -1) {
-        // update the active thumbnail based on the closest thumbnail
-        setSelectedImageIndex(closestIndex);
-      }
+      
+      thumbnails.forEach((thumbnail, index) => {
+        if (index === closestIndex) {
+          thumbnail.classList.add('active');
+          setSelectedImageIndex(index)
+        } else {
+          thumbnail.classList.remove('active');
+        }
+      });
     };
 
-    const handleScroll = () => {
-      // Timeout should be greater than the scroll-snap duration
-      setTimeout(updateActiveThumbnail, 350);
-    };
-
-    // Calculate average thumbnail width
-    const averageThumbnailWidth = calculateAverageThumbnailWidth();
-    const { bind, unbind } = createScrollSnap(
-      container,
-      {
-        snapDestinationX: isLastThumbnail ? 'start' : `${averageThumbnailWidth}px`, // Snap to the width of each thumbnail
-        snapDestinationY: "0%",
-        timeout: 100,
-        duration: 300,
-        threshold: 0.2,
-        snapStop: true, // Stop at each thumbnail without skipping
-        easing: (t) => t, // Customize the easing function as needed
-      },
-      handleScroll
-    );
-
-    bind(); // attach the scroll snap behavior
-
-    return () => {
-      unbind(); // clean up scroll snap behavior
-    };
-  }, [generatedElements]);
-
-  // Function to scroll to a specific thumbnail
-const scrollToThumbnail = (index) => {
-  const container = document.querySelector(".image-selection-container");
-    if (!container) return;
-
-  const thumbnails = container.querySelectorAll(".thumbnail");
-  if (index < 0 || index >= thumbnails.length) return;
-
-  const selectedThumbnail = thumbnails[index];
-
-  let scrollPosition;
-  if (index === thumbnails.length){
-    // For the last thumbnail, scroll just enough to bring it into view
-    scrollPosition = selectedThumbnail.offsetLeft - container.scrollLeft + selectedThumbnail.offsetWidth - container.offsetWidth;
-  } else {
-    // For other thumbnails, center them in the view
-    scrollPosition = selectedThumbnail.offsetLeft - (container.offsetWidth - selectedThumbnail.offsetWidth) / 2;
-  }
-
-  container.scrollTo({
-    left: scrollPosition,
-    behavior: 'smooth'
-  });
-}
-
-// Use the download function passed from ImageTemplate
-// const handleDownloadClick = (index) => {
-//   if (downloadFunction){
-//     downloadFunction(index)
-//   } else {
-//     console.log("download function not available")
-//   }
-// };
-
-
+    // Add the event listener
+    container.addEventListener('scroll', onScroll);
+  
+    return () => container.removeEventListener('scroll', onScroll);
+  }, []);
+  
 return (
     <>
       {/* Instagram steps */}
@@ -255,7 +177,7 @@ return (
                       }`}
                       onClick={() => {
                         setSelectedImageIndex(index)
-                        scrollToThumbnail(index)
+                        // scrollToThumbnail(index)
                       }}
                     >
                       {element}

@@ -5,13 +5,16 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
   }
   
   .modal.open {
     display: flex;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
   }
 
   
@@ -228,10 +231,29 @@
     align-items: flex-start;
     height: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
     position: relative;
+    scroll-snap-type: x mandatory;
     /* scroll-padding-right: 100px; */
     z-index: 3;
     /* padding-right: 50px; */
+  }
+
+  .thumbnail {
+    scroll-snap-align: start;
+    flex: 0 0 auto; /* Ensure thumbnails don't stretch and have a fixed size */
+    cursor: pointer;
+    transition: transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10rem;
+    height: 15rem;
+    padding: 12px;
+  }
+
+  .image-row-container, .selected-image-container, .image-selection-container {
+    scroll-snap-align: start; /* adjust according to your layout */
   }
 
   .image-selection-container.with-padding {
