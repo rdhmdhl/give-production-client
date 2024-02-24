@@ -10,10 +10,10 @@
 
 .link-content-container{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: row;
     width: 75%;
-    height: 8rem;
+    height: 100%;
     /* margin: 0 1rem;
     padding: 0 1rem; */
 }
@@ -35,8 +35,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: 10rem;
+    height: 10rem;
     /* width: 10rem; Set the same width as the image */
     /* height: 10rem; Set the same height as the image */
     border: solid 1px var(--offwhite); /* Optional: for visual consistency */

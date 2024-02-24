@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 function Link({link}) {
     let giveOrReceive;
     let titleOrAmount;
+    let giveAmount;
     const navigate = useNavigate();
 
     if (link.details.giveorreceive === "give"){
@@ -16,8 +17,14 @@ function Link({link}) {
     }
 
     if(link.details.type === "currency"){
-        const giveAmount = link.details.amount;
-        titleOrAmount = `${giveAmount} dollars.`;
+        if(link.details.amount > 1.99){
+            giveAmount = link.details.amount;
+            titleOrAmount = `${giveAmount} dollars.`;
+
+        } else {
+            giveAmount = link.details.amount;
+            titleOrAmount = `${giveAmount} dollar.`;
+        }
     } else{
         titleOrAmount = `${link.details.title}.`;
     }
@@ -42,7 +49,7 @@ function Link({link}) {
                 </div>
             </div>
             <div className="right-side">
-                <p className='description'>User near Los Angeles, CA is {giveOrReceive} {titleOrAmount}</p>
+                <p className='description'>User is {giveOrReceive} {titleOrAmount}</p>
                 <p className="created-at">{format(link.createdAt)}</p>
             </div>
         </div>
