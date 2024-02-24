@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
+import { FaCheckCircle } from "react-icons/fa";
 // import createScrollSnap from "scroll-snap";
 import PropTypes from "prop-types";
 const ShareToInstagram = ({
@@ -14,12 +15,9 @@ const ShareToInstagram = ({
   setDownloadFunction
 }) => {
   const [showInstaSteps, setShowInstaSteps] = useState(true);
-
   const [currentStep, setCurrentStep] = useState(0);
-
   const [caution, setCaution] = useState(null);
-
-  // const [isLastThumbnail, setIsLastThumbnail] = useState(false);
+  const [isDownloaded, setIsDownloaded] = useState(false);
 
   
   const navigate = useNavigate();
@@ -80,42 +78,62 @@ const ShareToInstagram = ({
     "Paste your link",
   ];
 
+
+  const handleDownload = (index) => {
+    setDownloadFunction(index);
+    setIsDownloaded(true);
+    
+    setTimeout(() => setIsDownloaded(false), 2000); // Reset after 2 seconds
+  };
+
   useEffect(() => {
     const container = document.querySelector('.image-selection-container');
     if (!container) return;
+    let frameId = null; // To hold the requestAnimationFrame ID
 
     // Define the scroll event listener function
     const onScroll = () => {
-      let closestIndex = 0;
-      let closestDistance = Infinity;
-      const thumbnails = document.querySelectorAll('.thumbnail'); // Move inside the event listener if thumbnails might change
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
 
-      thumbnails.forEach((thumbnail, index) => {
-        const scrollPosition = container.scrollLeft + container.offsetWidth / 2;
-        const thumbnailCenter = thumbnail.offsetLeft + thumbnail.offsetWidth / 2;
-        const distance = Math.abs(scrollPosition - thumbnailCenter);
-
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = index;
-        }
-      });
-      
-      thumbnails.forEach((thumbnail, index) => {
-        if (index === closestIndex) {
-          thumbnail.classList.add('active');
-          setSelectedImageIndex(index)
-        } else {
-          thumbnail.classList.remove('active');
-        }
-      });
-    };
+      frameId = requestAnimationFrame(() => {
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+        const thumbnails = document.querySelectorAll('.thumbnail'); // Move inside the event listener if thumbnails might change
+        
+        thumbnails.forEach((thumbnail, index) => {
+          const scrollPosition = container.scrollLeft + container.offsetWidth / 2;
+          const thumbnailCenter = thumbnail.offsetLeft + thumbnail.offsetWidth / 2;
+          const distance = Math.abs(scrollPosition - thumbnailCenter);
+          
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+          }
+        });
+        
+        thumbnails.forEach((thumbnail, index) => {
+          if (index === closestIndex) {
+            thumbnail.classList.add('active');
+            setSelectedImageIndex(index)
+          } else {
+            thumbnail.classList.remove('active');
+          }
+        });
+      })
+    }
 
     // Add the event listener
     container.addEventListener('scroll', onScroll);
-  
-    return () => container.removeEventListener('scroll', onScroll);
-  }, []);
+
+    return () => {
+      container.removeEventListener('scroll', onScroll);
+      if (frameId !== null){
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }, [generatedElements]);
   
 return (
     <>
@@ -188,7 +206,11 @@ return (
           </div>
 
           <div className="download-button-cont">
-            {currentStep === 0 && <MdDownload onClick={() => setDownloadFunction(selectedImageIndex)} />}
+            {currentStep === 0 && (
+              isDownloaded ? 
+                <FaCheckCircle className="download-success-icon" /> :
+                <MdDownload onClick={() => handleDownload(selectedImageIndex)} />
+            )}
           </div>
 
           {/* Alert and button container */}
