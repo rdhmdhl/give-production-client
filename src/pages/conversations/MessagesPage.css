@@ -1,34 +1,36 @@
 .messages-container{
-    padding: 5rem 2.5rem 3rem 2.5rem;
+    padding-top: 1.5rem;
     height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    /* overflow-y: auto; */
     max-width: 100%;
 }
 
 .messages-feed-infinite-container {
-  max-height: 70vh;
-  /* vertical scrolling */
   overflow-y: auto; 
   display: flex;
   flex-direction: column-reverse; /* Newest messages at the bottom */
   width: 100%; /* Adjust as necessary */
+  background-color: black;
 }
 
 .message-input-container {
     display: flex;
     justify-content: space-between;
-    /* padding: 10px; */
     align-items: flex-end; /* Aligns the button and textarea properly */
     width: 100%;
-  }
+    background-color: black;
+    padding-bottom: 1rem;
+}
   
 .message-input {
   flex-grow: 1;
-  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 .5rem;
   padding: 8px;
   border-radius: 1rem;
   border: 1px solid #ccc;
@@ -40,6 +42,7 @@
 
 .send-message-button {
   padding: 8px 15px;
+  margin: 0 10px;
   height: 20px;
   background-color: var(--lime-green);
   color: white;
@@ -49,6 +52,7 @@
 }
 
 textarea:focus {
+  border-radius: 1rem;
   outline: 2px solid var(--purple)
 }
 
