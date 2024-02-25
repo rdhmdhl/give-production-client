@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './conversationFeed.css';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -40,30 +40,35 @@ export default function MessagesFeed({
   // const [initialLoad, setInitialLoad] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
-  
+  const lastMessageRef = useRef(null);
   // used for catch blocks
   const popupStaus = async (message) => {
     setPopupMessage(message);
     setShowPopup(true);
   }
 
+  // After updating messages list
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [sendMessage]);
+
   useEffect(() => {
     if (!socket) {
       return;
     }
-    const messagesContainer = document.getElementById('messagesInfiniteScroll')
     // Listen for new messages
     const handleNewMessage = (newMessage) => {
       if (newMessage.conversationId === conversationId) {
         setMessages(prevMessages => [newMessage, ...prevMessages]);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
     };
     socket.on('new-message', handleNewMessage);
     return () => {
       socket.off('new-message', handleNewMessage);
     };
-  }, [socket, conversationId, sendMessage])
+  }, [socket, conversationId])
 
   useEffect(() => {
     // Load initial messages for the conversation
@@ -114,7 +119,12 @@ return (
           page={page}
         >
         {messages.map((m, index) => (
-          <Message key={m._id + '-' + index} message={m} socket={socket}/>
+          <Message 
+            key={m._id + '-' + index} 
+            message={m} 
+            socket={socket}
+            ref={index === messages.length - 1 ? lastMessageRef : null}
+            />
         ))}
         </InfiniteScroll>
         )}
