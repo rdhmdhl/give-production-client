@@ -31,6 +31,7 @@ export default function MessagesFeed({
     socket, 
     // user,
     conversationId,
+    sendMessage
 }) {
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
@@ -50,17 +51,19 @@ export default function MessagesFeed({
     if (!socket) {
       return;
     }
+    const messagesContainer = document.getElementById('messagesInfiniteScroll')
     // Listen for new messages
     const handleNewMessage = (newMessage) => {
       if (newMessage.conversationId === conversationId) {
         setMessages(prevMessages => [newMessage, ...prevMessages]);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
     };
     socket.on('new-message', handleNewMessage);
     return () => {
       socket.off('new-message', handleNewMessage);
     };
-  }, [socket, conversationId])
+  }, [socket, conversationId, sendMessage])
 
   useEffect(() => {
     // Load initial messages for the conversation
@@ -92,45 +95,6 @@ export default function MessagesFeed({
     }
   };
 
-//   const fetchMessages = async () => {
-//     console.log("fetch messages running ...");
-//     let res;
-//     try {
-//         const token = localStorage.getItem("token");
-//         // fetch messages
-//         res = await axios.get(`${config.apiUrl}/messages/${conversationId}?page=${page}`, {
-//             headers: {
-//                 'x-auth-token': token
-//             }
-//         });
-//       // reverse the order of the messages, to display newest at the bottom
-//       const reversedData = res.data;
-//       console.log("reversedData: ", reversedData);
-//       if (res.data.length === 25) {
-//         setPage(prevPage => prevPage + 1);
-//         setMessages((messages) => [...reversedData, ...messages ]);
-//         setHasMore(true);
-//         setAllMessagesLoaded(true);
-//       } if (res.data.length < 25 && res.data.length > 0){
-//         setMessages((messages) => [...reversedData, ...messages ]);
-//         setHasMore(false);
-//         setAllMessagesLoaded(true);
-//       } else if (res.data.length === 0 ) { 
-//         setHasMore(false);
-//         setAllMessagesLoaded(true);
-//       }
-//     } catch (error) {
-//       await popupStaus("An error occured when fetching messages. Please try again later.")
-// }
-// }
-
-// useEffect(() => {
-//   if (initialLoad) {
-//     fetchMessages();
-//     setInitialLoad(false);
-//   }
-// }, [hasMore]);
-
 return (
   <div className='messages-feed-infinite-container' id="messagesInfiniteScroll">
     <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
@@ -161,4 +125,5 @@ MessagesFeed.propTypes = {
   socket: PropTypes.object,
   conversationId: PropTypes.string,
   user: PropTypes.object,
+  sendMessage: PropTypes.func
 }

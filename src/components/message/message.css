@@ -34,16 +34,6 @@
     color: var(--darkgrayreid);
 }
 
-/* When a sent message follows a received message */
-.message-received + .message-sent {
-    margin-top: 15px; /* Increase top margin */
-}
-
-/* When a received message follows a sent message */
-.message-sent + .message-received {
-    margin-top: 15px; /* Increase top margin */
-}
-
 .currency-gift-box {
     display: inline-block;
     justify-content: center;

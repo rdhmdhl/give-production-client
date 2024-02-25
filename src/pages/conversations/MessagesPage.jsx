@@ -93,10 +93,10 @@ function MessagesPage({user, socket}) {
       <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
 
         <MessagesFeed 
-          onScroll={() => console.log('Scrolling from messages feed...')}
           user={user} 
           socket={socket} 
           conversationId={conversationId}
+          sendMessage={sendMessage}
         />
 
       {/* Input (textarea) and Button for sending message */}
