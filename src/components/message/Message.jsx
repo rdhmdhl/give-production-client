@@ -5,10 +5,9 @@ import 'normalize.css';
 import './message.css';
 import { AuthContext } from '../../context/AuthContext';
 
-function Message({message, 
-  //socket
-}) {
-  
+const Message = React.forwardRef (({ message }, ref) => {
+  // Assign a displayName to your component for ESLint
+  Message.displayName = 'Message';
   const { user } = useContext(AuthContext)
   
   // Check if the message was sent by the current user
@@ -63,11 +62,11 @@ function Message({message,
   };
 
   return (
-    <div className={`individual-message-container ${messageClass}`}>
+    <div ref={ref} className={`individual-message-container ${messageClass}`}>
       {renderMessageContent()}
     </div>
   )
-}
+})
 
 Message.propTypes = {
     message: PropTypes.shape({

@@ -31,7 +31,7 @@ export default function MessagesFeed({
     socket, 
     // user,
     conversationId,
-    sendMessage
+    // sendMessage
 }) {
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
@@ -41,18 +41,14 @@ export default function MessagesFeed({
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const lastMessageRef = useRef(null);
+  // New state to determine if the last message was sent by the user or just loaded
+  const [isLastMessageSentByUser, setIsLastMessageSentByUser] = useState(false);
+
   // used for catch blocks
   const popupStaus = async (message) => {
     setPopupMessage(message);
     setShowPopup(true);
   }
-
-  // After updating messages list
-  useEffect(() => {
-    if (lastMessageRef.current) {
-      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [sendMessage]);
 
   useEffect(() => {
     if (!socket) {
@@ -62,13 +58,14 @@ export default function MessagesFeed({
     const handleNewMessage = (newMessage) => {
       if (newMessage.conversationId === conversationId) {
         setMessages(prevMessages => [newMessage, ...prevMessages]);
+        setIsLastMessageSentByUser(true);
       }
     };
     socket.on('new-message', handleNewMessage);
     return () => {
       socket.off('new-message', handleNewMessage);
     };
-  }, [socket, conversationId])
+  }, [socket, conversationId]);
 
   useEffect(() => {
     // Load initial messages for the conversation
@@ -100,8 +97,30 @@ export default function MessagesFeed({
     }
   };
 
+// TODO: ONLY SCROLL TO THE BOTTOM FOR THE CURRENT USER, IF THE CURRENT USER IS NOT SCROLLING UP
+  useEffect(() => {
+    // This function will scroll the messages container to the bottom.
+    const scrollMessagesToBottom = () => {
+      if (isLastMessageSentByUser) {
+        requestAnimationFrame(() => {
+            const scrollContainer = document.querySelector('.messages-feed-infinite-container');
+            if (scrollContainer) {
+              scrollContainer.scrollTo({top: 50, behavior: 'smooth'});
+            }
+        });
+      }
+    };
+  
+    // Call the scroll function whenever the messages array is updated.
+    if (messages.length > 0) {
+      scrollMessagesToBottom();
+      setIsLastMessageSentByUser(false);
+    }
+  }, [messages, isLastMessageSentByUser]); 
+
 return (
   <div className='messages-feed-infinite-container' id="messagesInfiniteScroll">
+    {/* // Temporary button to manually trigger scroll */}
     <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
       {!allMessagesLoaded ? (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem', marginBottom: '20px' }}>
@@ -109,7 +128,7 @@ return (
         </div>
       ) : (
         <InfiniteScroll
-          style={{ height: 'auto', display: 'flex', flexDirection: 'column-reverse' }}
+          style={{ overflowY: 'auto', height: 'auto', display: 'flex', flexDirection: 'column-reverse' }}
           inverse={true}
           dataLength={messages.length}
           scrollableTarget="messagesInfiniteScroll"
@@ -122,12 +141,12 @@ return (
           <Message 
             key={m._id + '-' + index} 
             message={m} 
-            socket={socket}
-            ref={index === messages.length - 1 ? lastMessageRef : null}
+            ref={index === 0 ? lastMessageRef : null}
             />
         ))}
         </InfiniteScroll>
         )}
+        
   </div>
   )
 }
