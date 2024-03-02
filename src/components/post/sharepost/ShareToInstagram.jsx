@@ -23,7 +23,8 @@ const ShareToInstagram = ({
   const navigate = useNavigate();
 
   let shareData = {
-    url: "https://g-ve.com"
+    url: "https://g-ve.com",
+    files: sharedFile
   };
 
   const shareToInstagramStory = async () => {
@@ -55,7 +56,8 @@ const ShareToInstagram = ({
 
             if (navigator.canShare && navigator.canShare(shareData)) {
               await navigator.share(shareData);
-              // Optionally, provide feedback to the user about the successful share
+              // navigate back to the home page
+              navigate("/");
             } else {
               console.log("cannot share via api");
               // Provide feedback or confirmation before redirecting
