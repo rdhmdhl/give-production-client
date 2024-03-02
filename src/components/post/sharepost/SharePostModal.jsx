@@ -46,6 +46,8 @@ const SharePostModal = ({
   // use state for indexing which element to download
   const [downloadFunction, setDownloadFunction] = useState(null);
 
+  // used for setting the file for the share api
+  const [sharedFile, setSharedFile] = useState(null);
 
   // Array of objects representing each social media option and its corresponding Font Awesome class
   const socialOptions = [
@@ -124,6 +126,7 @@ const SharePostModal = ({
               selectedImageIndex={selectedImageIndex}
               setSelectedImageIndex={setSelectedImageIndex}
               setDownloadFunction={setDownloadFunction}
+              sharedFile={sharedFile}
           />
         )}
         {socialOptions[selectedItem]?.name === "Twitter" && (
@@ -160,6 +163,7 @@ const SharePostModal = ({
         />
         <DownloadImage
           details={details}
+          setSharedFile={setSharedFile}
           template={selectedImageIndex}
           downloadFunction={downloadFunction}
         />

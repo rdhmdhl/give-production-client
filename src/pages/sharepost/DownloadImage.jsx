@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { toJpeg } from 'html-to-image';
+import { toBlob } from 'html-to-image';
 
-const DownloadImage = ({ details, template, downloadFunction }) => {
+const DownloadImage = ({ details, template, downloadFunction, setSharedFile }) => {
 
 // define different image styles
     const templates = [
@@ -28,21 +28,32 @@ const DownloadImage = ({ details, template, downloadFunction }) => {
 
 
     // Function to download the image with a white background
-    const downloadImageWithBackground = () => {
-        // const elementId = `image-template-${index}`;
+    const downloadImageWithBackground = async () => {
         const element = document.getElementsByClassName("download-image-container")[0];
-
-            toJpeg(element, {quality: 0.97})
-            .then((dataUrl) => {
-                const link = document.createElement('a');
-                link.download = 'image.jpeg';
-                link.href = dataUrl;
-                link.click();
-            })
-            .catch((err) => {
-                console.log("error downloading image", err);
-            })
+        if (!element) {
+            console.error("Element not found");
+            return;
         }
+        try {
+            const blob = await toBlob(element, {quality: 0.97});
+            if (blob) {
+            // const elementId = `image-template-${index}`;
+            const file = new File([blob], "image.jpeg", { type: 'image/jpeg' });
+            setSharedFile(file); // Set the file for sharingx 
+            // Use the blob for downloading instead of converting again
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = 'image.jpeg';
+            link.href = url;
+            document.body.appendChild(link); // Append to body to ensure visibility in certain browsers
+            link.click();
+            document.body.removeChild(link); // Clean up
+            URL.revokeObjectURL(url); // Release object URL
+        }
+        } catch (err) {
+            console.error("Error downloading image:", err);
+        }
+    }
 
     useEffect(() => {
         if(downloadFunction !== null){
@@ -90,6 +101,7 @@ export default DownloadImage
 
 DownloadImage.propTypes = {
     // ImageTemplate: PropTypes.element,
+    setSharedFile: PropTypes.func,
     downloadFunction: PropTypes.number,
     template: PropTypes.number,
     details: PropTypes.shape({
