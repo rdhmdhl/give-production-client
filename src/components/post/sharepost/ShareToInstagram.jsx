@@ -24,7 +24,7 @@ const ShareToInstagram = ({
 
   let shareData = {
     url: "https://g-ve.com",
-    files: sharedFile
+    files: [sharedFile]
   };
 
   const shareToInstagramStory = async () => {
@@ -51,6 +51,7 @@ const ShareToInstagram = ({
         // if the user is on step 4, send them to instagram
         if (currentStep === 3) {
           try {
+            console.log("shareData: ", shareData);
             console.log("sharedFile: ", sharedFile);
             // console.log("shareData.files: ", shareData.files);
 
