@@ -11,7 +11,6 @@ export default function Login() {
   const {isFetching, dispatch} = useContext(AuthContext);
   
   const handleClick = (e) => {
-    console.log("handleclick");
     e.preventDefault();
     loginCall({email:email.current.value, password:password.current.value},
       dispatch

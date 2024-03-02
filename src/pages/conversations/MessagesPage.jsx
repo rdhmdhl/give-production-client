@@ -91,15 +91,10 @@ function MessagesPage({user, socket}) {
   return (
     <div className='messages-container'>
       <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
-
         <MessagesFeed 
-          user={user} 
           socket={socket} 
           conversationId={conversationId}
-          sendMessage={sendMessage}
         />
-
-      {/* Input (textarea) and Button for sending message */}
       <div className='message-input-container'>
         <textarea 
           value={messageText}

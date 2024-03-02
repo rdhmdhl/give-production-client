@@ -6,17 +6,21 @@
     align-items: center;
     justify-content: flex-end;
     max-width: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .messages-feed-infinite-container {
   overflow-y: auto; 
   display: flex;
-  flex-direction: column-reverse; /* Newest messages at the bottom */
+  flex-direction: column-reverse; 
   width: 100%; /* Adjust as necessary */
   background-color: black;
-  /* padding-bottom: 4rem; */
   max-height: 70vh;
+  scroll-behavior: smooth;
+}
+
+.infinite-scroll-component{
+  padding: 0;
 }
 
 .message-input-container {
@@ -68,35 +72,4 @@ textarea:focus {
   outline: none;
   border-color: var(--purple); /* Change border color instead of outline */
   box-shadow: 0 0 0 2px var(--purple); /* Simulate outline with box-shadow, respecting border-radius */
-}
-
-  /* scrollbar */
-  /* For Webkit (Chrome, Safari, etc.) */
-
-.messages-feed-container::-webkit-scrollbar {
-  width: 5px; /* Adjust the width of the scrollbar */
-}
-
-.messages-feed-container.scrolling::-webkit-scrollbar-thumb {
-  background-color: #888; /* Visible when scrolling */
-}
-
-.messages-feed-container::-webkit-scrollbar-track {
-  background: transparent; /* Track color */
-}
-
-
-.messages-feed-container::-webkit-scrollbar-thumb {
-  background-color: transparent; /* Transparent by default */
-  transition: background-color 0.3s; /* Smooth transition for the background color */
-}
-
-.messages-feed-container::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Handle color on hover */
-}
-
-/* For Firefox */
-.messages-feed-container {
-  scrollbar-width: thin; /* 'auto' or 'thin' */
-  scrollbar-color: #888 #f1f1f1; /* thumb and track color */
 }

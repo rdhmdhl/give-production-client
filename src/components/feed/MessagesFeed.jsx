@@ -23,7 +23,6 @@ const fetchMessages = async (conversationId, page) => {
   })
   const data = res.data || [];
   const hasMore = data.length === PAGE_SIZE;
-  
   return { messages: data, hasMore }; // Reverse if needed to display in correct order
 };
 
@@ -37,7 +36,6 @@ export default function MessagesFeed({
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [allMessagesLoaded, setAllMessagesLoaded] = useState(false); // New state variable
-  // const [initialLoad, setInitialLoad] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const lastMessageRef = useRef(null);
@@ -57,7 +55,7 @@ export default function MessagesFeed({
     // Listen for new messages
     const handleNewMessage = (newMessage) => {
       if (newMessage.conversationId === conversationId) {
-        setMessages(prevMessages => [newMessage, ...prevMessages]);
+        setMessages(prevMessages => [ newMessage, ...prevMessages]);
         setIsLastMessageSentByUser(true);
       }
     };
@@ -75,7 +73,6 @@ export default function MessagesFeed({
       setHasMore(newHasMore);
       setAllMessagesLoaded(true);
     };
-
     setPage(1);
     setMessages([]);
     setHasMore(true);
@@ -84,7 +81,6 @@ export default function MessagesFeed({
 
   const loadMoreMessages = async () => {
     if (!hasMore) return; // Prevent fetching if no more messages
-
     try {    
       const nextPage = page + 1;
       const { messages: newMessages, hasMore: newHasMore } = await fetchMessages(conversationId, nextPage);
@@ -97,56 +93,43 @@ export default function MessagesFeed({
     }
   };
 
-// TODO: ONLY SCROLL TO THE BOTTOM FOR THE CURRENT USER, IF THE CURRENT USER IS NOT SCROLLING UP
   useEffect(() => {
-    // This function will scroll the messages container to the bottom.
-    const scrollMessagesToBottom = () => {
-      if (isLastMessageSentByUser) {
-        requestAnimationFrame(() => {
-            const scrollContainer = document.querySelector('.messages-feed-infinite-container');
-            if (scrollContainer) {
-              scrollContainer.scrollTo({top: 50, behavior: 'smooth'});
-            }
-        });
-      }
-    };
-  
-    // Call the scroll function whenever the messages array is updated.
-    if (messages.length > 0) {
-      scrollMessagesToBottom();
-      setIsLastMessageSentByUser(false);
+    if (lastMessageRef.current && isLastMessageSentByUser) {
+      lastMessageRef.current.scrollIntoView({
+        behavior: 'smooth', // Optional: Defines the transition animation.
+        block: 'end', // Optional: Aligns the element to the bottom of the visible area.
+      });
     }
-  }, [messages, isLastMessageSentByUser]); 
+    setIsLastMessageSentByUser(false);
+  }, [messages]); // Depend on messages to trigger scroll when it updates.
 
 return (
   <div className='messages-feed-infinite-container' id="messagesInfiniteScroll">
-    {/* // Temporary button to manually trigger scroll */}
     <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
       {!allMessagesLoaded ? (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10rem', marginBottom: '20px' }}>
           <ReactLoading type={'balls'} color={'white'} height={'20%'} width={'20%'} />
         </div>
       ) : (
-        <InfiniteScroll
-          style={{ overflowY: 'auto', height: 'auto', display: 'flex', flexDirection: 'column-reverse' }}
-          inverse={true}
-          dataLength={messages.length}
-          scrollableTarget="messagesInfiniteScroll"
-          // scrollThreshold="50%"
-          next={loadMoreMessages}
-          hasMore={hasMore}
-          page={page}
-        >
-        {messages.map((m, index) => (
-          <Message 
-            key={m._id + '-' + index} 
-            message={m} 
-            ref={index === 0 ? lastMessageRef : null}
-            />
-        ))}
-        </InfiniteScroll>
-        )}
-        
+          <InfiniteScroll
+            style={{ display: 'flex', flexDirection: 'column-reverse', width: '100vw'}}
+            inverse={true}
+            dataLength={messages.length}
+            scrollableTarget="messagesInfiniteScroll"
+            next={loadMoreMessages}
+            hasMore={hasMore}
+            page={page}
+          >
+            {messages.map((m, index) => (
+              <Message 
+                key={m._id + '-' + index} 
+                message={m} 
+                ref={index === 0 ? lastMessageRef : null}
+                />
+            ))}
+          </InfiniteScroll>
+        )
+      }
   </div>
   )
 }
