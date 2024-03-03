@@ -23,7 +23,6 @@ const ShareToInstagram = ({
   const navigate = useNavigate();
 
   let shareData = {
-    url: "https://g-ve.com",
     files: [sharedFile]
   };
 
