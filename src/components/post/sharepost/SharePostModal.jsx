@@ -14,10 +14,8 @@ import ShareToInstagram from "./ShareToInstagram";
 import ShareToTwitter from "./ShareToTwitter";
 import ShareToMessages from "./ShareToMessages";
 import DownloadImage from "../../../pages/sharepost/DownloadImage";
-// import { toPng } from 'html-to-image';
+import { toBlob } from 'html-to-image';
 
-// TODO:
-// REMOVED postUrl, FROM PARAMETERS TEMPORARILY
 const SharePostModal = ({ 
   isOpen, 
   closeModal, 
@@ -28,24 +26,19 @@ const SharePostModal = ({
   const [generatedLink, setGeneratedLink] = useState(null);
   const [generatedElements, setGeneratedElements] = useState([]);
   const [isLoadingImage, setIsLoadingImage] = useState(true);
-  // const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const generateLink = useLinkGenerator();
-  // const generateImage = useImageGenerator();
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  // const [stepsCompleted, setStepsCompleted] = useState(false);
-
   // used for selecting the social media icon
   const [selectedItem, setSelecteditem] = useState(0)
-
   // state to track the selected image index
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
   // state for running the download function within the image template 
   // use state for indexing which element to download
   const [downloadFunction, setDownloadFunction] = useState(null);
-
+  // if share.can() exists, use the share api for downloading image
+  const [downloadViaShareApi, setDownloadViaShareAPI] = useState(null);
   // used for setting the file for the share api
   const [sharedFile, setSharedFile] = useState(null);
 
@@ -83,9 +76,38 @@ const SharePostModal = ({
     }
   }, [details]);
 
+  // Function to download the image with a white background
+  const downloadToPhotos = async (index) => {
+    let shareData = {files: [sharedFile]}; 
+    try {
+      const blob = await toBlob(generatedElements[index], {quality: 0.97});
+      if (blob) {
+        const file = new File([blob], "image.jpeg", { type: 'image/jpeg' });
+        setSharedFile(file);
+      }
+    } catch (err) {
+      popupStatus(
+        "An error occurred downloading the image. Please try again later.",
+        "Close"
+      );
+    } finally {
+      // check if the share api is useable
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      // if it's not useable, download the photo to the downloads folder
+      } else {
+        setDownloadFunction()
+      }
+    }
+  }
 
-  // TODO: add share to snapchat function
+  useEffect(() => {
+    if(downloadViaShareApi != null){
+      downloadToPhotos(selectedImageIndex);
+    }
+  }, [downloadViaShareApi]);
   
+  // TODO: add share to snapchat function
   return (
     <div className={`modal ${isOpen ? "open" : ""}`} onClick={closeModal}>
       <Popup
@@ -125,7 +147,8 @@ const SharePostModal = ({
               isLoadingImage={isLoadingImage}
               selectedImageIndex={selectedImageIndex}
               setSelectedImageIndex={setSelectedImageIndex}
-              setDownloadFunction={setDownloadFunction}
+              // setDownloadFunction={setDownloadFunction}
+              setDownloadViaShareAPI={setDownloadViaShareAPI}
               sharedFile={sharedFile}
           />
         )}
@@ -163,7 +186,7 @@ const SharePostModal = ({
         />
         <DownloadImage
           details={details}
-          setSharedFile={setSharedFile}
+          // setSharedFile={setSharedFile}
           template={selectedImageIndex}
           downloadFunction={downloadFunction}
         />

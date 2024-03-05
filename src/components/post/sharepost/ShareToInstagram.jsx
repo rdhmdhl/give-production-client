@@ -12,19 +12,15 @@ const ShareToInstagram = ({
   isLoadingImage,
   selectedImageIndex,
   setSelectedImageIndex,
-  setDownloadFunction,
-  sharedFile
+  // setDownloadFunction,
+  setDownloadViaShareAPI
 }) => {
+
   const [showInstaSteps, setShowInstaSteps] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
   const [caution, setCaution] = useState(null);
   const [isDownloaded, setIsDownloaded] = useState(false);
-
   const navigate = useNavigate();
-
-  let shareData = {
-    files: [sharedFile]
-  };
 
   const shareToInstagramStory = async () => {
     // Handle sharing to Instagram Story
@@ -41,7 +37,6 @@ const ShareToInstagram = ({
       // copy link url
       if (linkGenerated && generatedLink && generatedElements) {
         if (currentStep === 2) {
-          console.log("generated link: ", generatedLink);
           await navigator.clipboard.writeText(generatedLink);
           setCaution("Link copied to clipboard!");
           // clear alert after 3 seconds
@@ -50,25 +45,13 @@ const ShareToInstagram = ({
         // if the user is on step 4, send them to instagram
         if (currentStep === 3) {
           try {
-            console.log("shareData: ", shareData);
-            console.log("sharedFile: ", sharedFile);
-            // console.log("shareData.files: ", shareData.files);
-
-            if (navigator.canShare && navigator.canShare(shareData)) {
-              await navigator.share(shareData);
-              // navigate back to the home page
-              navigate("/");
-            } else {
-              console.log("cannot share via api");
-              // Provide feedback or confirmation before redirecting
               // navigate back to the home page
               navigate("/");
               const instaUrl = "https://instagram.com/";
               // Open the Instagram page in a new window
               window.open(instaUrl, "_blank");
-            }
           } catch (error) {
-            console.error('Sharing failed', error);
+            console.error('could not open window to instagram', error);
             // Provide feedback to the user about the failure
           }
         }
@@ -101,7 +84,11 @@ const ShareToInstagram = ({
 
 
   const handleDownload = (index) => {
-    setDownloadFunction(index);
+    if(currentStep === 0) {
+      // use share api in the sharepostmodal component to download image
+      // hook will determine if the api is useable
+      setDownloadViaShareAPI(index)
+    } 
     setIsDownloaded(true);
     setTimeout(() => setIsDownloaded(false), 2000); // Reset after 2 seconds
   };
@@ -260,6 +247,6 @@ ShareToInstagram.propTypes = {
   downloadImage: PropTypes.func,
   selectedImageIndex: PropTypes.number,
   setSelectedImageIndex: PropTypes.func,
-  setDownloadFunction: PropTypes.func,
-  sharedFile: PropTypes.object
+  // setDownloadFunction: PropTypes.func,
+  setDownloadViaShareAPI: PropTypes.func,
 };
