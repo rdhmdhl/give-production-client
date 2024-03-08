@@ -14,7 +14,7 @@ import ShareToInstagram from "./ShareToInstagram";
 import ShareToTwitter from "./ShareToTwitter";
 import ShareToMessages from "./ShareToMessages";
 import DownloadImage from "../../../pages/sharepost/DownloadImage";
-import { toBlob } from 'html-to-image';
+// import { toBlob } from 'html-to-image';
 
 const SharePostModal = ({ 
   isOpen, 
@@ -39,8 +39,6 @@ const SharePostModal = ({
   const [downloadFunction, setDownloadFunction] = useState(null);
   // if share.can() exists, use the share api for downloading image
   const [downloadViaShareApi, setDownloadViaShareAPI] = useState(null);
-  // used for setting the file for the share api
-  const [sharedFile, setSharedFile] = useState(null);
 
   // Array of objects representing each social media option and its corresponding Font Awesome class
   const socialOptions = [
@@ -76,34 +74,10 @@ const SharePostModal = ({
     }
   }, [details]);
 
-  // Function to download the image with a white background
-  const downloadToPhotos = async (index) => {
-    let shareData = {files: [sharedFile]}; 
-    try {
-      const blob = await toBlob(generatedElements[index], {quality: 0.97});
-      if (blob) {
-        const file = new File([blob], "image.jpeg", { type: 'image/jpeg' });
-        setSharedFile(file);
-      }
-    } catch (err) {
-      popupStatus(
-        "An error occurred downloading the image. Please try again later.",
-        "Close"
-      );
-    } finally {
-      // check if the share api is useable
-      if (navigator.canShare && navigator.canShare(shareData)) {
-        await navigator.share(shareData);
-      // if it's not useable, download the photo to the downloads folder
-      } else {
-        setDownloadFunction()
-      }
-    }
-  }
 
   useEffect(() => {
     if(downloadViaShareApi != null){
-      downloadToPhotos(selectedImageIndex);
+      setDownloadFunction()
     }
   }, [downloadViaShareApi]);
   
@@ -149,7 +123,7 @@ const SharePostModal = ({
               setSelectedImageIndex={setSelectedImageIndex}
               // setDownloadFunction={setDownloadFunction}
               setDownloadViaShareAPI={setDownloadViaShareAPI}
-              sharedFile={sharedFile}
+              // sharedFile={sharedFile}
           />
         )}
         {socialOptions[selectedItem]?.name === "Twitter" && (
@@ -186,7 +160,6 @@ const SharePostModal = ({
         />
         <DownloadImage
           details={details}
-          // setSharedFile={setSharedFile}
           template={selectedImageIndex}
           downloadFunction={downloadFunction}
         />

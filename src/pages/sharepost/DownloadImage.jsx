@@ -32,17 +32,30 @@ const DownloadImage = ({ details, template, downloadFunction }) => {
         }
         try {
             const blob = await toBlob(element, {quality: 0.97});
-            if (blob) {
-            // Use the blob for downloading instead of converting again
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.download = 'image.jpeg';
-            link.href = url;
-            document.body.appendChild(link); // Append to body to ensure visibility in certain browsers
-            link.click();
-            document.body.removeChild(link); // Clean up
-            URL.revokeObjectURL(url); // Release object URL
-        }
+            const file = new File([blob], "image.jpeg", { type: 'image/jpeg' });
+
+             if (blob && file) {
+                const shareData = {files: [file]}; 
+                // if share api cannot be used, download file to download folder
+                if (navigator.canShare && navigator.canShare(shareData)) {
+                    // The browser supports the Web Share API and can share the file
+                    try {
+                      await navigator.share(shareData);
+                    } catch (error) {
+                      console.error("Error sharing the image");
+                    }
+                  } else {
+                    // Fallback to downloading the file if sharing isn't supported
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'image.jpeg';
+                    link.href = url;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                  }
+            }
         } catch (err) {
             console.error("Error downloading image:", err);
         }
@@ -50,7 +63,7 @@ const DownloadImage = ({ details, template, downloadFunction }) => {
 
     useEffect(() => {
         if(downloadFunction !== null){
-        downloadImageWithBackground(downloadFunction);
+        downloadImageWithBackground();
         }
     }, [downloadFunction])
 
