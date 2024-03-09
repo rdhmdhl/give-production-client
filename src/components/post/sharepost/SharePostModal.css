@@ -20,11 +20,10 @@
   
   .modal-content-container {
     background-color: var(--darkgrayreid);
-    margin-top: 2rem;
     padding: 20px;
     border-radius: .75rem;
     width: 80%;
-    height: 75vh;
+    height: 70vh;
     max-width: 400px;
     display: flex;
     flex-direction: column;
@@ -152,7 +151,6 @@
     justify-content: center;
     align-items: center;
     font-size: 2.5rem;
-    margin: 1rem 0;
     height: 100%;
   }
 
@@ -255,13 +253,13 @@
   }
 
   .image-selection-container.with-padding {
-    padding-right: 50px; /* Padding applied only when this class is present */
+    padding-left: 50px; /* Padding applied only when this class is present */
   }
 
   .image-selection-container.with-padding .thumbnail:first-child {
     margin-left: 0; /* Remove left padding for the first thumbnail */
 }
-  
+
   .image-selection-container .thumbnail {
     cursor: pointer; /* Indicate that items are selectable */
     transition: transform 0.3s; /* Smooth transition for scaling */

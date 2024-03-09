@@ -30,7 +30,7 @@ const ShareToInstagram = ({
     // increment step counter
     setCurrentStep((prev) => {
       const nextStep = prev + 1;
-      return nextStep < gifPositions.length ? nextStep : prev; // Prevent incrementing beyond array length
+      return nextStep < stepImages.length ? nextStep : prev; // Prevent incrementing beyond array length
     });
 
     try {
@@ -66,13 +66,6 @@ const ShareToInstagram = ({
     "/assets/ig-1-final.gif",
     "/assets/ig-2-final.gif",
     "/assets/ig-3-final.gif",
-  ];
-
-  const gifPositions = [
-    { top: "0", left: "0", display: "none" }, // No display for step 1
-    { top: "12rem", left: "-.15rem" }, // Position for step 2
-    { top: "14.25rem", left: "-3rem" }, // Position for step 3
-    { top: "0", left: "0", display: "none" }, // No display for step 4
   ];
 
   const stepInstructions = [
@@ -163,21 +156,7 @@ return (
           </div>
 
           <div className="steps-and-images-container">
-            {/* Overlay GIF for highlighting steps */}
-            {/* <img
-              className="overlay-gif"
-              src="/assets/circle-gif.gif"
-              style={{
-                position: "absolute",
-                top: gifPositions[currentStep]?.top || "0",
-                left: gifPositions[currentStep]?.left || "0",
-                display: gifPositions[currentStep]?.display || "block",
-              }}
-              alt="Highlight"
-            /> */}
-
             <div className="image-row-container">
-
               {/* Selected Image */}
               {currentStep > 0 && (
                 <div className="selected-image-container">
