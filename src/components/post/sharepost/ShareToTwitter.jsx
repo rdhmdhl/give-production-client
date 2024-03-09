@@ -29,13 +29,8 @@ const ShareToInstagram = ({
 
   const stepImages = [
     generatedElements.length > 0 ? generatedElements[selectedImageIndex] : null, 
-    "/assets/twitter-step2.png"
+    "/assets/x-2-final.webp"
   ];
-
-  //   const gifPositions = [
-  //     { top: "0", left: "0", display: "none" }, // No display for step 1
-  //     { top: "13.5rem", left: "-.15rem" }, // Position for step 2
-  //   ];
 
   const stepInstructions = [
     "Optional: download image",
@@ -165,21 +160,7 @@ const ShareToInstagram = ({
           </div>
 
           <div className="steps-and-images-container">
-            {/* Overlay GIF for highlighting steps */}
-            {/* <img
-              className="overlay-gif"
-              src="/assets/circle-gif.gif"
-              style={{
-                position: "absolute",
-                top: gifPositions[currentStep]?.top || "0",
-                left: gifPositions[currentStep]?.left || "0",
-                display: gifPositions[currentStep]?.display || "block",
-              }}
-              alt="Highlight"
-            /> */}
-
             <div className="image-row-container">
-
               {/* Selected Image */}
               {currentStep > 0 && (
                 <div className="selected-image-container">

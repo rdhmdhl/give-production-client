@@ -144,7 +144,7 @@ export default function TopBar({ socket }) {
                 src={
                   user && user.profilePicture
                     ? user.profilePicture
-                    : "/assets/person/nopicture.png"
+                    : "/assets/person/no-profile-pic.webp"
                 }
                 alt="No Picture"
                 className="topbarImg"

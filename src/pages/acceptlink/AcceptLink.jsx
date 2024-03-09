@@ -138,12 +138,12 @@ export default function AcceptLink({ socket }) {
         {hasUserResponded
             ?
             <div className='own-link-container'>
-            <img className="profile-pic" src={currentUser.profilePicture ? currentUser.profilePicture : "/assets/person/nopicture.png"}/>
+            <img className="profile-pic" src={currentUser.profilePicture ? currentUser.profilePicture : "/assets/person/no-profile-pic.webp"}/>
             <h3 className='own-link-message'>... you can`t use this link more than once</h3>
             </div> :
                 isUserLink
                         ? <div className='own-link-container'>
-                                <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "/assets/person/nopicture.png"}/>
+                                <img className="profile-pic" src={linkUserData.profilePicture ? linkUserData.profilePicture : "/assets/person/no-profile-pic.webp"}/>
                             <h3 className='own-link-message'>... you can`t use your own link</h3>
                             </div> 
                         : link.details 

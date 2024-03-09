@@ -57,7 +57,8 @@ const ShareToInstagram = ({
         }
       }
     } catch (error) {
-      setCaution("An unexpected error occurred. Please try again later.");
+      setCaution("Could not copy link. Please try again later.");
+      setTimeout(() => setCaution(null), 3000);
     }
   };
 

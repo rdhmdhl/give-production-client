@@ -184,7 +184,7 @@ const navigateToSinglePost = () => {
               to={`/profile/${user.username}`}
               onClick={(event) => event.stopPropagation()}
               >
-                <img className='postProfileImg' src={user.profilePicture ? user.profilePicture : "/assets/person/nopicture.png"} alt="" />
+                <img className='postProfileImg' src={user.profilePicture ? user.profilePicture : "/assets/person/no-profile-pic.webp"} alt="" />
               </Link>
               <div className="postTop">
                   <div className="postTopLeft">

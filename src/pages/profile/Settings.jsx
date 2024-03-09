@@ -181,7 +181,7 @@ export default function Settings() {
                 src={file ? 
                     URL.createObjectURL(file) : 
                     user.profilePicture ? user.profilePicture : 
-                    "/assets/person/nopicture.png"} 
+                    "/assets/person/no-profile-pic.webp"} 
                 alt="" />
             </div>
         </div>

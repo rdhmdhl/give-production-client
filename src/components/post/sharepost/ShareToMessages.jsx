@@ -22,7 +22,7 @@ function ShareToMessages({
   const navigate = useNavigate();
   const stepImages = [
     generatedElements.length > 0 ? generatedElements[selectedImageIndex] : null,
-    "/assets/messages-step2.jpeg"
+    "/assets/messages-2-final.webp"
   ];
 
   const stepInstructions = [
@@ -156,21 +156,7 @@ function ShareToMessages({
         </div>
 
         <div className="steps-and-images-container">
-            {/* Overlay GIF for highlighting steps */}
-            {/* <img
-              className="overlay-gif"
-              src="/assets/circle-gif.gif"
-              style={{
-                position: "absolute",
-                top: gifPositions[currentStep]?.top || "0",
-                left: gifPositions[currentStep]?.left || "0",
-                display: gifPositions[currentStep]?.display || "block",
-              }}
-              alt="Highlight"
-            /> */}
-
             <div className="image-row-container">
-
               {/* Selected Image */}
               {currentStep > 0 && (
                 <div className="selected-image-container">

@@ -33,7 +33,7 @@ function Conversation({conversation,
   return (
     <div className='single-conversation-container' onClick={goToConversationPage}>
         <div className="left-side-container">
-            <img className='profile-picture' src="/assets/person/nopicture.png" alt="" />
+            <img className='profile-picture' src="/assets/person/no-profile-pic.webp" alt="" />
         </div>
         <div className="right-side-container">
             <h3 className='username-title'>Anonymous User</h3>      

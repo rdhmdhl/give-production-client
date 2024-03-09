@@ -53,7 +53,7 @@ export default function Profile() {
               src={
                 user.profilePicture
                 ? user.profilePicture 
-                : "/assets/person/nopicture.png"} 
+                : "/assets/person/no-profile-pic.webp"} 
               alt="No Profile Picture" />
         </div>
         <div className="profileInfo">
