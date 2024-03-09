@@ -100,6 +100,7 @@ const SharePostModal = ({
               key = {index}
               className={selectedItem === index ? "highlighted" : ""}
               onClick={() => {
+                setSelectedImageIndex(0);
                 setSelecteditem(index);
                 
               }}
