@@ -135,13 +135,10 @@
   }
   
   .step-image{
-    height: 12rem; /* Fixed height */
-    width: auto; /* Adjust width automatically to maintain aspect ratio */
-    max-width: 100%; /* Ensure image doesn't exceed container width */
-    /* margin: 1rem 0; */
+    height: 100%; 
+    width: 100%; /* Adjust width automatically to maintain aspect ratio */
     display: block; /* Ensures the image is centered if smaller than container */
     object-fit: contain; /* Keeps the aspect ratio, adding empty space if necessary */
-    /* scale: 1.4; */
     overflow: hidden;
   }
 
@@ -156,6 +153,7 @@
     align-items: center;
     font-size: 2.5rem;
     margin: 1rem 0;
+    height: 100%;
   }
 
   .share-button {

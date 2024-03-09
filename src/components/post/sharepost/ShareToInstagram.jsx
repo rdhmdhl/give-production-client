@@ -63,9 +63,9 @@ const ShareToInstagram = ({
 
   const stepImages = [
     generatedElements.length > 0 ? generatedElements[selectedImageIndex] : null,
-    "/assets/step1.png",
-    "/assets/step2.png",
-    "/assets/paste-link.gif",
+    "/assets/ig-1-final.gif",
+    "/assets/ig-2-final.gif",
+    "/assets/ig-3-final.gif",
   ];
 
   const gifPositions = [
