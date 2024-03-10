@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { toBlob } from 'html-to-image';
 
-const DownloadImage = ({ details, template, downloadFunction }) => {
+const DownloadImage = ({ details, template, downloadFunction, setLoadingShareAPI }) => {
     if (!details) {
         return null;
     }
@@ -34,30 +34,34 @@ const DownloadImage = ({ details, template, downloadFunction }) => {
             const blob = await toBlob(element, {quality: 0.97});
             const file = new File([blob], "image.jpeg", { type: 'image/jpeg' });
 
-             if (blob && file) {
+            if (blob && file) {
                 const shareData = {files: [file]}; 
                 // if share api cannot be used, download file to download folder
                 if (navigator.canShare && navigator.canShare(shareData)) {
                     // The browser supports the Web Share API and can share the file
                     try {
-                      await navigator.share(shareData);
+                        setLoadingShareAPI(true);
+                        await navigator.share(shareData);
+                        setLoadingShareAPI(false);
                     } catch (error) {
-                      console.error("Error sharing the image");
+                        console.error("Error sharing the image");
+                        setLoadingShareAPI(false);
                     }
-                  } else {
-                    // Fallback to downloading the file if sharing isn't supported
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.download = 'image.jpeg';
-                    link.href = url;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(url);
-                  }
+                    } else {
+                        // Fallback to downloading the file if sharing isn't supported
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = 'image.jpeg';
+                        link.href = url;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                    }
             }
         } catch (err) {
-            console.error("Error downloading image:", err);
+            console.error("Error downloading image:");
+            setLoadingShareAPI(false);
         }
     }
 
@@ -108,6 +112,7 @@ export default DownloadImage
 DownloadImage.propTypes = {
     downloadFunction: PropTypes.number,
     template: PropTypes.number,
+    setLoadingShareAPI: PropTypes.func,
     details: PropTypes.shape({
         type: PropTypes.string,
         title: PropTypes.string,

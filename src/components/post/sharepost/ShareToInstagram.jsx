@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
-// import createScrollSnap from "scroll-snap";
+import ReactLoading from 'react-loading';
 import PropTypes from "prop-types";
 const ShareToInstagram = ({
   linkGenerated,
@@ -13,7 +13,8 @@ const ShareToInstagram = ({
   selectedImageIndex,
   setSelectedImageIndex,
   // setDownloadFunction,
-  setDownloadViaShareAPI
+  setDownloadViaShareAPI,
+  loadingShareAPI
 }) => {
 
   const [showInstaSteps, setShowInstaSteps] = useState(true);
@@ -71,9 +72,9 @@ const ShareToInstagram = ({
 
   const stepInstructions = [
     "Optional: download image",
-    "Create a story, click the sticker button",
-    "Add a link",
-    "Paste your link",
+    "Create a story, then click the sticker button",
+    "Add a link sticker",
+    "Paste your link and post",
   ];
 
 
@@ -191,13 +192,18 @@ return (
               </div>
             </div>
           </div>
-
+          {/* download section */}
           <div className="download-button-cont">
-            {currentStep === 0 && (
+            {currentStep === 0 && loadingShareAPI && (
+                <ReactLoading type={'balls'} color={'white'} height={'15%'} width={'15%'} />
+            )}
+
+            {currentStep === 0 && !loadingShareAPI && ( // ensure this section is not shown if share API is working 
               isDownloaded ? 
                 <FaCheckCircle className="download-success-icon" /> :
                 <MdDownload onClick={() => handleDownload(selectedImageIndex)} />
             )}
+
           </div>
 
           {/* Alert and button container */}
@@ -229,4 +235,5 @@ ShareToInstagram.propTypes = {
   setSelectedImageIndex: PropTypes.func,
   // setDownloadFunction: PropTypes.func,
   setDownloadViaShareAPI: PropTypes.func,
+  loadingShareAPI: PropTypes.bool,
 };

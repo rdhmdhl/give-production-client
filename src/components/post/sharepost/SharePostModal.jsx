@@ -39,7 +39,7 @@ const SharePostModal = ({
   const [downloadFunction, setDownloadFunction] = useState(null);
   // if share.can() exists, use the share api for downloading image
   const [downloadViaShareApi, setDownloadViaShareAPI] = useState(null);
-
+  const [loadingShareAPI, setLoadingShareAPI] = useState(false);
   // Array of objects representing each social media option and its corresponding Font Awesome class
   const socialOptions = [
     { name: "Instagram", iconClass: 'fa fa-instagram' },
@@ -64,7 +64,7 @@ const SharePostModal = ({
         setGeneratedLink(`${config.publicUrl}/link/` + link);
       } catch (error) {
         popupStatus(
-          "An error occurred when generating the link. Please try again later.",
+          `${error}`,
           "Close"
         );
       }
@@ -124,7 +124,7 @@ const SharePostModal = ({
               setSelectedImageIndex={setSelectedImageIndex}
               // setDownloadFunction={setDownloadFunction}
               setDownloadViaShareAPI={setDownloadViaShareAPI}
-              // sharedFile={sharedFile}
+              loadingShareAPI={loadingShareAPI}
           />
         )}
         {socialOptions[selectedItem]?.name === "Twitter" && (
@@ -163,6 +163,7 @@ const SharePostModal = ({
           details={details}
           template={selectedImageIndex}
           downloadFunction={downloadFunction}
+          setLoadingShareAPI={setLoadingShareAPI}
         />
       </div>
     </div>

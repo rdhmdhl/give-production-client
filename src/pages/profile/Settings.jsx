@@ -133,8 +133,11 @@ export default function Settings() {
   };
 
   const handleValueChange = (field, newValue) => {
+    // Convert username and email to lowercase before updating
+    const updatedValue = (field === 'username' || field === 'email') ? newValue.toLowerCase() : newValue;
+  
     // Update the specific field of the user data with the new value
-    const updatedUser = { ...user, [field]: newValue };
+    const updatedUser = { ...user, [field]: updatedValue };
     
     // Dispatch an action to the reducer to update the user data in the context
     dispatch({ type: "UPDATE_USER", payload: updatedUser });
