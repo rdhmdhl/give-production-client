@@ -53,7 +53,7 @@ export default function Profile() {
               src={
                 user.profilePicture
                 ? user.profilePicture 
-                : "/assets/person/no-profile-pic.webp"} 
+                : `${process.env.REACT_APP_PUBLIC_FOLDER}/assets/person/no-profile-pic.webp`} 
               alt="No Profile Picture" />
         </div>
         <div className="profileInfo">

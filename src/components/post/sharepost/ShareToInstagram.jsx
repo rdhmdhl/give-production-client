@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
-import ReactLoading from 'react-loading';
 import PropTypes from "prop-types";
 const ShareToInstagram = ({
   linkGenerated,
@@ -12,11 +11,8 @@ const ShareToInstagram = ({
   isLoadingImage,
   selectedImageIndex,
   setSelectedImageIndex,
-  // setDownloadFunction,
   setDownloadViaShareAPI,
-  loadingShareAPI
 }) => {
-
   const [showInstaSteps, setShowInstaSteps] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
   const [caution, setCaution] = useState(null);
@@ -46,13 +42,13 @@ const ShareToInstagram = ({
         // if the user is on step 4, send them to instagram
         if (currentStep === 3) {
           try {
-              // navigate back to the home page
-              navigate("/");
-              const instaUrl = "https://instagram.com/";
-              // Open the Instagram page in a new window
-              window.open(instaUrl, "_blank");
+            // navigate back to the home page
+            navigate("/");
+            const instaUrl = "https://instagram.com/";
+            // Open the Instagram page in a new window
+            window.open(instaUrl, "_blank");
           } catch (error) {
-            console.error('could not open window to instagram', error);
+            console.error("could not open window to instagram", error);
             // Provide feedback to the user about the failure
           }
         }
@@ -65,9 +61,9 @@ const ShareToInstagram = ({
 
   const stepImages = [
     generatedElements.length > 0 ? generatedElements[selectedImageIndex] : null,
-    "/assets/ig-1-final.gif",
-    "/assets/ig-2-final.gif",
-    "/assets/ig-3-final.gif",
+    "/assets/ig-step1.gif",
+    "/assets/ig-step2.gif",
+    "/assets/ig-step3.gif",
   ];
 
   const stepInstructions = [
@@ -77,19 +73,18 @@ const ShareToInstagram = ({
     "Paste your link and post",
   ];
 
-
   const handleDownload = (index) => {
-    if(currentStep === 0) {
+    if (currentStep === 0) {
       // use share api in the sharepostmodal component to download image
       // hook will determine if the api is useable
-      setDownloadViaShareAPI(index)
-    } 
+      setDownloadViaShareAPI(index);
+    }
     setIsDownloaded(true);
     setTimeout(() => setIsDownloaded(false), 2000); // Reset after 2 seconds
   };
 
   useEffect(() => {
-    const container = document.querySelector('.image-selection-container');
+    const container = document.querySelector(".image-selection-container");
     if (!container) return;
     let frameId = null; // To hold the requestAnimationFrame ID
 
@@ -102,42 +97,44 @@ const ShareToInstagram = ({
       frameId = requestAnimationFrame(() => {
         let closestIndex = 0;
         let closestDistance = Infinity;
-        const thumbnails = document.querySelectorAll('.thumbnail'); // Move inside the event listener if thumbnails might change
-        
+        const thumbnails = document.querySelectorAll(".thumbnail"); // Move inside the event listener if thumbnails might change
+
         thumbnails.forEach((thumbnail, index) => {
-          const scrollPosition = container.scrollLeft + container.offsetWidth / 2;
-          const thumbnailCenter = thumbnail.offsetLeft + thumbnail.offsetWidth / 2;
+          const scrollPosition =
+            container.scrollLeft + container.offsetWidth / 2;
+          const thumbnailCenter =
+            thumbnail.offsetLeft + thumbnail.offsetWidth / 2;
           const distance = Math.abs(scrollPosition - thumbnailCenter);
-          
+
           if (distance < closestDistance) {
             closestDistance = distance;
             closestIndex = index;
           }
         });
-        
+
         thumbnails.forEach((thumbnail, index) => {
           if (index === closestIndex) {
-            thumbnail.classList.add('active');
-            setSelectedImageIndex(index)
+            thumbnail.classList.add("active");
+            setSelectedImageIndex(index);
           } else {
-            thumbnail.classList.remove('active');
+            thumbnail.classList.remove("active");
           }
         });
-      })
-    }
+      });
+    };
 
     // Add the event listener
-    container.addEventListener('scroll', onScroll);
+    container.addEventListener("scroll", onScroll);
 
     return () => {
-      container.removeEventListener('scroll', onScroll);
-      if (frameId !== null){
+      container.removeEventListener("scroll", onScroll);
+      if (frameId !== null) {
         cancelAnimationFrame(frameId);
       }
     };
   }, [generatedElements]);
-  
-return (
+
+  return (
     <>
       {/* Instagram steps */}
       {showInstaSteps && !isLoadingImage && generatedElements && (
@@ -171,7 +168,11 @@ return (
               )}
 
               {/* Thumbnails */}
-              <div className={`image-selection-container ${currentStep === 0 ? 'with-padding' : ''}`}>
+              <div
+                className={`image-selection-container ${
+                  currentStep === 0 ? "with-padding" : ""
+                }`}
+              >
                 {currentStep === 0 &&
                   generatedElements.length > 0 &&
                   generatedElements.map((element, index) => (
@@ -182,7 +183,7 @@ return (
                         selectedImageIndex === index ? "active" : ""
                       }`}
                       onClick={() => {
-                        setSelectedImageIndex(index)
+                        setSelectedImageIndex(index);
                         // scrollToThumbnail(index)
                       }}
                     >
@@ -194,18 +195,15 @@ return (
           </div>
           {/* download section */}
           <div className="download-button-cont">
-            {currentStep === 0 && loadingShareAPI && (
-                <ReactLoading type={'balls'} color={'white'} height={'15%'} width={'15%'} />
-            )}
-
-            {currentStep === 0 && !loadingShareAPI && ( // ensure this section is not shown if share API is working 
-              isDownloaded ? 
-                <FaCheckCircle className="download-success-icon" /> :
-                <MdDownload onClick={() => handleDownload(selectedImageIndex)} />
-            )}
-
+            {currentStep === 0 &&
+              (isDownloaded ? (
+                <FaCheckCircle className="download-success-icon" />
+              ) : (
+                <MdDownload
+                  onClick={() => handleDownload(selectedImageIndex)}
+                />
+              ))}
           </div>
-
           {/* Alert and button container */}
           <div className="alert-and-button">
             {caution && <div className="alert">{caution}</div>}
@@ -233,7 +231,5 @@ ShareToInstagram.propTypes = {
   downloadImage: PropTypes.func,
   selectedImageIndex: PropTypes.number,
   setSelectedImageIndex: PropTypes.func,
-  // setDownloadFunction: PropTypes.func,
   setDownloadViaShareAPI: PropTypes.func,
-  loadingShareAPI: PropTypes.bool,
 };

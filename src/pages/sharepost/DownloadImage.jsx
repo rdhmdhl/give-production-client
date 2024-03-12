@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { toBlob } from 'html-to-image';
 
-const DownloadImage = ({ details, template, downloadFunction, setLoadingShareAPI }) => {
+const DownloadImage = ({ details, template, downloadFunction }) => {
     if (!details) {
         return null;
     }
@@ -40,12 +40,9 @@ const DownloadImage = ({ details, template, downloadFunction, setLoadingShareAPI
                 if (navigator.canShare && navigator.canShare(shareData)) {
                     // The browser supports the Web Share API and can share the file
                     try {
-                        setLoadingShareAPI(true);
                         await navigator.share(shareData);
-                        setLoadingShareAPI(false);
                     } catch (error) {
                         console.error("Error sharing the image");
-                        setLoadingShareAPI(false);
                     }
                     } else {
                         // Fallback to downloading the file if sharing isn't supported
@@ -60,8 +57,7 @@ const DownloadImage = ({ details, template, downloadFunction, setLoadingShareAPI
                     }
             }
         } catch (err) {
-            console.error("Error downloading image:");
-            setLoadingShareAPI(false);
+            console.error("Error downloading image");
         }
     }
 
@@ -112,7 +108,6 @@ export default DownloadImage
 DownloadImage.propTypes = {
     downloadFunction: PropTypes.number,
     template: PropTypes.number,
-    setLoadingShareAPI: PropTypes.func,
     details: PropTypes.shape({
         type: PropTypes.string,
         title: PropTypes.string,

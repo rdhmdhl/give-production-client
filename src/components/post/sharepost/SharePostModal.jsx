@@ -39,7 +39,7 @@ const SharePostModal = ({
   const [downloadFunction, setDownloadFunction] = useState(null);
   // if share.can() exists, use the share api for downloading image
   const [downloadViaShareApi, setDownloadViaShareAPI] = useState(null);
-  const [loadingShareAPI, setLoadingShareAPI] = useState(false);
+
   // Array of objects representing each social media option and its corresponding Font Awesome class
   const socialOptions = [
     { name: "Instagram", iconClass: 'fa fa-instagram' },
@@ -122,9 +122,7 @@ const SharePostModal = ({
               isLoadingImage={isLoadingImage}
               selectedImageIndex={selectedImageIndex}
               setSelectedImageIndex={setSelectedImageIndex}
-              // setDownloadFunction={setDownloadFunction}
               setDownloadViaShareAPI={setDownloadViaShareAPI}
-              loadingShareAPI={loadingShareAPI}
           />
         )}
         {socialOptions[selectedItem]?.name === "Twitter" && (
@@ -163,7 +161,6 @@ const SharePostModal = ({
           details={details}
           template={selectedImageIndex}
           downloadFunction={downloadFunction}
-          setLoadingShareAPI={setLoadingShareAPI}
         />
       </div>
     </div>
