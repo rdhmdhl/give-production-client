@@ -160,7 +160,7 @@ return (
                     <Link to={getDestinationURL(notification)}>
                       <div className="notificationDetails">
                         <div className="senderandamount">
-                        <img className="profilePhoto" src={`${process.env.PUBLIC_URL}/assets/person/no-profile-pic.webp`} alt="Anonymous user" />
+                        <img className="profilePhoto" src={`${process.env.PUBLIC_URL}/assets/no-profile-pic.webp`} alt="Anonymous user" />
                           <div className="senderandtitle">
                             <span className="notificationSender">
                               {/* {notification.senderUserId} */}

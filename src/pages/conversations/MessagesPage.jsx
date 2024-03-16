@@ -55,6 +55,8 @@ function MessagesPage({user, socket}) {
           text: messageText
         });
 
+        console.log("resonse.data: ", response);
+
         if (response.status === 201) {
           // Message sent successfully
           // real time messaging
@@ -62,6 +64,7 @@ function MessagesPage({user, socket}) {
             receiverUserId: messageReceiver,
             senderUserId: user._id,
             messageData: {
+              _id: response.data._id,
               conversationId: conversationId,
               text: messageText
             }
@@ -93,6 +96,7 @@ function MessagesPage({user, socket}) {
       <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
         <MessagesFeed 
           socket={socket} 
+          user={user}
           conversationId={conversationId}
         />
       <div className='message-input-container'>

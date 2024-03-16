@@ -7,7 +7,7 @@ export default function GiftSectionItem({gifts}) {
     <div>
         <div className="gift">
             {/* <Link to={`/profile/${user.username}`}> */}
-            <img className='postProfileImg' src='/assets/person/no-profile-pic.webp' alt="" />
+            <img className='postProfileImg' src='/assets/no-profile-pic.webp' alt="" />
             {/* </Link> */}
             <div className="gift-details">
                 <p className="gift-giver">Anonymous User</p>
