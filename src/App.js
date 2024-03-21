@@ -34,12 +34,12 @@ function App() {
   useEffect(() => {
     if (user && user._id) {
       const newSocket = io(process.env.REACT_APP_API_URL, {
-        reconnectionDelayMax: 2000
+        reconnectionDelayMax: 2000,
+        maxDisconnectionDuration: Infinity
       });
 
       // Listen for the connect event to log recovery status
       newSocket.on("connect", () => {
-        console.log("Connected. Recovered?", newSocket.recovered);
         // if the socket is not recovered
         // because it's just starting 
         // add user to online users 
@@ -52,7 +52,6 @@ function App() {
         // if socket is recovered, add user back to online users
         if (newSocket.recovered === true) {
           newSocket.emit("newUser", user._id);
-          console.log("emiiting new user because socket is recovered");
         }
       };
 

@@ -23,15 +23,12 @@ const fetchMessages = async (conversationId, page) => {
   })
   const data = res.data || [];
   const hasMore = data.length === PAGE_SIZE;
-  console.log("messages: ", data);
   return { messages: data, hasMore }; // Reverse if needed to display in correct order
 };
 
 export default function MessagesFeed({
     socket, 
-    user,
-    conversationId,
-    // sendMessage
+    conversationId
 }) {
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
@@ -57,7 +54,6 @@ export default function MessagesFeed({
     // Listen for new messages
     const handleNewMessage = (newMessage) => {
       if (newMessage.conversationId === conversationId) {
-        console.log("handling new message from socket: ", newMessage);
         setMessages(prevMessages => [ newMessage, ...prevMessages]);
         setIsLastMessageSentByUser(true);
       }
@@ -78,13 +74,9 @@ export default function MessagesFeed({
     // scrollinto view is false after it runs 
     } else if (isLastMessageSentByUser === false) {
       const onInit = () => {
-        console.log("socket recovered status from feed: ", socket.recovered);
         if (socket.recovered && messages.length > 0) {
             // socket connection for when a socket is disconnected
-            console.log("messages: ", messages);
             const lastMessageId = messages[0]._id;
-            console.log("last message id: ", lastMessageId);
-            socket.emit("newUser", user._id);
             socket.emit('last_message_id', {lastMessageId, conversationId})
         }
       };
@@ -92,12 +84,10 @@ export default function MessagesFeed({
       socket.on('init', onInit)
 
       socket.on('missed-messages', (missedMessages) => {
-        console.log("missed messages send from server: ", missedMessages);
         // MISSED MESSAGES, WE NEED THE LAST ONE TO CHECK THE FIRST MESSAGE IN MESSAGES
         if(missedMessages && missedMessages.length > 0 && messages.length > 0 && missedMessages[0]._id !== messages[0]._id) {
           // check to see if the messages sent back 
           // are different than what's in the current messages array
-          console.log("missed message id does not match current message id. setting new state now...");
           setMessages(prevMessages => [...missedMessages, ...prevMessages]);
           setIsLastMessageSentByUser(true);
           setRunScrollIntoView(true);
@@ -184,6 +174,4 @@ return (
 MessagesFeed.propTypes = {
   socket: PropTypes.object,
   conversationId: PropTypes.string,
-  user: PropTypes.object,
-  sendMessage: PropTypes.func
 }
