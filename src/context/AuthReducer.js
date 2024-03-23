@@ -25,6 +25,17 @@ const AuthReducer = (state, action) => {
                 isFetching: false,
                 error: action.payload,
             };
+        case "SET_SOCKET":
+            console.log("set_socket called in auth reducer");
+            return{
+                ...state,
+                socket_context: action.payload,
+            };
+        case "REMOVE_SOCKET":   
+            return{
+                ...state,
+                socket_context: null,
+            };
         case "UPDATE_USER":
             return{
                 ...state, user: { ...action.payload }

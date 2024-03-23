@@ -6,10 +6,12 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import config from '../config';
 import CallbackPopup from '../components/popup/CallbackPopup';
+import { io } from "socket.io-client";
 
 const INITIAL_STATE = {
     user: null,
     balance: 0,
+    socket_context: null,
     updateBalance: () => {},
     isFetching:false,
     error:false,
@@ -27,6 +29,42 @@ export const AuthContextProvider = ({children}) => {
     setPopupMessage(message);
     setShowPopup(true);
   };
+
+  useEffect(() => {
+    if (!state.user || !state.user._id) return;
+
+    const newSocket = io(process.env.REACT_APP_API_URL, {
+      reconnectionDelayMax: 2000,
+      maxDisconnectionDuration: Infinity
+    });
+
+    console.log("dispatching set_socket in auth context");
+    dispatch({ type: 'SET_SOCKET', payload: newSocket});
+    
+    newSocket.on("connect", () => {
+      console.log("connecting to socket_context");
+        newSocket.emit("newUser", state.user._id);
+    });
+
+    newSocket.on('init');
+
+    newSocket.on("reconnect", (attemptNumber) => {
+      console.log("Reconnected to the server", attemptNumber);
+      newSocket.on('init');
+      newSocket.emit("newUser", state.user._id);
+    });
+
+    return () => {
+      // newSocket.off("connect");
+      // newSocket.close();
+      if (state.socket_context) {
+        state.socket_context.close();
+        console.log("dispatching remove_socket in auth context");
+        dispatch({ type: 'REMOVE_SOCKET' });
+      }
+    }
+
+  }, [state.user]);
 
   useEffect(() => {
     // When the user is fetched, set isLoading to false
@@ -69,6 +107,7 @@ return (
     value={{
       user:state.user, 
       balance: balance,
+      socket_context: state.socket_context,
       updateBalance: updateBalance,
       isFetching:state.isFetching,
       error:state.error,

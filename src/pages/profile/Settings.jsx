@@ -14,7 +14,7 @@ import Popup from '../../components/popup/Popup';
 export default function Settings() {
   const [file, setFile] = useState(null);
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
-  const { user, dispatch } = useContext(AuthContext);
+  const { user, socket_context, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
@@ -144,6 +144,10 @@ export default function Settings() {
   };
 
   const handleLogout = () => {
+    if (socket_context) {
+      socket_context.disconnect();
+      dispatch({ type: 'REMOVE_SOCKET' });
+    }
     // remove the jwt token from local storage
     localStorage.removeItem('token');
     localStorage.removeItem('user');

@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import './conversationFeed.css';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
-// import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import React from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
@@ -27,7 +27,7 @@ const fetchMessages = async (conversationId, page) => {
 };
 
 export default function MessagesFeed({
-    socket, 
+    // socket, 
     conversationId
 }) {
   const [messages, setMessages] = useState([]);
@@ -40,7 +40,7 @@ export default function MessagesFeed({
   // New state to determine if the last message was sent by the user or just loaded
   const [isLastMessageSentByUser, setIsLastMessageSentByUser] = useState(false);
   const [runScrollIntoView, setRunScrollIntoView] = useState(false);
-
+  const { socket_context } = useContext(AuthContext);
   // used for catch blocks
   const popupStaus = async (message) => {
     setPopupMessage(message);
@@ -48,7 +48,7 @@ export default function MessagesFeed({
   }
 
   useEffect(() => {
-    if (!socket) {
+    if (!socket_context) {
       return;
     }
     // Listen for new messages
@@ -60,47 +60,59 @@ export default function MessagesFeed({
     };
 
     // socket connection for when users are online
-    socket.on('new-message', handleNewMessage);
+    socket_context.on('new-message', handleNewMessage);
 
     return () => {
-      socket.off('new-message', handleNewMessage);
+      socket_context.off('new-message', handleNewMessage);
     };
-  }, [socket, conversationId]);
+  }, [socket_context, conversationId]);
 
   useEffect(() => {
-    if (!socket) {
+    if (!socket_context) {
       return;
     // condition is false, seems to run after the scrollintoview runs 
     // scrollinto view is false after it runs 
     } else if (isLastMessageSentByUser === false) {
       const onInit = () => {
-        if (socket.recovered && messages.length > 0) {
+        if (socket_context.recovered && messages.length > 0) {
             // socket connection for when a socket is disconnected
+            console.log("socket recoverd in messages feed: ", socket_context.recoverd);
             const lastMessageId = messages[0]._id;
-            socket.emit('last_message_id', {lastMessageId, conversationId})
+            socket_context.emit('last_message_id', {lastMessageId, conversationId})
         }
       };
 
-      socket.on('init', onInit)
+      socket_context.on('init', onInit)
 
-      socket.on('missed-messages', (missedMessages) => {
+      socket_context.on('missed-messages', (missedMessages) => {
         // MISSED MESSAGES, WE NEED THE LAST ONE TO CHECK THE FIRST MESSAGE IN MESSAGES
         if(missedMessages && missedMessages.length > 0 && messages.length > 0 && missedMessages[0]._id !== messages[0]._id) {
           // check to see if the messages sent back 
           // are different than what's in the current messages array
+          console.log("missed messages incoming...");
           setMessages(prevMessages => [...missedMessages, ...prevMessages]);
           setIsLastMessageSentByUser(true);
           setRunScrollIntoView(true);
         }
       });
 
+      // socket_context.on('disconnect', reason => {
+      //   console.log("socket.on('disconnect') was fired!");
+      //   if (reason === 'io server disconnect') {
+      //     console.log("reconnecting after 'disconnect' was fired");
+      //     // Optionally handle token renewal or other logic here
+      //     // socket.connect();
+      //     onInit();
+      //   }
+      // });
+
       return () => {
-        socket.off('init');
-        socket.off('missed-messages');
+        socket_context.off('init');
+        socket_context.off('missed-messages');
       };
     }
 
-  }, [socket, isLastMessageSentByUser])
+  }, [socket_context, isLastMessageSentByUser])
 
   useEffect(() => {
     // Load initial messages for the conversation
@@ -172,6 +184,6 @@ return (
   )
 }
 MessagesFeed.propTypes = {
-  socket: PropTypes.object,
+  // socket: PropTypes.object,
   conversationId: PropTypes.string,
 }

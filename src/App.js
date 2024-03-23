@@ -24,48 +24,60 @@ import {
 } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./context/AuthContext";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 function App() {
-  const {isLoading, user} = useContext(AuthContext);
+  const {isLoading, socket_context, user} = useContext(AuthContext);
   const [socket, setSocket] = useState(null);
   // const [showProfile, setShowProfile] = useState(false);
   //  socket io for real-time notifications
   useEffect(() => {
     if (user && user._id) {
-      const newSocket = io(process.env.REACT_APP_API_URL, {
-        reconnectionDelayMax: 2000,
-        maxDisconnectionDuration: Infinity
-      });
+      setSocket(socket_context);
+//       // const newSocket = io(process.env.REACT_APP_API_URL, {
+//       //   reconnectionDelayMax: 2000,
+//       //   maxDisconnectionDuration: Infinity
+//       // });
+// // Listen for the connect event to log recovery status
+//       socket_context.on("connect", () => {
+//         console.log("connecting to socket_context");
+//         // if the socket is not recovered
+//         // because it's just starting 
+//         // add user to online users 
+//         if(socket_context.recovered === false) {
+//           socket_context.emit("newUser", user._id);
+//           setSocket(socket_context);
+//         }
+//       });
 
-      // Listen for the connect event to log recovery status
-      newSocket.on("connect", () => {
-        // if the socket is not recovered
-        // because it's just starting 
-        // add user to online users 
-        if(newSocket.recovered === false) {
-          newSocket.emit("newUser", user._id);
-        }
-      });
+//       const onInit = () => {
+//         // if socket is recovered, add user back to online users
+//         if (socket_context.recovered === true) {
+//           socket_context.emit("newUser", user._id);
+//           setSocket(socket_context);
+//         }
+//       };
 
-      const onInit = () => {
-        // if socket is recovered, add user back to online users
-        if (newSocket.recovered === true) {
-          newSocket.emit("newUser", user._id);
-        }
-      };
+//       socket_context.on('init', onInit);
 
-      newSocket.on('init', onInit);
+//       socket_context.on('disconnect', reason => {
+//         console.log("socket.on('disconnect') was fired!");
+//         if (reason === 'io server disconnect') {
+//           console.log("reconnecting after 'disconnect' was fired");
+//           // Optionally handle token renewal or other logic here
+//           socket_context.connect();
+//           onInit();
+//         }
+//       });
 
-      setSocket(newSocket);
-
-      // Cleanup on component unmount
-      return () => {
-        newSocket.off("connect");
-        newSocket.close();
-      };
+//       // Cleanup on component unmount
+//       return () => {
+//         socket_context.off("connect");
+//         socket_context.close();
+//       };
     }
-  }, [user]);
+      
+  }, [user, socket_context]);
 
   if (isLoading) {
     return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './MessagesPage.css';
 import MessagesFeed from '../../components/feed/MessagesFeed';
@@ -8,15 +8,16 @@ import PropTypes from 'prop-types';
 import { IoSend } from "react-icons/io5";
 import config from '../../config';
 import Popup from '../../components/popup/Popup';
+import { AuthContext } from '../../context/AuthContext';
 
-function MessagesPage({user, socket}) {
+function MessagesPage({user}) {
   // Use useParams hook to access conversationId from URL
   const { conversationId } = useParams();
   const [messageText, setMessageText] = useState('');
   const [messageReceiver, setMessageReceiver] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
-
+  const { socket_context } = useContext(AuthContext);
   // used for catch blocks
   const popupStaus = async (message) => {
     setPopupMessage(message);
@@ -56,9 +57,10 @@ function MessagesPage({user, socket}) {
         });
 
         if (response.status === 201) {
+          console.log('emitting message in real time from messages page');
           // Message sent successfully
           // real time messaging
-          socket.emit("sendMessage", {
+          socket_context.emit("sendMessage", {
             receiverUserId: messageReceiver,
             senderUserId: user._id,
             messageData: {
@@ -93,7 +95,7 @@ function MessagesPage({user, socket}) {
     <div className='messages-container'>
       <Popup isPopupOpen={showPopup} message={popupMessage} button1Text="Close" button1Action={() => setShowPopup(false)} />
         <MessagesFeed 
-          socket={socket} 
+          // socket={socket} 
           conversationId={conversationId}
         />
       <div className='message-input-container'>
@@ -115,7 +117,7 @@ function MessagesPage({user, socket}) {
 
 MessagesPage.propTypes = {
   user: PropTypes.object,
-  socket: PropTypes.object
+  // socket: PropTypes.object
 };
 
 export default MessagesPage
